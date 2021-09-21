@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/12 16:52:07 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/21 17:39:24 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ITERATORS_HPP
 
 namespace ft {
+
 	struct input_iterator_tag  {};
 	struct output_iterator_tag {};
 	struct forward_iterator_tag       : public input_iterator_tag         {};
@@ -52,10 +53,6 @@ namespace ft {
 
 	template <typename T>
 	class MyIterator {
-		// typedef T				value_type;
-		// typedef value_type*		pointer;
-		// typedef value_type&		reference;
-
 		public:
 
 			typedef T							value_type;
@@ -166,6 +163,32 @@ namespace ft {
 
 		private:
 			pointer		_ptr;
+	};
+
+	template <typename T, class Pair, class Compare>
+	class	bst_iterator {
+		public:
+			typedef T		value_type;
+			typedef T*		pointer;
+			typedef T&		reference;
+
+			bst_iterator(pointer node): _node(node) {};
+			bst_iterator(bst_iterator const & instance) {
+				*this = instance;
+			};
+			~bst_iterator(void) {};
+
+			bst_iterator&	operator=(bst_iterator const & instance) {
+				this->_node = instance._node;
+				return *this;
+			};
+
+			Pair*		operator->(void) const {
+				return &this->_node->data;
+			};
+
+		private:
+			pointer	_node;
 	};
 
 	template <class Iterator>

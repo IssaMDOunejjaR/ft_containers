@@ -6,16 +6,18 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:16:11 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/13 18:05:58 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/21 17:26:32 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <map>
 #include <iterator>
 #include "vector.hpp"
 #include "stack.hpp"
+#include "map.hpp"
 
 int		main(void) {
 	// try {
@@ -153,48 +155,91 @@ int		main(void) {
 	// std::cout << pr.first << std::endl;
 	// std::cout << pr.second << std::endl;
 
+	// try {
+	// 	std::stack<int>	s;
+	// 	std::stack<int>	t;
+
+	// 	s.push(10);
+	// 	s.push(11);
+	// 	s.push(12);
+
+	// 	t.push(100);
+	// 	t.push(101);
+	// 	t.push(102);
+
+	// 	std::cout << "empty\t\t: " << s.empty() << std::endl;
+	// 	std::cout << "size\t\t: " << s.size() << std::endl;
+	// 	std::cout << "top\t\t: " << s.top() << std::endl;
+	// 	std::cout << "equal\t\t: " << (s == t ? "true" : "false") << std::endl;
+	// }
+	// catch (std::exception & e) {
+	// 	std::cout << e.what() << std::endl;
+	// }
+	// std::cout << "###########################" << std::endl;
+	// try {
+	// 	ft::stack<int>	s;
+	// 	ft::stack<int>	t;
+
+	// 	s.push(10);
+	// 	s.push(11);
+	// 	s.push(12);
+
+	// 	t.push(100);
+	// 	t.push(101);
+	// 	t.push(102);
+
+	// 	std::cout << "empty\t\t: " << s.empty() << std::endl;
+	// 	std::cout << "size\t\t: " << s.size() << std::endl;
+	// 	std::cout << "top\t\t: " << s.top() << std::endl;
+	// 	std::cout << "equal\t\t: " << (s == t ? "true" : "false") << std::endl;
+	// }
+	// catch (std::exception & e) {
+	// 	std::cout << e.what() << std::endl;
+	// }
+
+
 	try {
-		std::stack<int>	s;
-		std::stack<int>	t;
+		std::map<int, int> m;
 
-		s.push(10);
-		s.push(11);
-		s.push(12);
+		m.insert(std::pair<int, int>(555, 450));
+		m.insert(std::pair<int, int>(999, 1420));
+		m.insert(std::pair<int, int>(50, 120));
+		m.insert(std::pair<int, int>(100, 980));
+		
+		std::map<int, int>::iterator it = m.begin();
+		std::map<int, int>::iterator ite = m.end();
 
-		t.push(100);
-		t.push(101);
-		t.push(102);
+		std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+	
+		std::cout << ite->first << std::endl;
+		std::cout << ite->second << std::endl;
 
-		std::cout << "empty\t\t: " << s.empty() << std::endl;
-		std::cout << "size\t\t: " << s.size() << std::endl;
-		std::cout << "top\t\t: " << s.top() << std::endl;
-		std::cout << "equal\t\t: " << (s == t ? "true" : "false") << std::endl;
 	}
 	catch (std::exception & e) {
 		std::cout << e.what() << std::endl;
 	}
-	std::cout << "###########################" << std::endl;
+	std::cout << "####################################" << std::endl;
 	try {
-		ft::stack<int>	s;
-		ft::stack<int>	t;
+		ft::map<int, int>	m;
 
-		s.push(10);
-		s.push(11);
-		s.push(12);
+		m.insert(ft::pair<int, int>(555, 450));
+		// m.insert(ft::pair<int, int>(999, 1420));
+		// m.insert(ft::pair<int, int>(50, 120));
+		// m.insert(ft::pair<int, int>(100, 980));
+		
+		ft::map<int, int>::iterator it = m.begin();
+		// ft::map<int, int>::iterator ite = m.end();
 
-		t.push(100);
-		t.push(101);
-		t.push(102);
-
-		std::cout << "empty\t\t: " << s.empty() << std::endl;
-		std::cout << "size\t\t: " << s.size() << std::endl;
-		std::cout << "top\t\t: " << s.top() << std::endl;
-		std::cout << "equal\t\t: " << (s == t ? "true" : "false") << std::endl;
+		std::cout << it->first << std::endl;
+		// std::cout << it->second << std::endl;
+	
+		// std::cout << ite->first << std::endl;
+		// std::cout << ite->second << std::endl;
 	}
 	catch (std::exception & e) {
 		std::cout << e.what() << std::endl;
 	}
-
 
 	return (0);
 }
