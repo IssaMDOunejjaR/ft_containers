@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 17:25:30 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/14 10:02:49 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/22 14:30:22 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ namespace ft {
 	template <class T, class Container = ft::vector<T> >
 	class stack {
 
-		Container	cont;
+		protected:
+			Container	cont;
 
 		public:
 			typedef T			value_type;

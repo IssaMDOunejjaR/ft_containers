@@ -6,12 +6,14 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/21 17:39:24 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:49:29 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ITERATORS_HPP
 # define ITERATORS_HPP
+
+# include "red_black_tree.hpp"
 
 namespace ft {
 
@@ -52,70 +54,74 @@ namespace ft {
 	};
 
 	template <typename T>
-	class MyIterator {
+	class Iterator : ft::iterator<ft::random_access_iterator_tag, T> {
 		public:
 
-			typedef T							value_type;
-			typedef T*							pointer;
-			typedef T&							reference;
-			typedef ptrdiff_t					difference_type;
-			typedef random_access_iterator_tag	iterator_category;
+			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type	difference_type;
+			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::iterator_category	iterator_category;
+			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::value_type		value_type;
+			typedef T*																			pointer;
+			typedef T&																			reference;
 
-			MyIterator(void) {};
-			MyIterator(pointer ptr): _ptr(ptr) {};
-			MyIterator(MyIterator const & instance) {
-				*this = instance;
-			};
-			~MyIterator(void) {};
+			Iterator(void) {};
+			Iterator(pointer ptr): _ptr(ptr) {};
+			Iterator(const Iterator & instance): _ptr(instance._ptr) {};
+			~Iterator(void) {};
 
-			MyIterator&		operator=(MyIterator const & instance) {
+			pointer		base(void) const {
+				return this->_ptr;
+			}
+
+			Iterator&	operator=(Iterator const & instance) {
+				if (this == &instance)
+					return *this;
 				this->_ptr = instance._ptr;
 				return *this;
 			};
 
-			MyIterator&	operator++(void) {
+			Iterator&	operator++(void) {
 				this->_ptr++;
 				return *this;
 			};
 
-			MyIterator	operator++(int) {
-				MyIterator tmp = *this;
+			Iterator	operator++(int) {
+				Iterator tmp = *this;
 				++(*this);
 				return tmp;
 			}
 
-			MyIterator&	operator--(void) {
+			Iterator&	operator--(void) {
 				this->_ptr--;
 				return *this;
 			};
 
-			MyIterator	operator--(int) {
-				MyIterator tmp = *this;
+			Iterator	operator--(int) {
+				Iterator tmp = *this;
 				--(*this);
 				return tmp;
 			}
 
-			MyIterator&	operator+=(MyIterator const & instance) {
+			Iterator&	operator+=(Iterator const & instance) {
 				this->_ptr += instance._ptr;
 				return *this;
 			}
 
-			MyIterator&	operator-=(MyIterator const & instance) {
+			Iterator&	operator-=(Iterator const & instance) {
 				this->_ptr += instance._ptr;
 				return *this;
 			}
 
-			reference	operator[](int index) {
+			reference	operator[](int index) const {
 				return *(this->_ptr + index);
 			}
 
-			bool		operator==(MyIterator const & instance) const {
-				return this->_ptr == instance._ptr;
-			}
+			// bool		operator==(Iterator const & instance) const {
+			// 	return this->_ptr == instance._ptr;
+			// }
 
-			bool		operator!=(MyIterator const & instance) const {
-				return !(*this == instance);
-			}
+			// bool		operator!=(Iterator const & instance) const {
+			// 	return !(*this == instance);
+			// }
 
 			reference	operator*(void) {
 				return *(this->_ptr);
@@ -125,71 +131,100 @@ namespace ft {
 				return *(this->_ptr);
 			}
 
-			bool		operator<(MyIterator const & instance) const {
-				return this->_ptr < instance._ptr;
-			}
+			// bool		operator<(Iterator const & instance) const {
+			// 	return this->_ptr < instance._ptr;
+			// }
 
-			bool		operator<=(MyIterator const & instance) const {
-				return this->_ptr <= instance._ptr;
-			}
+			// bool		operator<=(Iterator const & instance) const {
+			// 	return this->_ptr <= instance._ptr;
+			// }
 
-			bool		operator>(MyIterator const & instance) const {
-				return this->_ptr > instance._ptr;
-			}
+			// bool		operator>(Iterator const & instance) const {
+			// 	return this->_ptr > instance._ptr;
+			// }
 
-			bool		operator>=(MyIterator const & instance) const {
-				return this->_ptr >= instance._ptr;
-			}
+			// bool		operator>=(Iterator const & instance) const {
+			// 	return this->_ptr >= instance._ptr;
+			// }
 
 			pointer		operator->(void) const {
 				return this->_ptr;
 			}
 
-			MyIterator	operator+(MyIterator const & instance) {
-				return MyIterator(this->_ptr + instance._ptr);
-			}
-			
-			MyIterator	operator+(int val) {
-				return MyIterator(this->_ptr + val);
+			Iterator	operator+(difference_type n) const {
+				return this->_ptr + n;
 			}
 
-			MyIterator	operator-(MyIterator const & instance) {
-				return MyIterator(this->_ptr - instance._ptr);
-			}
-
-			MyIterator	operator-(int val) {
-				return MyIterator(this->_ptr - val);
+			Iterator	operator-(difference_type n) const {
+				return this->_ptr - n;
 			}
 
 		private:
 			pointer		_ptr;
 	};
 
-	template <typename T, class Pair, class Compare>
-	class	bst_iterator {
-		public:
-			typedef T		value_type;
-			typedef T*		pointer;
-			typedef T&		reference;
+	template <class Iterator1, class Iterator2>
+	bool	operator==(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
+		return it1.base() == it2.base();
+	}
+	
+	template <class Iterator1, class Iterator2>
+	bool	operator!=(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
+		return it1.base() != it2.base();
+	}
+	
+	template <class Iterator1, class Iterator2>
+	bool	operator<(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
+		return it1.base() < it2.base();
+	}
+	
+	template <class Iterator1, class Iterator2>
+	bool	operator>(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
+		return it1.base() > it2.base();
+	}
+	
+	template <class Iterator1, class Iterator2>
+	bool	operator>=(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
+		return it1.base() >= it2.base();
+	}
+	
+	template <class Iterator1, class Iterator2>
+	bool	operator<=(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
+		return it1.base() <= it2.base();
+	}
 
-			bst_iterator(pointer node): _node(node) {};
-			bst_iterator(bst_iterator const & instance) {
-				*this = instance;
-			};
-			~bst_iterator(void) {};
+	// template <typename T, class Compare>
+	// class	bst_iterator {
+	// 	public:
+	// 		typedef T						value_type;
+	// 		typedef T*						pointer;
+	// 		typedef T&						reference;
+	// 		typedef typename T::value_type	Pair;
 
-			bst_iterator&	operator=(bst_iterator const & instance) {
-				this->_node = instance._node;
-				return *this;
-			};
+	// 		bst_iterator(void): _node(nullptr) {};
+	// 		bst_iterator(pointer node): _node(node) {};
+	// 		bst_iterator(bst_iterator const & instance) {
+	// 			*this = instance;
+	// 		};
+	// 		~bst_iterator(void) {};
 
-			Pair*		operator->(void) const {
-				return &this->_node->data;
-			};
+	// 		bst_iterator&	operator=(bst_iterator const & instance) {
+	// 			this->_node = instance._node;
+	// 			return *this;
+	// 		};
 
-		private:
-			pointer	_node;
-	};
+	// 		bst_iterator&	operator++(void) {
+				
+	// 			return *this;
+	// 		};
+
+	// 		Pair*		operator->(void) const {
+	// 			return &this->_node->data;
+	// 		};
+
+	// 	private:
+	// 		pointer	_node;
+	// };
 
 	template <class Iterator>
 	class reverse_iterator: public iterator <
@@ -200,7 +235,7 @@ namespace ft {
 		typename ft::iterator_traits<Iterator>::reference
 	> {
 		private:
-			Iterator	current;
+			Iterator	_current;
 
 		public:
 			typedef Iterator												iterator_type;
@@ -209,61 +244,56 @@ namespace ft {
 			typedef typename iterator_traits<Iterator>::difference_type		difference_type;
 
 			reverse_iterator(void) {};
-
-			reverse_iterator(iterator_type it): current(it) {};
-
-			reverse_iterator(reverse_iterator const & instance) {
-				*this = instance;
-			};
-
+			reverse_iterator(iterator_type it): _current(it) {};
+			reverse_iterator(const reverse_iterator & instance): _current(instance._current) {};
 			~reverse_iterator(void) {};
 
 			iterator_type		base(void) const {
-				return current;
+				return _current;
 			};
 
-			reverse_iterator&	operator=(reverse_iterator const & instance) {
-				this->current = instance.current;
+			reverse_iterator&	operator=(const reverse_iterator & instance) {
+				this->_current = instance._current;
 				return *this;
 			};
 
 			reverse_iterator&	operator++(void) {
-				--current;
+				--_current;
 				return *this;
 			};
 
 			reverse_iterator	operator++(int) {
 				reverse_iterator tmp = *this;
-				--current;
+				--_current;
 				return tmp;
 			};
 
 			reverse_iterator&	operator--(void) {
-				++current;
+				++_current;
 				return *this;
 			};
 
 			reverse_iterator	operator--(int) {
 				reverse_iterator tmp = this;
-				++current;
+				++_current;
 				return tmp;
 			};
 
 			reverse_iterator	operator+(difference_type n) const {
-				return reverse_iterator(current - n);
+				return reverse_iterator(_current - n);
 			};
 
 			reverse_iterator&	operator+=(difference_type n) {
-				current -= n;
+				_current -= n;
 				return *this;
 			};
 
 			reverse_iterator	operator-(difference_type n) const {
-				return reverse_iterator(current + n);
+				return reverse_iterator(_current + n);
 			};
 
 			reverse_iterator&	operator-=(difference_type n) {
-				current += n;
+				_current += n;
 				return *this;
 			};
 
@@ -272,7 +302,7 @@ namespace ft {
 			};
 
 			reference			operator*(void) {
-				Iterator tmp = current;
+				Iterator tmp = _current;
 				return *--tmp;
 			}
 	};
@@ -306,88 +336,6 @@ namespace ft {
 	bool	operator<=(ft::reverse_iterator<Iterator1> const & it1, ft::reverse_iterator<Iterator2> const & it2) {
 		return it1.base() <= it2.base();
 	}
-
-	template <class IteratorInput1, class IteratorInput2>
-	bool	equal(IteratorInput1 first1, IteratorInput1 last1, IteratorInput2 first2, IteratorInput2 last2) {
-		while (first1 != last1) {
-			if (*first1 != *first2)
-				return false;
-			first1++;
-			first2++;
-		}
-		return true;
-	};
-
-	template <class IteratorInput1, class IteratorInput2>
-	bool	lexicographical_compare(IteratorInput1 first1, IteratorInput1 last1, IteratorInput2 first2, IteratorInput2 last2) {
-		while (first1 != last1 && first2 != last2) {
-			// if (*first1 < *first2)
-			// 	return true;
-			if (*first2 < *first1)
-				return false;
-			first1++;
-			first2++;
-		}
-		return (first1 == last1) && (first2 != last2);
-	};
-
-	template <class T1, class T2>
-	struct	pair {
-		T1	first;
-		T2	second;
-
-		pair(void) {};
-		pair(T1 const & first, T2 const & second) {
-			this->first = first;
-			this->second = second;
-		};
-		template <class U, class V>
-		pair(pair<U, V> const & instance) {
-			*this = instance;
-		};
-		~pair(void) {};
-
-		pair&	operator=(pair const & instance) {
-			this->first = instance.first;
-			this->second = instance.second;
-			return *this;
-		};
-	};
-
-	template <class T1, class T2>
-	bool	operator==(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs) {
-		return (lhs.first == rhs.first) && (lhs.second == rhs.second);
-	};
-
-	template <class T1, class T2>
-	bool	operator!=(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs) {
-		return !(lhs == rhs);
-	};
-
-	template <class T1, class T2>
-	bool	operator<(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs) {
-		return (lhs.first < rhs.first) && (lhs.second < rhs.second);
-	};
-
-	template <class T1, class T2>
-	bool	operator<=(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs) {
-		return (lhs.first <= rhs.first) && (lhs.second <= rhs.second);
-	};
-
-	template <class T1, class T2>
-	bool	operator>(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs) {
-		return rhs < lhs;
-	};
-
-	template <class T1, class T2>
-	bool	operator>=(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs) {
-		return (lhs.first >= rhs.first) && (lhs.second >= rhs.second);
-	};
-
-	template <class T1, class T2>
-	pair<T1, T2>	make_pair(T1 x, T2 y) {
-		return pair<T1, T2>(x, y);
-	};
 };
 
 #endif

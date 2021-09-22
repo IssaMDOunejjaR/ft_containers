@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:57:46 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/20 10:24:46 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:33:36 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include "iterators.hpp"
+# include "utility.hpp"
 
 namespace ft {
 	template <typename T, typename Allocator = std::allocator<T> >
@@ -31,8 +32,8 @@ namespace ft {
 			typedef Allocator 									allocator_type;
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
-			typedef ft::MyIterator<T>							iterator;
-			typedef const iterator								const_iterator;
+			typedef ft::Iterator<value_type>					iterator;
+			typedef ft::Iterator<const value_type>				const_iterator;
 			typedef typename allocator_type::size_type			size_type;
 			typedef typename allocator_type::difference_type	difference_type;
 			typedef typename allocator_type::pointer			pointer;
@@ -41,40 +42,44 @@ namespace ft {
 			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
 			// Constructors and Destructors
-			vector(void) {
+			explicit vector(const allocator_type & alloc = allocator_type())
+			: _allocation(alloc) {
 				this->_list = this->_allocation.allocate(0);
 				this->_capacity = 0;
 				this->_size = 0;
 			};
 
-			vector(unsigned int const & size, T const & value = 0) {
+			explicit vector(size_type size, const value_type & val = value_type(), const allocator_type & alloc = allocator_type())
+			: _allocation(alloc) {
 				this->_list = this->_allocation.allocate(size);
 				this->_capacity = size;
 				this->_size = size;
 
 				for (int i = 0; i < size; i++)
-					this->_allocation.construct(this->_list + i, value);
+					this->_allocation.construct(this->_list + i, val);
 			};
 
-			template <class IteratorInput>
-			vector<T>(IteratorInput first, IteratorInput last) {
+			template <class InputIterator>
+			vector(InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type())
+			: _allocation(alloc) {
 				while (first != last) {
 					this->push_back(*first);
 					first++;
 				}
 			};
-			vector<T>(vector<T> const & instance) {
+
+			vector(const vector & instance) {
 				*this = instance;
 			};
 
-			~vector<T>(void) {
+			~vector(void) {
 				for (int i = 0; i < this->_size; i++)
 					this->_allocation.destroy(this->_list + i);
 				this->_allocation.deallocate(this->_list, this->_capacity);
 			};
 
-			// // Operators Overloads
-			vector<T>&	operator=(vector<T> const & instance) {
+			// Operators Overloads
+			vector&	operator=(const vector & instance) {
 				clear();
 				this->_list = instance._list;
 				this->_capacity = instance._capacity;
@@ -84,8 +89,12 @@ namespace ft {
 				return *this;
 			};
 
-			T&	operator[](int index) {
-				return this->_list[index];
+			reference	operator[](size_type n) {
+				return this->_list[n];
+			};
+
+			const_reference	operator[](size_type n) const {
+				return this->_list[n];
 			};
 
 			// Iterators
@@ -93,8 +102,8 @@ namespace ft {
 				return iterator(this->_list);
 			}
 
-			const_iterator begin(void) const {
-				return iterator(this->_list);
+			const_iterator	begin(void) const {
+				return const_iterator(this->_list);
 			}
 
 			iterator	end(void) {
@@ -102,25 +111,24 @@ namespace ft {
 			}
 
 			const_iterator	end(void) const {
-				return iterator(this->_list + this->_size);
+				return const_iterator(this->_list + this->_size);
 			}
 
-			reverse_iterator rbegin() {
+			reverse_iterator	rbegin() {
 				return reverse_iterator(end());
 			}
 			
-			const_reverse_iterator rbegin() const {
-				return reverse_iterator(end());
+			const_reverse_iterator 	rbegin() const {
+				return const_reverse_iterator(end());
 			}
-
-			const_reverse_iterator rend() const {
+			
+			reverse_iterator	rend() {
 				return reverse_iterator(begin());
 			}
 			
-			reverse_iterator rend() {
-				return reverse_iterator(begin());
+			const_reverse_iterator	rend() const {
+				return const_reverse_iterator(begin());
 			}
-			
 
 			// Capacity
 			size_type	size(void) const {
@@ -131,7 +139,9 @@ namespace ft {
 				return this->_allocation.max_size();
 			};
 
-			void		resize(size_type n, value_type value = 0) {
+			void		resize(size_type n, value_type val = value_type()) {
+				if (n > this->max_size())
+					throw std::out_of_range("vector");
 				pointer	newList = this->_allocation.allocate(n);
 				int	i;
 
@@ -149,7 +159,7 @@ namespace ft {
 						this->_allocation.destroy(this->_list + i);
 					}
 					while (i < n) {
-						newList[i] = value;
+						newList[i] = val;
 						i++;
 					}
 				}
@@ -163,13 +173,11 @@ namespace ft {
 			};
 
 			bool		empty(void) const {
-				return this->_size == 0 ? true : false;
+				return this->_size == 0;
 			};
 
 			void		reserve(size_type n) {
 				if (n > this->_capacity) {
-					// this->_list = this->_allocation.allocate(n);
-					// this->_capacity = n;
 					pointer	newList = this->_allocation.allocate(n);
 
 					for (int i = 0; i < this->_size; i++) {
@@ -233,7 +241,7 @@ namespace ft {
 				}
 			};
 
-			void		assign(size_type n, value_type const & val) {
+			void		assign(size_type n, const value_type & val) {
 				if (n > this->_capacity)
 					this->reserve(n);
 				for (int i = 0; i < this->_size; i++)
@@ -243,7 +251,7 @@ namespace ft {
 				this->_size = n;
 			};
 
-			void		push_back(value_type const & val) {
+			void		push_back(const value_type & val) {
 				if (this->_size == this->_capacity) {
 					if (this->_capacity == 0)
 						this->reserve(1);
@@ -259,7 +267,7 @@ namespace ft {
 				this->_size--;
 			};
 
-			iterator	insert(iterator position, value_type const & val) {
+			iterator	insert(iterator position, const value_type & val) {
 				int i = 0;
 				pointer	newList = this->_allocation.allocate(this->_capacity);
 
@@ -281,7 +289,7 @@ namespace ft {
 				return position;
 			};
 
-			void	insert(iterator position, size_type n, value_type const & val) {
+			void	insert(iterator position, size_type n, const value_type & val) {
 				int i = 0;
 				pointer	newList;
 
