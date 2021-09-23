@@ -1,53 +1,81 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   red-black-tree.hpp                                 :+:      :+:    :+:   */
+/*   red_black_tree.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/22 17:47:15 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/23 17:39:08 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RED_BLACK_TREE_HPP
 # define RED_BLACK_TREE_HPP
 
+# include "iterators.hpp"
+
 namespace ft {
-	template <class T>
+	template <class T, class Compare>
 	class RedBlackTree {
+		public:
 
-		typedef enum		s_color {
-			BLACK,
-			RED
-		}					Color;
+			typedef enum		s_color {
+				BLACK,
+				RED
+			}					Color;
 
-		struct	Node {
-			typedef T			value_type;
+			class	Node {
+				public:
+					typedef T			value_type;
 
-			T					data;
+					T		data;
+					Node*	parent;
+					Node*	left;
+					Node*	right;
+					Color	color;
 
-			struct Node			*parent;
+				Node(void): parent(nullptr), left(nullptr), right(nullptr), color(BLACK) {};
 
-			struct Node			*left;
-			struct Node			*right;
+				Node(T data, Node * parent, Node * left, Node * right, Color color)
+				: data(data), parent(parent), left(left), right(right), color(color) {};
 
-			Color				color;
-		};
+				Node(const Node & instance)
+				: data(instance.data), parent(instance.parent), left(instance.left), right(instance.right), color(instance.color) {};
+
+				Node&	operator=(const Node & instance) {
+					if (this == &instance)
+						return *this;
+					this->data = instance.data;
+					this->parent = instance.parent;
+					this->left = instance.left;
+					this->right = instance.right;
+					this->color = instance.color;
+
+					return *this;
+				}
+			};
+
+			typedef typename T::key						Key;
+			typedef ft::bst_iterator<Node, Compare>		iterator;
 
 		private:
-			Node*	root;
-			Node*	TNULL;
-			size_t	length;
+
+			Node*					_root;
+			Node*					_TNULL;
+			size_t					_length;
+			std::allocator<Node>	_allocator;
 
 			Node*	newNode(T data) {
-				Node*	node = new Node();
+				// Node*	node = new Node();
+				Node*	node = this->_allocator.allocate(1);
 
-				node->data = data;
-				node->parent = NULL;
-				node->left = TNULL;
-				node->right = TNULL;
-				node->color = RED;
+				this->_allocator.construct(node, Node(data, NULL, this->_TNULL, this->_TNULL, RED));
+				// node->data = data;
+				// node->parent = NULL;
+				// node->left = _TNULL;
+				// node->right = _TNULL;
+				// node->color = RED;
 
 				return node;
 			};
@@ -58,13 +86,13 @@ namespace ft {
 				while (node->parent->color == RED) {
 					if (node->parent == node->parent->parent->left) {
 						tmp = node->parent->parent->right;
-						if (tmp != TNULL && tmp->color == RED) {
+						if (tmp != _TNULL && tmp->color == RED) {
 							node->parent->color = BLACK;
 							tmp->color = BLACK;
 							node->parent->parent->color = RED;
 							node = node->parent->parent;
 						}
-						else if (tmp == TNULL || tmp->color == BLACK) {
+						else if (tmp == _TNULL || tmp->color == BLACK) {
 							if (node == node->parent->right) {
 								node = node->parent;
 								leftRotation(node);
@@ -79,13 +107,13 @@ namespace ft {
 					}
 					else if (node->parent == node->parent->parent->right) {
 						tmp = node->parent->parent->left;
-						if (tmp != TNULL && tmp->color == RED) {
+						if (tmp != _TNULL && tmp->color == RED) {
 							node->parent->color = BLACK;
 							tmp->color = BLACK;
 							node->parent->parent->color = RED;
 							node = node->parent->parent;
 						}
-						else if (tmp == TNULL || tmp->color == BLACK) {
+						else if (tmp == _TNULL || tmp->color == BLACK) {
 							if (node == node->parent->left) {
 								node = node->parent;
 								rightRotation(node);
@@ -98,11 +126,11 @@ namespace ft {
 								node->parent->parent->color = RED;
 						}
 					}
-					if (node == root)
+					if (node == _root)
 						break ;
 				}
 
-				root->color = BLACK;
+				_root->color = BLACK;
 			};
 
 			void	leftRotation(Node * x) {
@@ -110,13 +138,13 @@ namespace ft {
 
 				x->right = y->left;
 
-				if (y->left != TNULL)
+				if (y->left != _TNULL)
 					y->left->parent = x;
 
 				y->parent = x->parent;
 
 				if (x->parent == NULL)
-					root = y;
+					_root = y;
 				else if (x == x->parent->left)
 					x->parent->left = y;
 				else
@@ -131,13 +159,13 @@ namespace ft {
 
 				x->left = y->right;
 
-				if (y->right != TNULL)
+				if (y->right != _TNULL)
 					y->right->parent = x;
 				
 				y->parent = x->parent;
 
 				if (x->parent == NULL)
-					root = y;
+					_root = y;
 				else if (x == x->parent->right)
 					x->parent->right = y;
 				else
@@ -149,7 +177,7 @@ namespace ft {
 
 			void	transplant(Node * u, Node * v) {
 				if (u->parent == NULL)
-					root = v;
+					_root = v;
 				else if (u == u->parent->left)
 					u->parent->left = v;
 				else
@@ -158,14 +186,14 @@ namespace ft {
 			};
 
 			Node*	minimum(Node * node) {
-				if (node->left == TNULL)
+				if (node->left == _TNULL)
 					return node;
 
 				return minimum(node->left);
 			}
 
 			Node*	maximum(Node * node) {
-				if (node->right == TNULL)
+				if (node->right == _TNULL)
 					return node;
 
 				return minimum(node->right);
@@ -174,7 +202,7 @@ namespace ft {
 			void	delFix(Node * node) {
 				Node*	tmp;
 
-				while (node != root && node->color == BLACK) {
+				while (node != _root && node->color == BLACK) {
 					if (node == node->parent->left) {
 						tmp = node->parent->right;
 
@@ -202,7 +230,7 @@ namespace ft {
 							node->parent->color = BLACK;
 							tmp->right->color = BLACK;
 							leftRotation(node->parent);
-							node = root;
+							node = _root;
 						}
 					}
 					else {
@@ -234,7 +262,7 @@ namespace ft {
 							tmp->left->color = BLACK;
 
 							rightRotation(node->parent);
-							node = root;
+							node = _root;
 						}
 					}
 				}
@@ -242,33 +270,33 @@ namespace ft {
 				node->color = BLACK;
 			};
 
-			void	delHelper(Node * root, T first) {
-				Node	*node = TNULL;
+			void	delHelper(Node * root, Key key) {
+				Node	*node = _TNULL;
 				Node	*x, *y;
 
-				while (root != TNULL) {
-					if (root->first == first) {
+				while (root != _TNULL) {
+					if (root->data.first == key) {
 						node = root;
 						break ;
 					}
-					else if (first < root->first)
+					else if (key < root->data.first)
 						root = root->left;
-					else if (first > root->first)
+					else if (key > root->data.first)
 						root = root->right;
 				}
 
-				if (node == TNULL)
+				if (node == _TNULL)
 					return ;
 
 				y = node;
 
 				Color originalColor = y->color;
 
-				if (node->left == TNULL) {
+				if (node->left == _TNULL) {
 					x = node->right;
 					transplant(node, node->right);
 				}
-				else if (node->right == TNULL) {
+				else if (node->right == _TNULL) {
 					x = node->left;
 					transplant(node, node->left);
 				}
@@ -298,11 +326,11 @@ namespace ft {
 					delFix(x);
 				}
 
-				length--;
+				_length--;
 			};
 
 			void	printHelper(Node * node) {
-				if (node == TNULL)
+				if (node == _TNULL)
 					return ;
 
 				printHelper(node->left);
@@ -318,7 +346,7 @@ namespace ft {
 			};
 
 			Node* searchHelper(Node * node, Key const & key) {
-				if (node == TNULL)
+				if (node == _TNULL)
 					return node;
 
 				if (key < node->data.first)
@@ -329,38 +357,41 @@ namespace ft {
 			};
 
 		public:
+			RedBlackTree(void) {
+				// _TNULL = new Node();
+				_TNULL = this->_allocator.allocate(1);
 
-			Tree(void) {
-				TNULL = new Node();
+				this->_allocator.construct(_TNULL, Node());
 
-				TNULL->left = NULL;
-				TNULL->right = NULL;
-				TNULL->color = BLACK;
+				// _TNULL->left = NULL;
+				// _TNULL->right = NULL;
+				// _TNULL->color = BLACK;
 
-				length = 0;
+				_length = 0;
 
-				root = TNULL;
+				_root = _TNULL;
 			};
 
-			~Tree(void) {
-				delete TNULL;
+			~RedBlackTree(void) {
+				this->_allocator.destroy(_TNULL);
+				this->_allocator.deallocate(_TNULL, 1);
 			}
 
 			Node*	insert(T data) {
-				length++;
+				_length++;
 
-				if (root == TNULL) {
-					root = newNode(data);
-					root->color = BLACK;
-					return root;
+				if (_root == _TNULL) {
+					_root = newNode(data);
+					_root->color = BLACK;
+					return _root;
 				}
 
-				Node *tmp = root;
+				Node *tmp = _root;
 				Node *node = NULL;
 
-				while (tmp != TNULL) {
+				while (tmp != _TNULL) {
 					if (data.first < tmp->data.first) {
-						if (tmp->left == TNULL) {
+						if (tmp->left == _TNULL) {
 							tmp->left = newNode(data);
 							tmp->left->parent = tmp;
 							node = tmp->left;
@@ -369,7 +400,7 @@ namespace ft {
 						tmp = tmp->left;
 					}
 					else if (data.first >= tmp->data.first) {
-						if (tmp->right == TNULL) {
+						if (tmp->right == _TNULL) {
 							tmp->right = newNode(data);
 							tmp->right->parent = tmp;
 							node = tmp->right;
@@ -384,38 +415,38 @@ namespace ft {
 				return node;
 			};
 
-			void	del(T first) {
-				delHelper(root, first);
+			void	del(Key key) {
+				delHelper(_root, key);
 			};
 
 			size_t	size(void) const {
-				return this->length;
+				return this->_length;
 			};
 
 			Node*	search(Key const & key) {
-				return searchHelper(root, key);
+				return searchHelper(_root, key);
 			};
 
 			void	print(void) {
-				if (root)
-					printHelper(root);
+				if (_root)
+					printHelper(_root);
 			};
 
 			Node*	firstElement(void) {
-				return minimum(root);
+				return minimum(_root);
 			};
 
 			Node*	lastElement(void) {
-				Node* node = maximum(root);
+				Node* node = maximum(_root);
 				return node->right;
 			};
 
 			Node*	getRoot(void) {
-				return this->root;
+				return this->_root;
 			}
 
 			Node*	getTNULL(void) {
-				return this->TNULL;
+				return this->_TNULL;
 			}
 	};
 }

@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:16:11 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/22 18:04:04 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/23 16:55:51 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "vector.hpp"
 #include "stack.hpp"
 #include "map.hpp"
+#include "utility.hpp"
 
 int		main(void) {
 	// try {
@@ -132,13 +133,47 @@ int		main(void) {
 
 	try {
 		std::map<int, int> m;
+
+		std::pair<std::map<int, int>::iterator, bool>	check;
+
+		check = m.insert(std::pair<int, int>(10, 15));
+		check = m.insert(std::pair<int, int>(5, 15));
+		check = m.insert(std::pair<int, int>(35, 89715));
+		check = m.insert(std::pair<int, int>(3, 15));
+
+		std::cout << "size\t\t: " << m.size() << std::endl;
+		std::cout << "max_size\t: " << m.max_size() << std::endl;
+		std::cout << "empty\t\t: " << (m.empty() ? "true" : "false") << std::endl << std::endl;
+
+		std::cout << m[5] << std::endl;
+
+		std::cout << "" << check.first->first << std::endl;
+		std::cout << "" << check.second << std::endl;
 	}
 	catch (std::exception & e) {
 		std::cout << e.what() << std::endl;
 	}
+
 	std::cout << "####################################" << std::endl;
+
 	try {
 		ft::map<int, int>	m;
+
+		ft::pair<ft::map<int, int>::iterator, bool>	check;
+
+		check = m.insert(ft::pair<int, int>(10, 15));
+		check = m.insert(ft::pair<int, int>(5, 15));
+		check = m.insert(ft::pair<int, int>(35, 89715));
+		check = m.insert(ft::pair<int, int>(3, 15));
+
+		std::cout << "size\t\t: " << m.size() << std::endl;
+		std::cout << "max_size\t: " << m.max_size() << std::endl;
+		std::cout << "empty\t\t: " << (m.empty() ? "true" : "false") << std::endl << std::endl;
+
+		std::cout << m[5] << std::endl;
+
+		std::cout << check.first->first << std::endl;
+		std::cout << check.second << std::endl;
 	}
 	catch (std::exception & e) {
 		std::cout << e.what() << std::endl;

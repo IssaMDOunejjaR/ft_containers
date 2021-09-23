@@ -6,14 +6,12 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/22 17:49:29 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/23 17:28:37 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ITERATORS_HPP
 # define ITERATORS_HPP
-
-# include "red_black_tree.hpp"
 
 namespace ft {
 
@@ -193,38 +191,39 @@ namespace ft {
 		return it1.base() <= it2.base();
 	}
 
-	// template <typename T, class Compare>
-	// class	bst_iterator {
-	// 	public:
-	// 		typedef T						value_type;
-	// 		typedef T*						pointer;
-	// 		typedef T&						reference;
-	// 		typedef typename T::value_type	Pair;
+	template <typename T, class Compare>
+	class	bst_iterator : public ft::iterator<ft::bidirectional_iterator_tag, T> {
+		public:
+			
+			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::difference_type	difference_type;
+			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
+			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::value_type		value_type;
+			typedef T*																			pointer;
+			typedef T&																			reference;
 
-	// 		bst_iterator(void): _node(nullptr) {};
-	// 		bst_iterator(pointer node): _node(node) {};
-	// 		bst_iterator(bst_iterator const & instance) {
-	// 			*this = instance;
-	// 		};
-	// 		~bst_iterator(void) {};
+			typedef typename T::value_type														return_value;
 
-	// 		bst_iterator&	operator=(bst_iterator const & instance) {
-	// 			this->_node = instance._node;
-	// 			return *this;
-	// 		};
+			bst_iterator(void): _current(nullptr) {};
+			bst_iterator(pointer node): _current(node) {};
+			bst_iterator(bst_iterator const & instance): _current(instance._current) {};
+			~bst_iterator(void) {};
 
-	// 		bst_iterator&	operator++(void) {
-				
-	// 			return *this;
-	// 		};
+			bst_iterator&	operator=(bst_iterator const & instance) {
+				if (this == &instance)
+					return *this;
+				this->_current = instance._current;
+				return *this;
+			};
 
-	// 		Pair*		operator->(void) const {
-	// 			return &this->_node->data;
-	// 		};
+			bst_iterator&	operator++(void) {};
 
-	// 	private:
-	// 		pointer	_node;
-	// };
+			return_value*	operator->(void) const {
+				return &this->_current->data;
+			};
+
+		private:
+			pointer	_current;
+	};
 
 	template <class Iterator>
 	class reverse_iterator: public iterator <

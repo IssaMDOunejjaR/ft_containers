@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 13:42:02 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/22 17:12:29 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/23 12:18:18 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 namespace ft {
 	template <class T1, class T2>
 	struct	pair {
+		typedef	T1	key;
+		typedef	T2	value;
+
 		T1	first;
 		T2	second;
 
@@ -101,6 +104,13 @@ namespace ft {
 
 	// template <class T>
 	// struct is_integral: public std::integral_constant<T> {};
+
+	template <class T>
+	struct less: std::binary_function<T, T, bool> {
+		bool	operator()(const T & x, const T & y) const {
+			return x < y;
+		};
+	};
 }
 
 #endif

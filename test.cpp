@@ -13,31 +13,27 @@
 #include <iostream>
 #include <map>
 #include "red_black_tree.hpp"
+#include "utility.hpp"
 
 int		main(void) {
-	ft::RedBlackTree<int>	root;
+	ft::RedBlackTree<ft::pair<int, int>, std::less<int> >	root;
 
-	root.insert(100);
-	root.insert(50);
-	root.insert(200);
-	root.insert(25);
-	root.insert(75);
-	root.insert(20);
-	root.insert(30);
+	root.insert(ft::pair<int, int>(0, 123));
+	root.insert(ft::pair<int, int>(1, 123));
+	root.insert(ft::pair<int, int>(2, 123));
+	root.insert(ft::pair<int, int>(3, 123));
+	root.insert(ft::pair<int, int>(4, 123));
+	root.insert(ft::pair<int, int>(5, 123));
+	root.insert(ft::pair<int, int>(6, 123));
 
-	// root.del(100);
-	// root.del(200);
-	// root.del(30);
-	// root.del(20);
-	// root.del(75);
-	// root.del(50);
-	// root.del(25);
+	root.del(2);
+	root.del(1);
 
-	// root.print();
+	root.print();
 
 	// std::cout << root.search(33) << std::endl;
 
-	// std::cout << "Length = " << root.size() << std::endl;
+	std::cout << "Length = " << root.size() << std::endl;
 
 	return 0;
 }

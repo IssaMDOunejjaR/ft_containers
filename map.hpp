@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/22 18:14:06 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/23 16:08:05 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ namespace ft {
 		class Alloc = std::allocator<ft::pair<const Key, T> >
 	>
 	class map {
-
 		public:
-
 			typedef Key															key_type;
 			typedef T															mapped_type;
 			typedef ft::pair<key_type, mapped_type>								value_type;
@@ -39,12 +37,14 @@ namespace ft {
 			typedef typename allocator_type::const_reference					const_reference;
 			typedef typename allocator_type::pointer							pointer;
 			typedef typename allocator_type::const_pointer						const_pointer;
-			// typedef ft::bst_iterator<Node, Compare>								iterator;
-			// typedef const ft::bst_iterator<Node, Compare>						const_iterator;
-			// typedef ft::reverse_iterator<iterator>								reverse_iterator;
-			// typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
+			typedef typename ft::RedBlackTree<value_type, Compare>::iterator	iterator;
+			typedef ft::RedBlackTree<const value_type, Compare>					const_iterator;
+			typedef ft::reverse_iterator<iterator>								reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			typedef ptrdiff_t													difference_type;
 			typedef size_t														size_type;
+
+			typedef typename ft::RedBlackTree<value_type, Compare>::Node		Node;
 
 			// Constructors and Destructor
 			explicit map(const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
@@ -52,63 +52,87 @@ namespace ft {
 
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last, const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
-			: _comp(comp), _allocator(alloc) {};
+			: _comp(comp), _allocator(alloc) {
+				while(first != last) {
+					this->insert(*first);
+					first++;
+				}
+			};
 
 			map(const map & instance): _tree(instance._tree), _comp(instance._comp), _allocator(instance._allocator) {};
 
 			~map(void) {};
 
 			// Operators Overloads
-		// 	map&			operator=(map const & instance);
+			map&			operator=(const map & instance);
 
-		// 	mapped_type&	operator[](key_type const & k) {
-		// 		Node*	node = this->_tree.search(k);
+			mapped_type&	operator[](const key_type & k) {
+				Node*	node = this->_tree.search(k);
 
-		// 		return node->data.second;
-		// 	};
+				return node->data.second;
+			};
 
-		// 	// Iterators
-		// 	iterator					begin(void) {
-		// 		return iterator(this->_tree.firstElement());
-		// 	};
+			// Iterators
+			iterator	begin(void) {
+				return iterator(this->_tree.firstElement());
+			};
 
-		// 	const_iterator				begin(void) const {
-		// 		return iterator(this->_tree.firstElement());
-		// 	};
+			const_iterator	begin(void) const {
+				return const_iterator(this->_tree.firstElement());
+			};
 
-		// 	iterator					end(void) {
-		// 		return iterator(this->_tree.lastElement());
-		// 	};
+			iterator	end(void) {
+				return iterator(this->_tree.lastElement());
+			};
 
-		// 	// Capacity
-		// 	bool						empty(void) const {
-		// 		return this->_tree.size() == 0;
-		// 	};
+			const_iterator	end(void) const {
+				return const_iterator(this->_tree.lastElement());
+			};
 
-		// 	size_type					size(void) const {
-		// 		return this->_tree.size();
-		// 	};
+			reverse_iterator	rbegin(void) {
+				return reverse_iterator(this->end());
+			}
 
-		// 	size_type					max_size(void) const {
-		// 		return this->_allocator.max_size();
-		// 	};
+			const_reverse_iterator	rbegin(void) const {
+				return const_reverse_iterator(this->end());
+			}
 
-		// 	// Modifiers
-		// 	ft::pair<iterator, bool>	insert(value_type const & val) {
-		// 		Node*	node = this->_tree.search(val.first);
+			reverse_iterator	rend(void) {
+				return reverse_iterator(this->begin());
+			}
 
-		// 		if (node != this->_tree.getTNULL())
-		// 			return ft::pair<iterator, bool>(iterator(node), false);
-		// 		return ft::pair<iterator, bool>(iterator(this->_tree.insert(val)), true);
-		// 	};
+			const_reverse_iterator	rend(void) const {
+				return const_reverse_iterator(this->begin());
+			}
 
-		// 	template <class InputIterator>
-		// 	void						insert(InputIterator first, InputIterator last) {
-		// 		while (first != last) {
-		// 			this->_tree.insert(*first);
-		// 			first++;
-		// 		}
-		// 	};
+			// Capacity
+			bool	empty(void) const {
+				return this->_tree.size() == 0;
+			};
+
+			size_type	size(void) const {
+				return this->_tree.size();
+			};
+
+			size_type	max_size(void) const {
+				return this->_allocator.max_size();
+			};
+
+			// Modifiers
+			ft::pair<iterator, bool>	insert(value_type const & val) {
+				Node*	node = this->_tree.search(val.first);
+				if (node != this->_tree.getTNULL())
+					return ft::pair<iterator, bool>(iterator(node), false);
+				return ft::pair<iterator, bool>(iterator(this->_tree.insert(val)), true);
+			};
+
+			template <class InputIterator>
+			void	insert(InputIterator first, InputIterator last) {
+				while (first != last) {
+					this->_tree.insert(*first);
+					first++;
+				}
+			};
 
 		// 	void						swap(map & x);
 		// 	void						clear(void);
@@ -125,9 +149,9 @@ namespace ft {
 		// 	};
 
 		private:
-			Alloc								_allocator;
-			Compare								_comp;
-			Tree<value_type, Compare>			_tree;
+			Alloc									_allocator;
+			Compare									_comp;
+			ft::RedBlackTree<value_type, Compare>	_tree;
 	};
 };
 
