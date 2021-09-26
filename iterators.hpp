@@ -6,12 +6,14 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/23 17:28:37 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/26 12:21:36 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ITERATORS_HPP
 # define ITERATORS_HPP
+
+# include "red_black_tree.hpp"
 
 namespace ft {
 
@@ -52,7 +54,7 @@ namespace ft {
 	};
 
 	template <typename T>
-	class Iterator : ft::iterator<ft::random_access_iterator_tag, T> {
+	class Iterator : public ft::iterator<ft::random_access_iterator_tag, T> {
 		public:
 
 			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type	difference_type;
@@ -201,28 +203,125 @@ namespace ft {
 			typedef T*																			pointer;
 			typedef T&																			reference;
 
-			typedef typename T::value_type														return_value;
+			typedef ft::Node<T>																	Node;
 
-			bst_iterator(void): _current(nullptr) {};
-			bst_iterator(pointer node): _current(node) {};
-			bst_iterator(bst_iterator const & instance): _current(instance._current) {};
+			bst_iterator(void): _current(nullptr), _TNULL(nullptr), _root(nullptr), _first(nullptr), _last(nullptr) {};
+			bst_iterator(Node * node): _current(node), _TNULL(node->right) {
+				while (node->parent != NULL)
+					node = node->parent;
+
+				this->_root = node;
+				this->_first = this->_getFirst(this->_root);
+				this->_last = this->_getLast(this->_root);
+			};
+			bst_iterator(const bst_iterator & instance): _current(instance._current) {};
 			~bst_iterator(void) {};
 
-			bst_iterator&	operator=(bst_iterator const & instance) {
+			Node* base(void) const {
+				return this->_current;
+			};
+
+			bst_iterator&	operator=(const bst_iterator & instance) {
 				if (this == &instance)
 					return *this;
 				this->_current = instance._current;
+				this->_root = instance._root;
+				this->_TNULL = instance._TNULL;
 				return *this;
 			};
 
-			bst_iterator&	operator++(void) {};
+			bool		operator==(bst_iterator const & instance) const {
+				return this->_current == instance._current;
+			}
 
-			return_value*	operator->(void) const {
+			bool		operator!=(bst_iterator const & instance) const {
+				return !(*this == instance);
+			}
+
+			bst_iterator&	operator++(void) {
+				if (this->_current == this->_last)
+					this->_current = this->_TNULL;
+				else if (this->_current->right == this->_TNULL)
+					this->_current = this->_current->parent;
+				else
+					this->_current = this->_inOrderSuccessor(this->_current->right);
+				return *this;
+			};
+
+			bst_iterator	operator++(int) {
+				bst_iterator tmp = *this;
+
+				if (this->_current == this->_last)
+					this->_current = this->_TNULL;
+				else if (this->_current->right == this->_TNULL)
+					this->_current = this->_current->parent;
+				else
+					this->_current = this->_inOrderSuccessor(this->_current->right);
+				return tmp;
+			};
+
+			bst_iterator&	operator--(void) {
+				if (this->_current == this->_first)
+					this->_current = this->_TNULL;
+				else if (this->_current->left == this->_TNULL)
+					this->_current = this->_current->parent;
+				else {
+					std::cout << (this->_current->right == this->_TNULL) << std::endl;
+					this->_current = this->_inOrderPredeccessor(this->_current->left);
+				}
+				return *this;
+			};
+
+			bst_iterator	operator--(int) {
+				bst_iterator tmp = *this;
+
+				if (this->_current == this->_last)
+					this->_current = this->_TNULL;
+				else if (this->_current->left == this->_TNULL)
+					this->_current = this->_current->parent;
+				else
+					this->_current = this->_inOrderPredeccessor(this->_current->left);
+				return tmp;
+			};
+
+			reference	operator*(void) const {
+				return this->_current->data;
+			};
+
+			pointer		operator->(void) const {
 				return &this->_current->data;
 			};
 
 		private:
-			pointer	_current;
+			Node*	_current;
+			Node*	_root;
+			Node*	_first;
+			Node*	_last;
+			Node*	_TNULL;
+
+			Node*		_getFirst(Node * root) {
+				if (root->left == this->_TNULL)
+					return root;
+				return _getFirst(root->left);
+			}
+
+			Node*		_getLast(Node * root) {
+				if (root->right == this->_TNULL)
+					return root;
+				return _getLast(root->right);
+			}
+
+			Node*	_inOrderSuccessor(Node * node) {
+				if (node->left == this->_TNULL)
+					return node;
+				return _inOrderSuccessor(node->left);
+			};
+
+			Node*	_inOrderPredeccessor(Node * node) {
+				if (node->right == this->_TNULL)
+					return node;
+				return _inOrderPredeccessor(node->right);
+			};
 	};
 
 	template <class Iterator>
@@ -233,7 +332,7 @@ namespace ft {
 		typename ft::iterator_traits<Iterator>::pointer,
 		typename ft::iterator_traits<Iterator>::reference
 	> {
-		private:
+		protected:
 			Iterator	_current;
 
 		public:
@@ -248,7 +347,7 @@ namespace ft {
 			~reverse_iterator(void) {};
 
 			iterator_type		base(void) const {
-				return _current;
+				return this->_current;
 			};
 
 			reverse_iterator&	operator=(const reverse_iterator & instance) {
@@ -273,7 +372,7 @@ namespace ft {
 			};
 
 			reverse_iterator	operator--(int) {
-				reverse_iterator tmp = this;
+				reverse_iterator tmp = *this;
 				++_current;
 				return tmp;
 			};
@@ -300,9 +399,14 @@ namespace ft {
 				return *(*this + n);
 			};
 
-			reference			operator*(void) {
-				Iterator tmp = _current;
-				return *--tmp;
+			reference			operator*(void) const {
+				Iterator tmp = this->_current;
+
+				return *(--tmp);
+			}
+
+			pointer		operator->(void) const {
+				return &(operator*());
 			}
 	};
 

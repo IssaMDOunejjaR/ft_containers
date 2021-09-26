@@ -6,58 +6,55 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/23 17:39:08 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/26 12:25:18 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RED_BLACK_TREE_HPP
 # define RED_BLACK_TREE_HPP
 
-# include "iterators.hpp"
+// # include "iterators.hpp"
 
 namespace ft {
+	typedef enum		s_color {
+		BLACK,
+		RED
+	}					Color;
+
+	template <class T>
+	class	Node {
+		public:
+			T		data;
+			Node*	parent;
+			Node*	left;
+			Node*	right;
+			Color	color;
+
+			Node(void): parent(nullptr), left(nullptr), right(nullptr), color(BLACK) {};
+
+			Node(T data, Node * parent, Node * left, Node * right, Color color)
+			: data(data), parent(parent), left(left), right(right), color(color) {};
+
+			Node(const Node & instance)
+			: data(instance.data), parent(instance.parent), left(instance.left), right(instance.right), color(instance.color) {};
+
+			Node&	operator=(const Node & instance) {
+				if (this == &instance)
+					return *this;
+				this->data = instance.data;
+				this->parent = instance.parent;
+				this->left = instance.left;
+				this->right = instance.right;
+				this->color = instance.color;
+				return *this;
+			}
+	};
+
 	template <class T, class Compare>
 	class RedBlackTree {
 		public:
-
-			typedef enum		s_color {
-				BLACK,
-				RED
-			}					Color;
-
-			class	Node {
-				public:
-					typedef T			value_type;
-
-					T		data;
-					Node*	parent;
-					Node*	left;
-					Node*	right;
-					Color	color;
-
-				Node(void): parent(nullptr), left(nullptr), right(nullptr), color(BLACK) {};
-
-				Node(T data, Node * parent, Node * left, Node * right, Color color)
-				: data(data), parent(parent), left(left), right(right), color(color) {};
-
-				Node(const Node & instance)
-				: data(instance.data), parent(instance.parent), left(instance.left), right(instance.right), color(instance.color) {};
-
-				Node&	operator=(const Node & instance) {
-					if (this == &instance)
-						return *this;
-					this->data = instance.data;
-					this->parent = instance.parent;
-					this->left = instance.left;
-					this->right = instance.right;
-					this->color = instance.color;
-
-					return *this;
-				}
-			};
-
 			typedef typename T::key						Key;
-			typedef ft::bst_iterator<Node, Compare>		iterator;
+			typedef Node<T>								Node;
 
 		private:
 
@@ -67,16 +64,9 @@ namespace ft {
 			std::allocator<Node>	_allocator;
 
 			Node*	newNode(T data) {
-				// Node*	node = new Node();
 				Node*	node = this->_allocator.allocate(1);
 
 				this->_allocator.construct(node, Node(data, NULL, this->_TNULL, this->_TNULL, RED));
-				// node->data = data;
-				// node->parent = NULL;
-				// node->left = _TNULL;
-				// node->right = _TNULL;
-				// node->color = RED;
-
 				return node;
 			};
 
@@ -196,7 +186,7 @@ namespace ft {
 				if (node->right == _TNULL)
 					return node;
 
-				return minimum(node->right);
+				return maximum(node->right);
 			}
 
 			void	delFix(Node * node) {
@@ -358,14 +348,9 @@ namespace ft {
 
 		public:
 			RedBlackTree(void) {
-				// _TNULL = new Node();
 				_TNULL = this->_allocator.allocate(1);
 
 				this->_allocator.construct(_TNULL, Node());
-
-				// _TNULL->left = NULL;
-				// _TNULL->right = NULL;
-				// _TNULL->color = BLACK;
 
 				_length = 0;
 
@@ -437,8 +422,9 @@ namespace ft {
 			};
 
 			Node*	lastElement(void) {
-				Node* node = maximum(_root);
-				return node->right;
+				Node* node = maximum(this->_root);
+
+				return node;
 			};
 
 			Node*	getRoot(void) {
@@ -450,6 +436,5 @@ namespace ft {
 			}
 	};
 }
-
 
 #endif

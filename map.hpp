@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/23 16:08:05 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/26 11:51:26 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@ namespace ft {
 			typedef typename allocator_type::const_reference					const_reference;
 			typedef typename allocator_type::pointer							pointer;
 			typedef typename allocator_type::const_pointer						const_pointer;
-			typedef typename ft::RedBlackTree<value_type, Compare>::iterator	iterator;
-			typedef ft::RedBlackTree<const value_type, Compare>					const_iterator;
+			typedef ft::bst_iterator<value_type, Compare>						iterator;
+			typedef ft::bst_iterator<const value_type, Compare>					const_iterator;
+			// typedef typename ft::RedBlackTree<value_type, Compare>::iterator	iterator;
+			// typedef ft::RedBlackTree<const value_type, Compare>					const_iterator;
 			typedef ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			typedef ptrdiff_t													difference_type;
 			typedef size_t														size_type;
 
-			typedef typename ft::RedBlackTree<value_type, Compare>::Node		Node;
+			typedef ft::Node<value_type>										Node;
 
 			// Constructors and Destructor
 			explicit map(const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
@@ -82,15 +84,19 @@ namespace ft {
 			};
 
 			iterator	end(void) {
-				return iterator(this->_tree.lastElement());
+				Node* node = this->_tree.lastElement();
+				
+				return iterator(node->right);
 			};
 
 			const_iterator	end(void) const {
-				return const_iterator(this->_tree.lastElement());
+				Node* node = this->_tree.lastElement();
+
+				return const_iterator(node->right);
 			};
 
 			reverse_iterator	rbegin(void) {
-				return reverse_iterator(this->end());
+				return reverse_iterator(this->_tree.lastElement());
 			}
 
 			const_reverse_iterator	rbegin(void) const {
