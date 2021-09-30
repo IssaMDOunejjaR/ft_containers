@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/26 12:21:36 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:47:58 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,16 +205,15 @@ namespace ft {
 
 			typedef ft::Node<T>																	Node;
 
-			bst_iterator(void): _current(nullptr), _TNULL(nullptr), _root(nullptr), _first(nullptr), _last(nullptr) {};
-			bst_iterator(Node * node): _current(node), _TNULL(node->right) {
-				while (node->parent != NULL)
-					node = node->parent;
-
-				this->_root = node;
-				this->_first = this->_getFirst(this->_root);
-				this->_last = this->_getLast(this->_root);
+			bst_iterator(void): _current(nullptr), _TNULL(nullptr), _root(nullptr), _first(nullptr), _last(nullptr), _prev(nullptr) {};
+			bst_iterator(Node * current, Node * root, Node * TNULL)
+			: _current(current), _root(root), _TNULL(TNULL), _prev(nullptr) {
+				this->_first = this->_getFirst(root);
+				this->_last = this->_getLast(root);
 			};
-			bst_iterator(const bst_iterator & instance): _current(instance._current) {};
+			bst_iterator(const bst_iterator & instance) {
+				*this = instance;
+			};
 			~bst_iterator(void) {};
 
 			Node* base(void) const {
@@ -225,8 +224,11 @@ namespace ft {
 				if (this == &instance)
 					return *this;
 				this->_current = instance._current;
+				this->_first = instance._first;
+				this->_last = instance._last;
 				this->_root = instance._root;
 				this->_TNULL = instance._TNULL;
+				this->_prev = instance._prev;
 				return *this;
 			};
 
@@ -263,10 +265,16 @@ namespace ft {
 			bst_iterator&	operator--(void) {
 				if (this->_current == this->_first)
 					this->_current = this->_TNULL;
-				else if (this->_current->left == this->_TNULL)
-					this->_current = this->_current->parent;
+				else if (this->_current == this->_TNULL)
+					this->_current = this->_last;
+				else if (this->_current->left == this->_TNULL) {
+					if (this->_prev != nullptr)
+						this->_current = this->_prev->parent;
+					else
+						this->_current = this->_current->parent;
+				}
 				else {
-					std::cout << (this->_current->right == this->_TNULL) << std::endl;
+					this->_prev = this->_current;
 					this->_current = this->_inOrderPredeccessor(this->_current->left);
 				}
 				return *this;
@@ -275,12 +283,20 @@ namespace ft {
 			bst_iterator	operator--(int) {
 				bst_iterator tmp = *this;
 
-				if (this->_current == this->_last)
+				if (this->_current == this->_first)
 					this->_current = this->_TNULL;
-				else if (this->_current->left == this->_TNULL)
-					this->_current = this->_current->parent;
-				else
+				else if (this->_current == this->_TNULL)
+					this->_current = this->_last;
+				else if (this->_current->left == this->_TNULL) {
+					if (this->_prev != nullptr)
+						this->_current = this->_prev->parent;
+					else
+						this->_current = this->_current->parent;
+				}
+				else {
+					this->_prev = this->_current;
 					this->_current = this->_inOrderPredeccessor(this->_current->left);
+				}
 				return tmp;
 			};
 
@@ -298,6 +314,7 @@ namespace ft {
 			Node*	_first;
 			Node*	_last;
 			Node*	_TNULL;
+			Node*	_prev;
 
 			Node*		_getFirst(Node * root) {
 				if (root->left == this->_TNULL)

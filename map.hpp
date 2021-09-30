@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/26 11:51:26 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/09/27 16:53:26 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,27 +76,27 @@ namespace ft {
 
 			// Iterators
 			iterator	begin(void) {
-				return iterator(this->_tree.firstElement());
+				return iterator(this->_tree.firstElement(), this->_tree.getRoot(), this->_tree.getTNULL());
 			};
 
 			const_iterator	begin(void) const {
-				return const_iterator(this->_tree.firstElement());
+				return const_iterator(this->_tree.firstElement(), this->_tree.getRoot(), this->_tree.getTNULL());
 			};
 
 			iterator	end(void) {
 				Node* node = this->_tree.lastElement();
 				
-				return iterator(node->right);
+				return iterator(node->right, this->_tree.getRoot(), this->_tree.getTNULL());
 			};
 
 			const_iterator	end(void) const {
 				Node* node = this->_tree.lastElement();
 
-				return const_iterator(node->right);
+				return const_iterator(node->right, this->_tree.getRoot(), this->_tree.getTNULL());
 			};
 
 			reverse_iterator	rbegin(void) {
-				return reverse_iterator(this->_tree.lastElement());
+				return reverse_iterator(this->end());
 			}
 
 			const_reverse_iterator	rbegin(void) const {
@@ -128,9 +128,11 @@ namespace ft {
 			ft::pair<iterator, bool>	insert(value_type const & val) {
 				Node*	node = this->_tree.search(val.first);
 				if (node != this->_tree.getTNULL())
-					return ft::pair<iterator, bool>(iterator(node), false);
-				return ft::pair<iterator, bool>(iterator(this->_tree.insert(val)), true);
+					return ft::pair<iterator, bool>(iterator(node, this->_tree.getRoot(), this->_tree.getTNULL()), false);
+				return ft::pair<iterator, bool>(iterator(this->_tree.insert(val), this->_tree.getRoot(), this->_tree.getTNULL()), true);
 			};
+
+			iterator	insert(iterator position, const value_type & val);
 
 			template <class InputIterator>
 			void	insert(InputIterator first, InputIterator last) {
@@ -140,8 +142,16 @@ namespace ft {
 				}
 			};
 
+			void	erase(iterator position) {
+				iterator it = this->begin();
+
+				while (it != position)
+					it++;
+				this->_tree.del(it->first);
+			};
+
 		// 	void						swap(map & x);
-		// 	void						clear(void);
+		// 	void	.					clear(void);
 
 		// 	// Observers
 		// 	key_compare					key_comp(void) const;
@@ -149,10 +159,10 @@ namespace ft {
 		// 	// Operations
 		// 	size_type					count(key_type const & k) const;
 			
-		// 	// Allocator
-		// 	allocator_type				get_allocator(void) const {
-		// 		return this->_allocator;
-		// 	};
+			// Allocator
+			allocator_type				get_allocator(void) const {
+				return this->_allocator;
+			};
 
 		private:
 			Alloc									_allocator;
