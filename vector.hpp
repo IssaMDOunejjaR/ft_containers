@@ -14,6 +14,7 @@
 # define VECTOR_HPP
 
 # include <iostream>
+# include <stddef.h>
 # include "iterators.hpp"
 # include "utility.hpp"
 

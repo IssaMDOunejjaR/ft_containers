@@ -102,15 +102,20 @@ namespace ft {
 	template <bool Cond, class T = void>
 	struct enable_if {};
 
-	// template <class T>
-	// struct is_integral: public std::integral_constant<T> {};
+	template <class T>
+	struct enable_if<true, T> {
+		typedef T type;
+	};
 
 	template <class T>
-	struct less: std::binary_function<T, T, bool> {
-		bool	operator()(const T & x, const T & y) const {
-			return x < y;
-		};
-	};
+	struct is_integral: public std::integral_constant<T> {};
+
+	// template <class T>
+	// struct less: std::binary_function<T, T, bool> {
+	// 	bool	operator()(const T & x, const T & y) const {
+	// 		return x < y;
+	// 	};
+	// };
 }
 
 #endif

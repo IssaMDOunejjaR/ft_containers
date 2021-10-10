@@ -205,9 +205,9 @@ namespace ft {
 
 			typedef ft::Node<T>																	Node;
 
-			bst_iterator(void): _current(nullptr), _TNULL(nullptr), _root(nullptr), _first(nullptr), _last(nullptr), _prev(nullptr) {};
+			bst_iterator(void): _current(NULL), _TNULL(NULL), _root(NULL), _first(NULL), _last(NULL), _prev(NULL) {};
 			bst_iterator(Node * current, Node * root, Node * TNULL)
-			: _current(current), _root(root), _TNULL(TNULL), _prev(nullptr) {
+			: _current(current), _root(root), _TNULL(TNULL), _prev(NULL) {
 				this->_first = this->_getFirst(root);
 				this->_last = this->_getLast(root);
 			};
@@ -241,63 +241,102 @@ namespace ft {
 			}
 
 			bst_iterator&	operator++(void) {
-				if (this->_current == this->_last)
-					this->_current = this->_TNULL;
-				else if (this->_current->right == this->_TNULL)
-					this->_current = this->_current->parent;
+				Node* tmp;
+
+				if (this->_current != this->_last) {
+					if (this->_current->right != this->_TNULL) {
+						this->_current = this->_current->right;
+
+						while (this->_current->left != this->_TNULL)
+							this->_current = this->_current->left;
+					}
+					else {
+						tmp = this->_current->parent;
+						while (tmp != this->_TNULL && this->_current == tmp->right) {
+							this->_current = tmp;
+							tmp = tmp->parent;
+						}
+						this->_current = tmp;
+					}
+				}
 				else
-					this->_current = this->_inOrderSuccessor(this->_current->right);
+					this->_current = this->_TNULL;
 				return *this;
 			};
 
 			bst_iterator	operator++(int) {
-				bst_iterator tmp = *this;
+				bst_iterator instance = *this;
+				Node* tmp;
 
-				if (this->_current == this->_last)
-					this->_current = this->_TNULL;
-				else if (this->_current->right == this->_TNULL)
-					this->_current = this->_current->parent;
+				if (this->_current != this->_last) {
+					if (this->_current->right != this->_TNULL) {
+						this->_current = this->_current->right;
+
+						while (this->_current->left != this->_TNULL)
+							this->_current = this->_current->left;
+					}
+					else {
+						tmp = this->_current->parent;
+						while (tmp != this->_TNULL && this->_current == tmp->right) {
+							this->_current = tmp;
+							tmp = tmp->parent;
+						}
+						this->_current = tmp;
+					}
+				}
 				else
-					this->_current = this->_inOrderSuccessor(this->_current->right);
-				return tmp;
+					this->_current = this->_TNULL;
+
+				return instance;
 			};
 
 			bst_iterator&	operator--(void) {
-				if (this->_current == this->_first)
+				Node* tmp;
+
+				if (this->_current != this->_first) {
+					if (this->_current->left != this->_TNULL) {
+						this->_current = this->_current->left;
+
+						while (this->_current->right != this->_TNULL)
+							this->_current = this->_current->right;
+					}
+					else {
+						tmp = this->_current->parent;
+						while (tmp != this->_TNULL && this->_current == tmp->left) {
+							this->_current = tmp;
+							tmp = tmp->parent;
+						}
+						this->_current = tmp;
+					}
+				}
+				else
 					this->_current = this->_TNULL;
-				else if (this->_current == this->_TNULL)
-					this->_current = this->_last;
-				else if (this->_current->left == this->_TNULL) {
-					if (this->_prev != nullptr)
-						this->_current = this->_prev->parent;
-					else
-						this->_current = this->_current->parent;
-				}
-				else {
-					this->_prev = this->_current;
-					this->_current = this->_inOrderPredeccessor(this->_current->left);
-				}
 				return *this;
 			};
 
 			bst_iterator	operator--(int) {
-				bst_iterator tmp = *this;
+				bst_iterator instance = *this;
+				Node* tmp;
 
-				if (this->_current == this->_first)
+				if (this->_current != this->_first) {
+					if (this->_current->left != this->_TNULL) {
+						this->_current = this->_current->left;
+
+						while (this->_current->right != this->_TNULL)
+							this->_current = this->_current->right;
+					}
+					else {
+						tmp = this->_current->parent;
+						while (tmp != this->_TNULL && this->_current == tmp->left) {
+							this->_current = tmp;
+							tmp = tmp->parent;
+						}
+						this->_current = tmp;
+					}
+				}
+				else
 					this->_current = this->_TNULL;
-				else if (this->_current == this->_TNULL)
-					this->_current = this->_last;
-				else if (this->_current->left == this->_TNULL) {
-					if (this->_prev != nullptr)
-						this->_current = this->_prev->parent;
-					else
-						this->_current = this->_current->parent;
-				}
-				else {
-					this->_prev = this->_current;
-					this->_current = this->_inOrderPredeccessor(this->_current->left);
-				}
-				return tmp;
+				return instance;
 			};
 
 			reference	operator*(void) const {

@@ -19,42 +19,70 @@
 typedef ft::RedBlackTree<ft::pair<int, int>, std::less<int> >::Node 	Node;
 typedef ft::RedBlackTree<ft::pair<int, int>, std::less<int> >			Tree;
 
-Node * prev;
+// Node* InOrderSuccessor(Tree * tree, Node * node) {
+// 	if (node->left == tree->getTNULL())
+// 		return node;
+// 	return InOrderSuccessor(tree, node->left);
+// }
 
-Node* InOrderSuccessor(Tree * tree, Node * node) {
-	if (node->left == tree->getTNULL())
-		return node;
-	return InOrderSuccessor(tree, node->left);
-}
+// Node* InOrderPredeccessor(Tree * tree, Node * node) {
+// 	if (node->right == tree->getTNULL())
+// 		return node;
+// 	return InOrderPredeccessor(tree, node->right);
+// }
 
-Node* InOrderPredeccessor(Tree * tree, Node * node) {
-	if (node->right == tree->getTNULL())
-		return node;
-	return InOrderPredeccessor(tree, node->right);
-}
+// std::stack<Node *>	stack;
 
-Node*	getTheNextNode(Tree * tree, Node * node) {
-	if (node == tree->lastElement())
-		return tree->getTNULL();
-	else if (node->right == tree->getTNULL()) {
-		return node->parent;
-	}
-	else {
-		return InOrderSuccessor(tree, node->right);
-	}
-}
 
-Node*	getThePrevNode(Tree * tree, Node * node) {
-	if (node->left->left == NULL && node->left->right == NULL) {
-		if (prev != NULL)
-			return prev->parent;
-		return node->parent;
-	}
-	else {
-		prev = node;
-		return InOrderPredeccessor(tree, node->left);
-	}
-}
+// Node*	getThePrevNode(Tree * tree, Node * current) {
+// 	Node* tmp;
+
+// 	if (current != tree->firstElement()) {
+// 		if (current->left != tree->getTNULL()) {
+// 			current = current->left;
+
+// 			while (current->right != tree->getTNULL())
+// 				current = current->right;
+// 		}
+// 		else {
+// 			tmp = current->parent;
+// 			while (tmp != tree->getTNULL() && current == tmp->left) {
+// 				current = tmp;
+// 				tmp = tmp->parent;
+// 			}
+// 			current = tmp;
+// 		}
+// 	}
+// 	else
+// 		current = tree->getTNULL();
+
+// 	return current;
+// }
+
+// Node*	getTheNextNode(Tree * tree, Node * current) {
+// 	Node* tmp;
+
+// 	if (current != tree->lastElement()) {
+// 		if (current->right != tree->getTNULL()) {
+// 			current = current->right;
+
+// 			while (current->left != tree->getTNULL())
+// 				current = current->left;
+// 		}
+// 		else {
+// 			tmp = current->parent;
+// 			while (tmp != tree->getTNULL() && current == tmp->right) {
+// 				current = tmp;
+// 				tmp = tmp->parent;
+// 			}
+// 			current = tmp;
+// 		}
+// 	}
+// 	else
+// 		current = tree->getTNULL();
+
+// 	return current;
+// }
 
 int		main(void) {
 	Tree	root;
@@ -67,44 +95,32 @@ int		main(void) {
 	root.insert(ft::pair<int, int>(15, 123));
 	root.insert(ft::pair<int, int>(16, 123));
 
-	Node *current;
-
 	root.del(10);
-	// root.del(1);
 
-	// root.print();
+	root.print();
 
-	prev = NULL;
-	current = root.firstElement();
+	// Node* curr = root.firstElement();
 
-	while (1) {
-		std::cout << current->data.first << std::endl;
-		current = getTheNextNode(&root, current);
+	// std::cout << curr->data.first << std::endl;
 
-		if (current == root.getTNULL())
-			break ;
-	}
+	// std::cout << stack.top()->data.first << std::endl;
+	// stack.pop();
+	// std::cout << stack.top()->data.first << std::endl;
 
+	// Node *current = root.firstElement();
 
-	// current = getThePrevNode(&root, current);
+	// std::cout << current->data.first << std::endl;
+
+	// current = getTheNextNode(&root, current);
 	// std::cout << current->data.first << std::endl;
 
 	// current = getThePrevNode(&root, current);
 	// std::cout << current->data.first << std::endl;
 
-	// current = getThePrevNode(&root, current);
-	// std::cout << current->data.first << std::endl;
-
-	// current = getThePrevNode(&root, current);
-	// std::cout << current->data.first << std::endl;
-
-	// current = getThePrevNode(&root, current);
-	// std::cout << current->data.first << std::endl;
-
-	// current = getThePrevNode(&root, current);
-	// std::cout << current->data.first << std::endl;
-
-	// std::cout << "Length = " << root.size() << std::endl;
+	// while (current != root.getTNULL()) {
+	// 	std::cout << current->data.first << std::endl;
+	// 	current = getThePrevNode(&root, current);
+	// }
 
 	return 0;
 }

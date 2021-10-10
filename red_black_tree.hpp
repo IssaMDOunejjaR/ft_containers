@@ -30,7 +30,7 @@ namespace ft {
 			Node*	right;
 			Color	color;
 
-			Node(void): parent(nullptr), left(nullptr), right(nullptr), color(BLACK) {};
+			Node(void): parent(NULL), left(NULL), right(NULL), color(BLACK) {};
 
 			Node(T data, Node * parent, Node * left, Node * right, Color color)
 			: data(data), parent(parent), left(left), right(right), color(color) {};
