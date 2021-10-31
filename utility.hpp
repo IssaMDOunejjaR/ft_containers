@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 13:42:02 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/23 12:18:18 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/10/28 12:49:13 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,19 +103,58 @@ namespace ft {
 	struct enable_if {};
 
 	template <class T>
-	struct enable_if<true, T> {
-		typedef T type;
-	};
+	struct enable_if<true, T> { typedef T type; };
+
+	typedef	std::integral_constant<bool, true>	true_type;
+	typedef	std::integral_constant<bool, false>	false_type;
 
 	template <class T>
-	struct is_integral: public std::integral_constant<T> {};
+	struct is_integral: public false_type {};
 
-	// template <class T>
-	// struct less: std::binary_function<T, T, bool> {
-	// 	bool	operator()(const T & x, const T & y) const {
-	// 		return x < y;
-	// 	};
-	// };
+	template <>
+	struct is_integral<bool>: public true_type {};
+
+	template <>
+	struct is_integral<char>: public true_type {};
+
+	template <>
+	struct is_integral<char16_t>: public true_type {};
+
+	template <>
+	struct is_integral<char32_t>: public true_type {};
+
+	template <>
+	struct is_integral<wchar_t>: public true_type {};
+
+	template <>
+	struct is_integral<short int>: public true_type {};
+
+	template <>
+	struct is_integral<int>: public true_type {};
+
+	template <>
+	struct is_integral<long int>: public true_type {};
+
+	template <>
+	struct is_integral<long long int>: public true_type {};
+
+	template <>
+	struct is_integral<unsigned char>: public true_type {};
+
+	template <>
+	struct is_integral<unsigned short int>: public true_type {};
+
+	template <>
+	struct is_integral<unsigned int>: public true_type {};
+
+	template <>
+	struct is_integral<unsigned long int>: public true_type {};
+
+	template <>
+	struct is_integral<unsigned long long int>: public true_type {};
+
+	template <>
+	struct is_integral<signed char>: public true_type {};
 }
 
 #endif

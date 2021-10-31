@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:16:11 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/27 15:48:35 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/10/31 10:33:05 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stack>
 #include <map>
 #include <iterator>
+#include <type_traits>
 #include "vector.hpp"
 #include "stack.hpp"
 #include "map.hpp"
@@ -24,6 +25,8 @@ int		main(void) {
 	// try {
 	// 	std::vector<std::string> lst;
 
+	// 	ft::vector<std::string> ft_lst;
+
 	// 	lst.push_back("hello");
 	// 	lst.push_back("test");
 	// 	lst.push_back("issam");
@@ -32,14 +35,20 @@ int		main(void) {
 	// 	lst.push_back("bbbbbbb");
 
 	// 	std::cout << "at\t\t: " << lst.back() << std::endl;
-
 	// 	std::cout << "size\t\t: " << lst.size() << std::endl;
 	// 	std::cout << "max_size\t: " << lst.max_size() << std::endl;
 	// 	std::cout << "capacity\t: " << lst.capacity() << std::endl;
 	// 	std::cout << "empty\t\t: " << (lst.empty() ? "true" : "false") << std::endl << std::endl;
 
-	// 	for (std::vector<std::string>::iterator it = lst.begin(); it != lst.end(); it++)
+	// 	// lst.assign(ft_lst.begin(), ft_lst.end());
+
+	// 	for (std::vector<std::string>::const_iterator it = lst.begin(); it != lst.end(); it++) {
 	// 		std::cout << *it << std::endl;
+	// 	}
+
+	// 	std::vector<std::string>::iterator it = lst.begin();
+
+	// 	std::cout << *it-- << std::endl;
 	// }
 	// catch (std::exception & e) {
 	// 	std::cout << e.what() << std::endl;
@@ -57,15 +66,22 @@ int		main(void) {
 	// 	lst.push_back("aaaaaaa");
 	// 	lst.push_back("bbbbbbb");
 
-	// 	std::cout << "at\t\t: " << lst.back() << std::endl;
+	// 	ft::vector<std::string> tmp(lst.begin(), lst.end());
 
+	// 	tmp.push_back("........");
+
+	// 	std::cout << "at\t\t: " << lst.back() << std::endl;
 	// 	std::cout << "size\t\t: " << lst.size() << std::endl;
 	// 	std::cout << "max_size\t: " << lst.max_size() << std::endl;
 	// 	std::cout << "capacity\t: " << lst.capacity() << std::endl;
 	// 	std::cout << "empty\t\t: " << (lst.empty() ? "true" : "false") << std::endl << std::endl;
 
-	// 	for (ft::vector<std::string>::iterator it = lst.begin(); it != lst.end(); it++)
+	// 	for (ft::vector<std::string>::const_iterator it = lst.begin(); it != lst.end(); it++)
 	// 		std::cout << *it << std::endl;
+
+	// 	ft::vector<std::string>::iterator it = lst.begin();
+
+	// 	std::cout << *it-- << std::endl;
 	// }
 	// catch (std::exception & e) {
 	// 	std::cout << e.what() << std::endl;
@@ -145,23 +161,23 @@ int		main(void) {
 	
 		// m[99] = 45;
 
-		m.erase(m.begin());
+		// m.erase(m.begin());
 
 		std::cout << "size\t\t: " << m.size() << std::endl;
 		std::cout << "max_size\t: " << m.max_size() << std::endl;
 		std::cout << "empty\t\t: " << (m.empty() ? "true" : "false") << std::endl << std::endl;
 
-		std::map<int, int>::iterator it;
+		std::map<int, int>::reverse_iterator it;
 
-		for (it = m.begin(); it != m.end(); ++it) {
+		for (it = m.rbegin(); it != m.rend(); ++it) {
 			std::cout << it->first << std::endl;
 		}
 
-		it--;
-		it--;
-		it--;
-		it--;
-		std::cout << it->first << std::endl;
+		// it--;
+		// it--;
+		// it--;
+		// it--;
+		// std::cout << it->first << std::endl;
 		// std::cout << "" << check.first->first << std::endl;
 		// std::cout << "" << check.second << std::endl;
 	}
@@ -184,9 +200,9 @@ int		main(void) {
 		check = m.insert(ft::pair<int, int>(15, 56415));
 		check = m.insert(ft::pair<int, int>(16, 1415));
 
-		// m[99] = 45;
+		// // m[99] = 45;
 
-		m.erase(m.begin());
+		// // m.erase(m.begin());
 
 		std::cout << "size\t\t: " << m.size() << std::endl;
 		std::cout << "max_size\t: " << m.max_size() << std::endl;
@@ -196,13 +212,15 @@ int		main(void) {
 			std::cout << it->first << std::endl;
 		}
 
-		// while (it != m.end()) {
+		// ft::map<int, int>::iterator it;
+
+		// for (it = m.begin(); it != m.end(); it++) {
 		// 	std::cout << it->first << std::endl;
-		// 	++it;
 		// }
 
-		// std::cout << check.first->first << std::endl;
-		// std::cout << check.second << std::endl;
+		// --it;
+		// --it;
+		// std::cout << (*it++).first << std::endl;
 	}
 	catch (std::exception & e) {
 		std::cout << e.what() << std::endl;

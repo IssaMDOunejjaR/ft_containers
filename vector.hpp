@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:57:46 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/22 17:33:36 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/10/28 19:34:17 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define VECTOR_HPP
 
 # include <iostream>
-# include <stddef.h>
 # include "iterators.hpp"
 # include "utility.hpp"
 
@@ -42,7 +41,7 @@ namespace ft {
 			typedef ft::reverse_iterator<iterator>				reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
-			// Constructors and Destructors
+			// Constructors and Destructor
 			explicit vector(const allocator_type & alloc = allocator_type())
 			: _allocation(alloc) {
 				this->_list = this->_allocation.allocate(0);
@@ -80,13 +79,14 @@ namespace ft {
 			};
 
 			// Operators Overloads
-			vector&	operator=(const vector & instance) {
-				clear();
-				this->_list = instance._list;
-				this->_capacity = instance._capacity;
-				this->_size = instance._size;
-				this->_allocation = instance._allocation;
-
+			vector&		operator=(const vector & instance) {
+				if (this != &instance) {
+					this->clear();
+					this->_list = instance._list;
+					this->_capacity = instance._capacity;
+					this->_size = instance._size;
+					this->_allocation = instance._allocation;
+				}
 				return *this;
 			};
 

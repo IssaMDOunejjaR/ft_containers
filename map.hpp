@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/27 16:53:26 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/10/31 11:59:36 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ namespace ft {
 			typedef T															mapped_type;
 			typedef ft::pair<key_type, mapped_type>								value_type;
 			typedef Compare														key_compare;
-			// value_compare
+			typedef Compare														value_compare;
 			typedef Alloc														allocator_type;
 			typedef typename allocator_type::reference							reference;
 			typedef typename allocator_type::const_reference					const_reference;
@@ -39,8 +39,6 @@ namespace ft {
 			typedef typename allocator_type::const_pointer						const_pointer;
 			typedef ft::bst_iterator<value_type, Compare>						iterator;
 			typedef ft::bst_iterator<const value_type, Compare>					const_iterator;
-			// typedef typename ft::RedBlackTree<value_type, Compare>::iterator	iterator;
-			// typedef ft::RedBlackTree<const value_type, Compare>					const_iterator;
 			typedef ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			typedef ptrdiff_t													difference_type;
@@ -66,7 +64,14 @@ namespace ft {
 			~map(void) {};
 
 			// Operators Overloads
-			map&			operator=(const map & instance);
+			map&			operator=(const map & instance) {
+				if (this != &instance) {
+					this->_tree = instance._tree;
+					this->_comp = instance._comp;
+					this->_allocator = instance._allocator;
+				}
+				return *this;
+			};
 
 			mapped_type&	operator[](const key_type & k) {
 				Node*	node = this->_tree.search(k);
@@ -76,23 +81,23 @@ namespace ft {
 
 			// Iterators
 			iterator	begin(void) {
-				return iterator(this->_tree.firstElement(), this->_tree.getRoot(), this->_tree.getTNULL());
+				return iterator(this->_tree.firstElement(), this->_tree.getRoot());
 			};
 
 			const_iterator	begin(void) const {
-				return const_iterator(this->_tree.firstElement(), this->_tree.getRoot(), this->_tree.getTNULL());
+				return const_iterator(this->_tree.firstElement(), this->_tree.getRoot());
 			};
 
 			iterator	end(void) {
 				Node* node = this->_tree.lastElement();
 				
-				return iterator(node->right, this->_tree.getRoot(), this->_tree.getTNULL());
+				return iterator(node->right, this->_tree.getRoot());
 			};
 
 			const_iterator	end(void) const {
 				Node* node = this->_tree.lastElement();
 
-				return const_iterator(node->right, this->_tree.getRoot(), this->_tree.getTNULL());
+				return const_iterator(node->right, this->_tree.getRoot());
 			};
 
 			reverse_iterator	rbegin(void) {
@@ -127,9 +132,9 @@ namespace ft {
 			// Modifiers
 			ft::pair<iterator, bool>	insert(value_type const & val) {
 				Node*	node = this->_tree.search(val.first);
-				if (node != this->_tree.getTNULL())
-					return ft::pair<iterator, bool>(iterator(node, this->_tree.getRoot(), this->_tree.getTNULL()), false);
-				return ft::pair<iterator, bool>(iterator(this->_tree.insert(val), this->_tree.getRoot(), this->_tree.getTNULL()), true);
+				if (node->left != NULL && node->right != NULL)
+					return ft::pair<iterator, bool>(iterator(node, this->_tree.getRoot()), false);
+				return ft::pair<iterator, bool>(iterator(this->_tree.insert(val), this->_tree.getRoot()), true);
 			};
 
 			iterator	insert(iterator position, const value_type & val);

@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/27 15:47:58 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/10/31 10:33:00 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@
 
 namespace ft {
 
-	struct input_iterator_tag  {};
-	struct output_iterator_tag {};
-	struct forward_iterator_tag       : public input_iterator_tag         {};
-	struct bidirectional_iterator_tag : public forward_iterator_tag       {};
-	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+	// struct input_iterator_tag  {};
+	// struct output_iterator_tag {};
+	// struct forward_iterator_tag       : public input_iterator_tag         {};
+	// struct bidirectional_iterator_tag : public forward_iterator_tag       {};
+	// struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
-	template <
-		class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&
-	>
-	struct iterator {
-		typedef T			value_type;
-		typedef Distance	difference_type;
-		typedef Pointer		pointer;
-		typedef	Reference	reference;
-		typedef Category	iterator_category;
-	};
+	// template <
+	// 	class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&
+	// >
+	// struct iterator {
+	// 	typedef T			value_type;
+	// 	typedef Distance	difference_type;
+	// 	typedef Pointer		pointer;
+	// 	typedef	Reference	reference;
+	// 	typedef Category	iterator_category;
+	// };
 
 	template <class Iterator>
 	struct iterator_traits {
@@ -46,38 +46,41 @@ namespace ft {
 	template <class T>
 	struct iterator_traits<T*>
 	{
-		typedef ptrdiff_t 					difference_type;
-		typedef T 							value_type;
-		typedef T* 							pointer;
-		typedef T& 							reference;
-		typedef random_access_iterator_tag 	iterator_category;
+		typedef ptrdiff_t 						difference_type;
+		typedef T 								value_type;
+		typedef T* 								pointer;
+		typedef T& 								reference;
+		typedef std::random_access_iterator_tag iterator_category;
 	};
 
 	template <typename T>
-	class Iterator : public ft::iterator<ft::random_access_iterator_tag, T> {
+	class Iterator : public std::iterator<std::random_access_iterator_tag, T> {
 		public:
-
-			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type	difference_type;
-			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::iterator_category	iterator_category;
-			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::value_type		value_type;
-			typedef T*																			pointer;
-			typedef T&																			reference;
+			typedef typename std::iterator<std::random_access_iterator_tag, T>::difference_type		difference_type;
+			typedef typename std::iterator<std::random_access_iterator_tag, T>::iterator_category	iterator_category;
+			typedef typename std::iterator<std::random_access_iterator_tag, T>::value_type			value_type;
+			typedef T*																				pointer;
+			typedef T&																				reference;
 
 			Iterator(void) {};
 			Iterator(pointer ptr): _ptr(ptr) {};
 			Iterator(const Iterator & instance): _ptr(instance._ptr) {};
 			~Iterator(void) {};
 
+			// Convert from iterator to const_iterator
+			operator Iterator<const T>(void) const {
+				return Iterator<const T>(this->_ptr);
+			};
+
+			Iterator&	operator=(Iterator const & instance) {
+				if (this != &instance)
+					this->_ptr = instance.base();
+				return *this;
+			};
+
 			pointer		base(void) const {
 				return this->_ptr;
 			}
-
-			Iterator&	operator=(Iterator const & instance) {
-				if (this == &instance)
-					return *this;
-				this->_ptr = instance._ptr;
-				return *this;
-			};
 
 			Iterator&	operator++(void) {
 				this->_ptr++;
@@ -101,27 +104,19 @@ namespace ft {
 				return tmp;
 			}
 
-			Iterator&	operator+=(Iterator const & instance) {
-				this->_ptr += instance._ptr;
+			Iterator&	operator+=(difference_type n) {
+				this->_ptr += n;
 				return *this;
 			}
 
-			Iterator&	operator-=(Iterator const & instance) {
-				this->_ptr += instance._ptr;
+			Iterator&	operator-=(difference_type n) {
+				this->_ptr -= n;
 				return *this;
 			}
 
 			reference	operator[](int index) const {
 				return *(this->_ptr + index);
 			}
-
-			// bool		operator==(Iterator const & instance) const {
-			// 	return this->_ptr == instance._ptr;
-			// }
-
-			// bool		operator!=(Iterator const & instance) const {
-			// 	return !(*this == instance);
-			// }
 
 			reference	operator*(void) {
 				return *(this->_ptr);
@@ -131,83 +126,76 @@ namespace ft {
 				return *(this->_ptr);
 			}
 
-			// bool		operator<(Iterator const & instance) const {
-			// 	return this->_ptr < instance._ptr;
-			// }
-
-			// bool		operator<=(Iterator const & instance) const {
-			// 	return this->_ptr <= instance._ptr;
-			// }
-
-			// bool		operator>(Iterator const & instance) const {
-			// 	return this->_ptr > instance._ptr;
-			// }
-
-			// bool		operator>=(Iterator const & instance) const {
-			// 	return this->_ptr >= instance._ptr;
-			// }
-
 			pointer		operator->(void) const {
 				return this->_ptr;
 			}
 
 			Iterator	operator+(difference_type n) const {
-				return this->_ptr + n;
+				return Iterator(this->_ptr + n);
 			}
 
 			Iterator	operator-(difference_type n) const {
-				return this->_ptr - n;
+				return Iterator(this->_ptr - n);
+			}
+
+			friend Iterator operator+(int nb, const Iterator & it) {
+                Iterator tmp = it;
+
+                return (tmp += nb);
+            }
+
+			friend Iterator operator-(const Iterator & it1, const Iterator & it2) {
+				return Iterator(it1 - it2);
+            }
+
+			friend bool	operator==(Iterator const & it1, Iterator const & it2) {
+				return it1.base() == it2.base();
+			}
+
+			friend bool	operator!=(Iterator const & it1, Iterator const & it2) {
+				return it1.base() != it2.base();
+			}
+			
+			friend bool	operator<(Iterator const & it1, Iterator const & it2) {
+				return it1.base() < it2.base();
+			}
+			
+			friend bool	operator>(Iterator const & it1, Iterator const & it2) {
+				return it1.base() > it2.base();
+			}
+			
+			friend bool	operator>=(Iterator const & it1, Iterator const & it2) {
+				return it1.base() >= it2.base();
+			}
+			
+			friend bool	operator<=(Iterator const & it1, Iterator const & it2) {
+				return it1.base() <= it2.base();
 			}
 
 		private:
 			pointer		_ptr;
 	};
 
-	template <class Iterator1, class Iterator2>
-	bool	operator==(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
-		return it1.base() == it2.base();
-	}
-	
-	template <class Iterator1, class Iterator2>
-	bool	operator!=(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
-		return it1.base() != it2.base();
-	}
-	
-	template <class Iterator1, class Iterator2>
-	bool	operator<(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
-		return it1.base() < it2.base();
-	}
-	
-	template <class Iterator1, class Iterator2>
-	bool	operator>(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
-		return it1.base() > it2.base();
-	}
-	
-	template <class Iterator1, class Iterator2>
-	bool	operator>=(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
-		return it1.base() >= it2.base();
-	}
-	
-	template <class Iterator1, class Iterator2>
-	bool	operator<=(ft::Iterator<Iterator1> const & it1, ft::Iterator<Iterator2> const & it2) {
-		return it1.base() <= it2.base();
-	}
+	// =========
+	// template <class Iterator>
+	// bool	operator==(ft::Iterator<Iterator> const & it1, int const & it2) {
+	// 	return it1.base() == it2;
+	// }
 
 	template <typename T, class Compare>
-	class	bst_iterator : public ft::iterator<ft::bidirectional_iterator_tag, T> {
+	class	bst_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
 		public:
 			
-			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::difference_type	difference_type;
-			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
-			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::value_type		value_type;
-			typedef T*																			pointer;
-			typedef T&																			reference;
+			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::difference_type		difference_type;
+			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
+			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::value_type			value_type;
+			typedef T*																				pointer;
+			typedef T&																				reference;
+			typedef ft::Node<T>																		Node;
 
-			typedef ft::Node<T>																	Node;
-
-			bst_iterator(void): _current(NULL), _TNULL(NULL), _root(NULL), _first(NULL), _last(NULL), _prev(NULL) {};
-			bst_iterator(Node * current, Node * root, Node * TNULL)
-			: _current(current), _root(root), _TNULL(TNULL), _prev(NULL) {
+			bst_iterator(void): _current(NULL), _root(NULL), _first(NULL), _last(NULL) {};
+			bst_iterator(Node * current, Node * root)
+			: _current(current), _root(root) {
 				this->_first = this->_getFirst(root);
 				this->_last = this->_getLast(root);
 			};
@@ -221,14 +209,12 @@ namespace ft {
 			};
 
 			bst_iterator&	operator=(const bst_iterator & instance) {
-				if (this == &instance)
-					return *this;
-				this->_current = instance._current;
-				this->_first = instance._first;
-				this->_last = instance._last;
-				this->_root = instance._root;
-				this->_TNULL = instance._TNULL;
-				this->_prev = instance._prev;
+				if (this != &instance) {
+					this->_current = instance._current;
+					this->_first = instance._first;
+					this->_last = instance._last;
+					this->_root = instance._root;
+				}
 				return *this;
 			};
 
@@ -243,16 +229,18 @@ namespace ft {
 			bst_iterator&	operator++(void) {
 				Node* tmp;
 
-				if (this->_current != this->_last) {
-					if (this->_current->right != this->_TNULL) {
+				if (this->_current->left == NULL && this->_current->right == NULL)
+					this->_current = this->_current->parent;
+				else if (this->_current != this->_last) {
+					if (this->_current->right->left != NULL && this->_current->right->right != NULL) {
 						this->_current = this->_current->right;
 
-						while (this->_current->left != this->_TNULL)
+						while (this->_current->left->left != NULL && this->_current->left->right != NULL)
 							this->_current = this->_current->left;
 					}
 					else {
 						tmp = this->_current->parent;
-						while (tmp != this->_TNULL && this->_current == tmp->right) {
+						while ((tmp->left != NULL && tmp->right != NULL) && this->_current == tmp->right) {
 							this->_current = tmp;
 							tmp = tmp->parent;
 						}
@@ -260,7 +248,8 @@ namespace ft {
 					}
 				}
 				else
-					this->_current = this->_TNULL;
+					this->_current = this->_current->right;
+
 				return *this;
 			};
 
@@ -268,16 +257,18 @@ namespace ft {
 				bst_iterator instance = *this;
 				Node* tmp;
 
-				if (this->_current != this->_last) {
-					if (this->_current->right != this->_TNULL) {
+				if (this->_current->left == NULL && this->_current->right == NULL)
+					this->_current = this->_current->parent;
+				else if (this->_current != this->_last) {
+					if (this->_current->right->left != NULL && this->_current->right->right != NULL) {
 						this->_current = this->_current->right;
 
-						while (this->_current->left != this->_TNULL)
+						while (this->_current->left->left != NULL && this->_current->left->right != NULL)
 							this->_current = this->_current->left;
 					}
 					else {
 						tmp = this->_current->parent;
-						while (tmp != this->_TNULL && this->_current == tmp->right) {
+						while ((tmp->left != NULL && tmp->right != NULL) && this->_current == tmp->right) {
 							this->_current = tmp;
 							tmp = tmp->parent;
 						}
@@ -285,7 +276,7 @@ namespace ft {
 					}
 				}
 				else
-					this->_current = this->_TNULL;
+					this->_current = this->_current->right;
 
 				return instance;
 			};
@@ -293,16 +284,18 @@ namespace ft {
 			bst_iterator&	operator--(void) {
 				Node* tmp;
 
-				if (this->_current != this->_first) {
-					if (this->_current->left != this->_TNULL) {
+				if (this->_current->left == NULL && this->_current->right == NULL)
+					this->_current = this->_current->parent;
+				else if (this->_current != this->_first) {
+					if (this->_current->right->left != NULL && this->_current->right->right != NULL) {
 						this->_current = this->_current->left;
 
-						while (this->_current->right != this->_TNULL)
+						while (this->_current->left->left != NULL && this->_current->left->right != NULL)
 							this->_current = this->_current->right;
 					}
 					else {
 						tmp = this->_current->parent;
-						while (tmp != this->_TNULL && this->_current == tmp->left) {
+						while ((tmp->left != NULL && tmp->right != NULL) && this->_current == tmp->left) {
 							this->_current = tmp;
 							tmp = tmp->parent;
 						}
@@ -310,7 +303,7 @@ namespace ft {
 					}
 				}
 				else
-					this->_current = this->_TNULL;
+					this->_current = this->_current->left;
 				return *this;
 			};
 
@@ -318,16 +311,18 @@ namespace ft {
 				bst_iterator instance = *this;
 				Node* tmp;
 
-				if (this->_current != this->_first) {
-					if (this->_current->left != this->_TNULL) {
+				if (this->_current->left == NULL && this->_current->right == NULL)
+					this->_current = this->_current->parent;
+				else if (this->_current != this->_first) {
+					if (this->_current->right->left != NULL && this->_current->right->right != NULL) {
 						this->_current = this->_current->left;
 
-						while (this->_current->right != this->_TNULL)
+						while (this->_current->left->left != NULL && this->_current->left->right != NULL)
 							this->_current = this->_current->right;
 					}
 					else {
 						tmp = this->_current->parent;
-						while (tmp != this->_TNULL && this->_current == tmp->left) {
+						while ((tmp->left != NULL && tmp->right != NULL) && this->_current == tmp->left) {
 							this->_current = tmp;
 							tmp = tmp->parent;
 						}
@@ -335,7 +330,7 @@ namespace ft {
 					}
 				}
 				else
-					this->_current = this->_TNULL;
+					this->_current = this->_current->left;
 				return instance;
 			};
 
@@ -352,36 +347,22 @@ namespace ft {
 			Node*	_root;
 			Node*	_first;
 			Node*	_last;
-			Node*	_TNULL;
-			Node*	_prev;
 
 			Node*		_getFirst(Node * root) {
-				if (root->left == this->_TNULL)
+				if (root->left->left == NULL && root->left->right == NULL)
 					return root;
 				return _getFirst(root->left);
 			}
 
 			Node*		_getLast(Node * root) {
-				if (root->right == this->_TNULL)
+				if (root->right->left == NULL && root->right->right == NULL)
 					return root;
 				return _getLast(root->right);
 			}
-
-			Node*	_inOrderSuccessor(Node * node) {
-				if (node->left == this->_TNULL)
-					return node;
-				return _inOrderSuccessor(node->left);
-			};
-
-			Node*	_inOrderPredeccessor(Node * node) {
-				if (node->right == this->_TNULL)
-					return node;
-				return _inOrderPredeccessor(node->right);
-			};
 	};
 
 	template <class Iterator>
-	class reverse_iterator: public iterator <
+	class reverse_iterator: public std::iterator <
 		typename ft::iterator_traits<Iterator>::iterator_category,
 		typename ft::iterator_traits<Iterator>::value_type,
 		typename ft::iterator_traits<Iterator>::difference_type,
@@ -401,6 +382,10 @@ namespace ft {
 			reverse_iterator(iterator_type it): _current(it) {};
 			reverse_iterator(const reverse_iterator & instance): _current(instance._current) {};
 			~reverse_iterator(void) {};
+
+			operator reverse_iterator<const Iterator>(void) const {
+				return reverse_iterator<const Iterator>(this->_current);
+			};
 
 			iterator_type		base(void) const {
 				return this->_current;
@@ -437,6 +422,12 @@ namespace ft {
 				return reverse_iterator(_current - n);
 			};
 
+			friend reverse_iterator operator+(int nb, const reverse_iterator & it) {
+                reverse_iterator tmp = it;
+
+                return (tmp += nb);
+            };
+
 			reverse_iterator&	operator+=(difference_type n) {
 				_current -= n;
 				return *this;
@@ -464,37 +455,35 @@ namespace ft {
 			pointer		operator->(void) const {
 				return &(operator*());
 			}
-	};
 
-	template <class Iterator1, class Iterator2>
-	bool	operator==(ft::reverse_iterator<Iterator1> const & it1, ft::reverse_iterator<Iterator2> const & it2) {
-		return it1.base() == it2.base();
-	}
-	
-	template <class Iterator1, class Iterator2>
-	bool	operator!=(ft::reverse_iterator<Iterator1> const & it1, ft::reverse_iterator<Iterator2> const & it2) {
-		return it1.base() != it2.base();
-	}
-	
-	template <class Iterator1, class Iterator2>
-	bool	operator<(ft::reverse_iterator<Iterator1> const & it1, ft::reverse_iterator<Iterator2> const & it2) {
-		return it1.base() < it2.base();
-	}
-	
-	template <class Iterator1, class Iterator2>
-	bool	operator>(ft::reverse_iterator<Iterator1> const & it1, ft::reverse_iterator<Iterator2> const & it2) {
-		return it1.base() > it2.base();
-	}
-	
-	template <class Iterator1, class Iterator2>
-	bool	operator>=(ft::reverse_iterator<Iterator1> const & it1, ft::reverse_iterator<Iterator2> const & it2) {
-		return it1.base() >= it2.base();
-	}
-	
-	template <class Iterator1, class Iterator2>
-	bool	operator<=(ft::reverse_iterator<Iterator1> const & it1, ft::reverse_iterator<Iterator2> const & it2) {
-		return it1.base() <= it2.base();
-	}
+			friend reverse_iterator operator-(const reverse_iterator & it1, const reverse_iterator & it2) {
+				return reverse_iterator(it1 - it2);
+            };
+
+			friend bool	operator==(reverse_iterator const & it1, reverse_iterator const & it2) {
+				return it1.base() == it2.base();
+			}
+
+			friend bool	operator!=(reverse_iterator const & it1, reverse_iterator const & it2) {
+				return it1.base() != it2.base();
+			}
+			
+			friend bool	operator<(reverse_iterator const & it1, reverse_iterator const & it2) {
+				return it1.base() < it2.base();
+			}
+			
+			friend bool	operator>(reverse_iterator const & it1, reverse_iterator const & it2) {
+				return it1.base() > it2.base();
+			}
+			
+			friend bool	operator>=(reverse_iterator const & it1, reverse_iterator const & it2) {
+				return it1.base() >= it2.base();
+			}
+			
+			friend bool	operator<=(reverse_iterator const & it1, reverse_iterator const & it2) {
+				return it1.base() <= it2.base();
+			}
+	};
 };
 
 #endif
