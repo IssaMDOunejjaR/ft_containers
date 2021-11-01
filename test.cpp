@@ -16,8 +16,8 @@
 #include "red_black_tree.hpp"
 #include "utility.hpp"
 
-typedef ft::RedBlackTree<ft::pair<int, int>, std::less<int> >::Node 	Node;
-typedef ft::RedBlackTree<ft::pair<int, int>, std::less<int> >			Tree;
+typedef ft::RedBlackTree<ft::pair<int, int> >::Node 	Node;
+typedef ft::RedBlackTree<ft::pair<int, int> >			Tree;
 
 // Node* InOrderSuccessor(Tree * tree, Node * node) {
 // 	if (node->left == tree->getTNULL())
@@ -85,15 +85,15 @@ typedef ft::RedBlackTree<ft::pair<int, int>, std::less<int> >			Tree;
 // }
 
 int		main(void) {
-	// Tree	root;
+	Tree	root;
 
-	// root.insert(ft::pair<int, int>(10, 123));
-	// root.insert(ft::pair<int, int>(11, 123));
-	// root.insert(ft::pair<int, int>(12, 123));
-	// root.insert(ft::pair<int, int>(13, 123));
-	// root.insert(ft::pair<int, int>(14, 123));
-	// root.insert(ft::pair<int, int>(15, 123));
-	// root.insert(ft::pair<int, int>(16, 123));
+	root.insert(ft::pair<int, int>(10, 123));
+	root.insert(ft::pair<int, int>(11, 123));
+	root.insert(ft::pair<int, int>(12, 123));
+	root.insert(ft::pair<int, int>(13, 123));
+	root.insert(ft::pair<int, int>(14, 123));
+	root.insert(ft::pair<int, int>(15, 123));
+	root.insert(ft::pair<int, int>(16, 123));
 
 	// root.del(10);
 
@@ -121,11 +121,6 @@ int		main(void) {
 	// 	std::cout << current->data.first << std::endl;
 	// 	current = getThePrevNode(&root, current);
 	// }
-
-	std::pair<int, int>		p1(1, 5);
-	std::pair<int, int>		p2(5, 1);
-
-	std::cout << std::less<std::pair<int, int> >()(p1, p2) << std::endl;
 
 	return 0;
 }

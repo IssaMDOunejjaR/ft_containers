@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/10/31 12:00:03 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/10/31 14:44:21 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,16 @@ namespace ft {
 			}
 	};
 
-	template <class T, class Compare>
+	template <class T>
 	class RedBlackTree {
 		public:
 			typedef typename T::key						Key;
 			typedef Node<T>								Node;
 
-		private:
+		protected:
 
 			Node*					_root;
 			size_t					_length;
-			Compare					_Comp;
 			std::allocator<Node>	_allocator;
 
 			Node*	newNode(T data) {
@@ -347,20 +346,15 @@ namespace ft {
 				if (node->left == NULL && node->right == NULL)
 					return node;
 
-				// if (key < node->data.first)
-				// 	return searchHelper(node->left, key);
-				// else if (key > node->data.first)
-				// 	return searchHelper(node->right, key);
-				if (this->_Comp()(key, ))
+				if (key < node->data.first)
+					return searchHelper(node->left, key);
+				else if (key > node->data.first)
+					return searchHelper(node->right, key);
 				return node;
 			};
 
 		public:
 			RedBlackTree(void) {
-				// _TNULL = this->_allocator.allocate(1);
-
-				// this->_allocator.construct(_TNULL, Node());
-
 				_length = 0;
 
 				_root = this->_allocator.allocate(1);
@@ -373,10 +367,7 @@ namespace ft {
 				_root->color = BLACK;
 			};
 
-			~RedBlackTree(void) {
-				// this->_allocator.destroy(_TNULL);
-				// this->_allocator.deallocate(_TNULL, 1);
-			}
+			~RedBlackTree(void) {}
 
 			Node*	insert(T data) {
 				_length++;
@@ -446,10 +437,6 @@ namespace ft {
 			Node*	getRoot(void) {
 				return this->_root;
 			}
-
-			// Node*	getTNULL(void) {
-			// 	return this->_TNULL;
-			// }
 	};
 }
 
