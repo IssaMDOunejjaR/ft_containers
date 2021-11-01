@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/01 19:18:36 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/01 19:26:03 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,6 +353,16 @@ namespace ft {
 				return node;
 			};
 
+			void	clearHelper(Node * root) {
+				if (root == NULL)
+					return ;
+				
+				clearHelper(root->left);
+				this->_allocator.destroy(root);
+				this->_allocator.deallocate(root, 1);
+				clearHelper(root->right);
+			}
+
 		public:
 			RedBlackTree(void) {
 				_length = 0;
@@ -373,6 +383,8 @@ namespace ft {
 				_length++;
 
 				if (_root->left == NULL && _root->right == NULL) {
+					this->_allocator.destroy(this->_root);
+					this->_allocator.deallocate(this->_root, 1);
 					_root = newNode(data);
 					_root->color = BLACK;
 					return _root;
@@ -384,6 +396,8 @@ namespace ft {
 				while (tmp->left != NULL && tmp->right != NULL) {
 					if (data.first < tmp->data.first) {
 						if (tmp->left->left == NULL && tmp->left->right == NULL) {
+							this->_allocator.destroy(tmp->left);
+							this->_allocator.deallocate(tmp->left, 1);
 							tmp->left = newNode(data);
 							tmp->left->parent = tmp;
 							node = tmp->left;
@@ -393,6 +407,8 @@ namespace ft {
 					}
 					else if (data.first >= tmp->data.first) {
 						if (tmp->right->left == NULL && tmp->right->right == NULL) {
+							this->_allocator.destroy(tmp->right);
+							this->_allocator.deallocate(tmp->right, 1);
 							tmp->right = newNode(data);
 							tmp->right->parent = tmp;
 							node = tmp->right;

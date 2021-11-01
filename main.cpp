@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:16:11 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/01 09:45:50 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/01 19:23:47 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stack>
 #include <map>
 #include <iterator>
-// #include <type_traits>
+#include <type_traits>
 #include "vector.hpp"
 #include "stack.hpp"
 #include "map.hpp"

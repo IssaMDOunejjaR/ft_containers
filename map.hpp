@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/10/31 14:45:02 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/01 19:26:51 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ namespace ft {
 
 			map(const map & instance): _tree(instance._tree), _comp(instance._comp), _allocator(instance._allocator) {};
 
-			~map(void) {};
+			~map(void) {
+				this->clear();
+			};
 
 			// Operators Overloads
 			map&			operator=(const map & instance) {
@@ -165,7 +167,9 @@ namespace ft {
 				x = tmp;
 			};
 
-			// void						clear(void);
+			void	clear(void) {
+				this->_tree.clear();
+			};
 
 			// Observers
 			key_compare		key_comp(void) const {
