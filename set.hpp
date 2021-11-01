@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:05:27 by iounejja          #+#    #+#             */
-/*   Updated: 2021/09/27 10:41:18 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/10/31 15:12:51 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ namespace ft {
 			typedef ptrdiff_t									difference_type;
 			typedef size_t										size_type;
 
+			typedef ft::Node<value_type>										Node;
+
 			// Contructors and Destructor
 			explicit set (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
 			: _Comp(comp), _allocator(alloc) {};
@@ -46,29 +48,71 @@ namespace ft {
 			set (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 			: _Comp(comp), _allocator(alloc) {};
 
-			set (const set & x) {};
+			set (const set & x) {
+				*this = x;
+			};
 
 			~set (void) {};
 
 			// Operators overloads
 			set&	operator=(const set & x) {
+				if (this != &instance) {
+					this->_allocator = x._allocator;
+					this->_Comp = x._Comp;
+					this->_tree = x._tree;
+				}
 				return *this;
 			};
 
 			// Iterators
-			iterator	begin(void);
-			const_iterator	begin(void) const;
-			iterator	end(void);
-			const_iterator	end(void) const;
-			reverse_iterator	rbegin(void);
-			const_reverse_iterator	rbegin(void) const;
-			reverse_iterator	rend(void);
-			const_reverse_iterator	rend(void) const;
+			iterator	begin(void) {
+				return iterator(this->_tree.firstElement(), this->_tree.getRoot());
+			};
+
+			const_iterator	begin(void) const {
+				return const_iterator(this->_tree.firstElement(), this->_tree.getRoot())
+			};
+
+			iterator	end(void) {
+				Node* node = this->_tree.lastElement();
+				
+				return iterator(node->right, this->_tree.getRoot());
+			};
+
+			const_iterator	end(void) const {
+				Node* node = this->_tree.lastElement();
+
+				return const_iterator(node->right, this->_tree.getRoot());
+			};
+
+			reverse_iterator	rbegin(void) {
+				return reverse_iterator(this->end());
+			}
+
+			const_reverse_iterator	rbegin(void) const {
+				return const_reverse_iterator(this->end());
+			}
+
+			reverse_iterator	rend(void) {
+				return reverse_iterator(this->begin());
+			}
+
+			const_reverse_iterator	rend(void) const {
+				return const_reverse_iterator(this->begin());
+			}
 
 			// Capacity
-			bool	empty(void) const;
-			size_type	size(void) const;
-			size_type	max_size(void) const;
+			bool	empty(void) const {
+				return this->_tree.size() == 0;
+			};
+
+			size_type	size(void) const {
+				return this->_tree.size() == 0;
+			};
+
+			size_type	max_size(void) const {
+				return this->_allocator.max_size();
+			};
 
 			// Modifiers
 			ft::pair<iterator, bool>	insert(const value_type & val);
@@ -93,7 +137,9 @@ namespace ft {
 			ft::pair<iterator, iterator>	equal_range(const value_type & val) const;
 
 			// Allocator
-			allocator_type	get_allocator(void) const;
+			allocator_type	get_allocator(void) const {
+				return this->_allocator;
+			};
 
 		private:
 			Alloc								_allocator;

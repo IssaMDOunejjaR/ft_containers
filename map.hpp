@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/10/31 11:59:36 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/10/31 14:45:02 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ namespace ft {
 			typedef ft::bst_iterator<const value_type, Compare>					const_iterator;
 			typedef ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
-			typedef ptrdiff_t													difference_type;
+			typedef typename ft::iterator_traits<iterator>::difference_type		difference_type;
 			typedef size_t														size_type;
 
 			typedef ft::Node<value_type>										Node;
@@ -137,7 +137,9 @@ namespace ft {
 				return ft::pair<iterator, bool>(iterator(this->_tree.insert(val), this->_tree.getRoot()), true);
 			};
 
-			iterator	insert(iterator position, const value_type & val);
+			// iterator	insert(iterator position, const value_type & val) {
+				
+			// };
 
 			template <class InputIterator>
 			void	insert(InputIterator first, InputIterator last) {
@@ -155,14 +157,48 @@ namespace ft {
 				this->_tree.del(it->first);
 			};
 
-		// 	void						swap(map & x);
-		// 	void	.					clear(void);
+			void	swap(map & x) {
+				map tmp;
 
-		// 	// Observers
-		// 	key_compare					key_comp(void) const;
+				tmp = *this;
+				*this = x;
+				x = tmp;
+			};
 
-		// 	// Operations
-		// 	size_type					count(key_type const & k) const;
+			// void						clear(void);
+
+			// Observers
+			key_compare		key_comp(void) const {
+				return this->_comp;
+			};
+
+			value_compare	value_comp(void) const {
+				return this->_comp;
+			};	
+
+			// Operations
+			iterator	find(const key_type & k) {
+				Node*	node = this->_tree.search(k);
+
+				if (node->left != NULL && node->right != NULL)
+					return iterator(node, this->_tree.getRoot());
+				return this->end();
+			};
+			
+			const_iterator	find(const key_type & k) const {
+				Node*	node = this->_tree.search(k);
+
+				if (node->left != NULL && node->right != NULL)
+					return const_iterator(node, this->_tree.getRoot());
+				return this->end();
+			};
+
+			size_type	count(key_type const & k) const {
+				Node*	node = this->_tree.search(k);
+				if (node->left != NULL && node->right != NULL)
+					return 1;
+				return 0;
+			};
 			
 			// Allocator
 			allocator_type				get_allocator(void) const {
@@ -170,9 +206,9 @@ namespace ft {
 			};
 
 		private:
-			Alloc									_allocator;
-			Compare									_comp;
-			ft::RedBlackTree<value_type, Compare>	_tree;
+			Alloc							_allocator;
+			Compare							_comp;
+			ft::RedBlackTree<value_type>	_tree;
 	};
 };
 

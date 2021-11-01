@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/10/31 10:33:00 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/10/31 12:32:40 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,6 @@
 # include "red_black_tree.hpp"
 
 namespace ft {
-
-	// struct input_iterator_tag  {};
-	// struct output_iterator_tag {};
-	// struct forward_iterator_tag       : public input_iterator_tag         {};
-	// struct bidirectional_iterator_tag : public forward_iterator_tag       {};
-	// struct random_access_iterator_tag : public bidirectional_iterator_tag {};
-
-	// template <
-	// 	class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&
-	// >
-	// struct iterator {
-	// 	typedef T			value_type;
-	// 	typedef Distance	difference_type;
-	// 	typedef Pointer		pointer;
-	// 	typedef	Reference	reference;
-	// 	typedef Category	iterator_category;
-	// };
 
 	template <class Iterator>
 	struct iterator_traits {
@@ -46,7 +29,7 @@ namespace ft {
 	template <class T>
 	struct iterator_traits<T*>
 	{
-		typedef ptrdiff_t 						difference_type;
+		typedef std::ptrdiff_t 						difference_type;
 		typedef T 								value_type;
 		typedef T* 								pointer;
 		typedef T& 								reference;
@@ -175,12 +158,6 @@ namespace ft {
 		private:
 			pointer		_ptr;
 	};
-
-	// =========
-	// template <class Iterator>
-	// bool	operator==(ft::Iterator<Iterator> const & it1, int const & it2) {
-	// 	return it1.base() == it2;
-	// }
 
 	template <typename T, class Compare>
 	class	bst_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
