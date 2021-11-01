@@ -95,6 +95,8 @@ int		main(void) {
 	root.insert(ft::pair<int, int>(15, 123));
 	root.insert(ft::pair<int, int>(16, 123));
 
+	root.clear();
+
 	// root.del(10);
 
 	// root.print();

@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/10/31 14:44:21 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/01 19:18:36 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -434,9 +434,13 @@ namespace ft {
 				return node;
 			};
 
+			void	clear(void) {
+				clearHelper(this->_root);
+			};
+
 			Node*	getRoot(void) {
 				return this->_root;
-			}
+			};
 	};
 }
 
