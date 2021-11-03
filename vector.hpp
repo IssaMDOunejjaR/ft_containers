@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:57:46 by iounejja          #+#    #+#             */
-/*   Updated: 2021/10/28 19:34:17 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/03 18:06:31 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ namespace ft {
 			: _allocation(alloc) {
 				while (first != last) {
 					this->push_back(*first);
+					std::cout << "here" << std::endl;
 					first++;
 				}
 			};
@@ -73,19 +74,27 @@ namespace ft {
 			};
 
 			~vector(void) {
-				for (int i = 0; i < this->_size; i++)
-					this->_allocation.destroy(this->_list + i);
-				this->_allocation.deallocate(this->_list, this->_capacity);
+				if (this->_size > 0) {
+					for (int i = 0; i < this->_size; i++)
+						this->_allocation.destroy(this->_list + i);
+					this->_allocation.deallocate(this->_list, this->_capacity);
+				}
 			};
 
 			// Operators Overloads
 			vector&		operator=(const vector & instance) {
 				if (this != &instance) {
-					this->clear();
-					this->_list = instance._list;
-					this->_capacity = instance._capacity;
+					if (this->_size > 0)
+						this->clear();
+
+					this->_capacity = instance._size;
 					this->_size = instance._size;
 					this->_allocation = instance._allocation;
+
+					this->_list = this->_allocation.allocate(this->_size);
+
+					for (int i = 0; i < instance._size; i++)
+						this->_allocation.construct(this->_list + i, instance._list[i]);
 				}
 				return *this;
 			};
@@ -188,6 +197,7 @@ namespace ft {
 					this->_capacity = n;
 					this->_allocation.deallocate(this->_list, this->_capacity);
 					this->_list = newList;
+					// this->_size = n;
 				}
 			};
 
@@ -390,30 +400,38 @@ namespace ft {
 				return last;
 			};
 
-			void		swap(vector & x) {
-				int i = 0;
-				int len = this->_size;
-				pointer	tmpList = this->_allocation.allocate(this->_size);
+			void		swap(vector & x) {				
+				vector tmp;
 
-				for (iterator it = begin(); it != end(); it++) {
-					this->_allocation.construct(tmpList + i, *it);
-					i++;
-				}
-				clear();
-				for (iterator it = x.begin(); it != x.end(); it++)
-					push_back(*it);
+				for (int i = 0; i < this->_size; i++)
+					tmp.push_back(this->_list[i]);
+				
+				tmp._capacity = this->_capacity;
+
+				this->clear();
+
+				std::cout << "here" << std::endl;
+				for (int i = 0; i < x.size(); i++)
+					this->push_back(x[i]);
+
+				this->_capacity = x.capacity();
+
 				x.clear();
-				for (int i = 0; i < len; i++) {
-					x.push_back(tmpList[i]);
-					this->_allocation.destroy(tmpList + i);
-				}
-				this->_allocation.deallocate(tmpList, len);
+
+				for (int i = 0; i < tmp.size(); i++)
+					x.push_back(tmp[i]);
+
+				x._capacity = tmp._capacity;
+
+				tmp.clear();
 			};
 
 			void		clear(void) {
 				for (int i = 0; i < this->_size; i++)
 					this->_allocation.destroy(this->_list + i);
+				this->_allocation.deallocate(this->_list, this->_size);
 				this->_size = 0;
+				this->_capacity = 0;
 			};
 
 			// Allocator

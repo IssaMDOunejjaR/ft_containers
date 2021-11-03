@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:05:27 by iounejja          #+#    #+#             */
-/*   Updated: 2021/10/31 15:12:51 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/03 09:40:08 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ namespace ft {
 				*this = x;
 			};
 
-			~set (void) {};
+			~set (void) {
+				this->clear();
+			};
 
 			// Operators overloads
 			set&	operator=(const set & x) {
@@ -122,12 +124,27 @@ namespace ft {
 			void	erase(iterator position);
 			size_type	erase(const value_type & val);
 			void	erase(iterator first, iterator last);
-			void	swap(set & x);
-			void	clear(void);
+
+			void	swap(set & x) {
+				set tmp;
+
+				tmp = *this;
+				*this = x;
+				x = tmp;
+			};
+
+			void	clear(void) {
+				this->_tree.clear();
+			};
 
 			// Observers
-			key_compare	key_comp(void) const;
-			key_compare	value_comp(void) const;
+			key_compare	key_comp(void) const {
+				return key_compare();
+			};
+
+			key_compare	value_comp(void) const {
+				return value_compare(key_compare());
+			};
 
 			// Operations
 			iterator	find(const value_type & val) const;

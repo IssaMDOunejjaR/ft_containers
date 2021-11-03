@@ -1,19 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   red_black_tree.hpp                                 :+:      :+:    :+:   */
+/*   red_black_tree copy.hpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/01 19:26:03 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/03 10:29:55 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RED_BLACK_TREE_HPP
 # define RED_BLACK_TREE_HPP
-
-// # include "iterators.hpp"
 
 namespace ft {
 	typedef enum		s_color {
@@ -42,13 +40,13 @@ namespace ft {
 			: data(instance.data), parent(instance.parent), left(instance.left), right(instance.right), color(instance.color) {};
 
 			Node&	operator=(const Node & instance) {
-				if (this == &instance)
-					return *this;
-				this->data = instance.data;
-				this->parent = instance.parent;
-				this->left = instance.left;
-				this->right = instance.right;
-				this->color = instance.color;
+				if (this != &instance) {
+					this->data = instance.data;
+					this->parent = instance.parent;
+					this->left = instance.left;
+					this->right = instance.right;
+					this->color = instance.color;
+				}
 				return *this;
 			}
 	};

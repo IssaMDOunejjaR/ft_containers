@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:16:11 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/01 19:23:47 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/03 10:34:20 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,37 +152,30 @@ int		main(void) {
 
 		std::pair<std::map<int, int>::iterator, bool>	check;
 
-		check = m.insert(std::pair<int, int>(10, 15));
-		check = m.insert(std::pair<int, int>(11, 15));
-		check = m.insert(std::pair<int, int>(12, 89715));
-		check = m.insert(std::pair<int, int>(13, 15));
-		check = m.insert(std::pair<int, int>(14, 1156415));
-		check = m.insert(std::pair<int, int>(15, 56415));
-		check = m.insert(std::pair<int, int>(16, 46556415));
+		check = m.insert(std::pair<int, int>(10, 1));
+		check = m.insert(std::pair<int, int>(11, 2));
+		check = m.insert(std::pair<int, int>(12, 3));
+		check = m.insert(std::pair<int, int>(13, 4));
+		check = m.insert(std::pair<int, int>(14, 5));
+		check = m.insert(std::pair<int, int>(15, 6));
+		check = m.insert(std::pair<int, int>(16, 7));
 
 		test.insert(std::pair<int, int>(20, 46556415));
 		test.insert(std::pair<int, int>(21, 46556415));
 		test.insert(std::pair<int, int>(22, 46556415));
-	
-		// m[99] = 45;
-
-		// m.erase(m.begin());
-
-		// m.swap(test);
 
 		std::cout << "size\t\t: " << m.size() << std::endl;
 		std::cout << "max_size\t: " << m.max_size() << std::endl;
 		std::cout << "empty\t\t: " << (m.empty() ? "true" : "false") << std::endl << std::endl;
-
 		std::cout << "find: " << (m.find(19) != m.end() ? m.find(19)->second : 0) << std::endl;
 
-		// m.insert(m.begin(), std::pair<int, int>(10, 789));
+		// m.insert(m.begin(), std::pair<int, int>(18, 100));
 
-		// std::map<int, int>::iterator it;
+		std::map<int, int>::iterator it;
 
-		// for (it = m.begin(); it != m.end(); ++it) {
-		// 	std::cout << it->first << std::endl;
-		// }
+		for (it = m.begin(); it != m.end(); ++it) {
+			std::cout << it->first << "\t===>\t" << it->second << std::endl;
+		}
 	}
 	catch (std::exception & e) {
 		std::cout << e.what() << std::endl;
@@ -196,29 +189,24 @@ int		main(void) {
 
 		ft::pair<ft::map<int, int>::iterator, bool>	check;
 
-		check = m.insert(ft::pair<int, int>(10, 15));
-		check = m.insert(ft::pair<int, int>(11, 15));
-		check = m.insert(ft::pair<int, int>(12, 89715));
-		check = m.insert(ft::pair<int, int>(13, 15));
-		check = m.insert(ft::pair<int, int>(14, 1156415));
-		check = m.insert(ft::pair<int, int>(15, 56415));
-		check = m.insert(ft::pair<int, int>(16, 1415));
+		check = m.insert(ft::pair<int, int>(10, 1));
+		check = m.insert(ft::pair<int, int>(11, 2));
+		check = m.insert(ft::pair<int, int>(12, 3));
+		check = m.insert(ft::pair<int, int>(13, 3));
+		check = m.insert(ft::pair<int, int>(14, 3));
+		check = m.insert(ft::pair<int, int>(15, 3));
+		check = m.insert(ft::pair<int, int>(16, 1415465));
 
 		test.insert(ft::pair<int, int>(20, 1415));
 		test.insert(ft::pair<int, int>(21, 1415));
 		test.insert(ft::pair<int, int>(22, 1415));
 
-		// // m[99] = 45;
-
-		// // m.erase(m.begin());
-
-		// m.swap(test);
+		m.erase(m.begin(), m.end()--);
 
 		std::cout << "size\t\t: " << m.size() << std::endl;
 		std::cout << "max_size\t: " << m.max_size() << std::endl;
-		std::cout << "empty\t\t: " << (m.empty() ? "true" : "false") << std::endl << std::endl;
-
-		std::cout << "find: " << (m.find(19) != m.end() ? m.find(19)->second : 0) << std::endl;
+		std::cout << "empty\t\t: " << (m.empty() ? "true" : "false") << std::endl;
+		std::cout << "find: " << (m.find(19) != m.end() ? m.find(19)->second : 0) << std::endl << std::endl;
 
 		// for (ft::map<int, int>::iterator it = m.begin(); it != m.end(); it++) {
 		// 	std::cout << it->first << std::endl;

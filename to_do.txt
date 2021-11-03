@@ -1,0 +1,60 @@
+->	ft::pair:
+	- Constructors 	: O
+	- =				: O
+	- ==			: O
+	- !=			: O
+	- <				: O
+	- >				: O
+	- <=			: O
+	- >=			: O
+
+->	ft::equal: O
+
+->	ft::lexicographical_compare: O
+
+->	ft::enable_if: X
+
+->	ft::is_integral:
+	- bool						: O
+	- char						: O
+	- char16_t					: O
+	- char32_t					: O
+	- wchar_t					: O
+	- signed char				: O
+	- short int					: O
+	- int						: O
+	- long int					: O
+	- long long int				: O
+	- unsigned char				: O
+	- unsigned short int		: O
+	- unsigned int				: O
+	- unsigned long int			: O
+	- unsigned long long int	: O
+
+->	ft::vector:
+	- Constructors	: O
+	- Destructor	: O
+	- =				: O
+
+	- begin			: O
+	- end			: O
+	- rbegin		: O
+	- rend			: O
+
+	- size			: O
+	- max_size		: O
+	- resize		: O
+	- capacity		: O
+	- empty			: O
+	- reserve		: O
+
+	- []			: O
+	- at			: O
+	- front			: O
+	- back			: O
+
+	- assign		: O
+	- push_back		: O
+	- pop_back		: O
+	- insert		: O
+	- erase			: O

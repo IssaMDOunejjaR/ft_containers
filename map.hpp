@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/01 19:26:51 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/03 11:07:02 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,17 @@ namespace ft {
 
 			// Modifiers
 			ft::pair<iterator, bool>	insert(value_type const & val) {
-				Node*	node = this->_tree.search(val.first);
+				Node*	node = this->_tree.getRoot();
+
+				while (node->left != NULL && node->right != NULL) {
+					if (node->data.first == val.first)
+						break ;
+					if (val.first < node->data.first)
+						node = node->left;
+					else if (val.first > node->data.first)
+						node = node->right;
+				}
+
 				if (node->left != NULL && node->right != NULL)
 					return ft::pair<iterator, bool>(iterator(node, this->_tree.getRoot()), false);
 				return ft::pair<iterator, bool>(iterator(this->_tree.insert(val), this->_tree.getRoot()), true);
@@ -156,7 +166,33 @@ namespace ft {
 
 				while (it != position)
 					it++;
-				this->_tree.del(it->first);
+				this->_tree.del(it->_first);
+			};
+
+			size_type	erase(const key_type & k) {
+				Node*	node = this->_tree.getRoot();
+
+				while (node->left != NULL && node->right != NULL) {
+					if (node->data.first == k)
+						break ;
+					if (k < node->data.first)
+						node = node->left;
+					else if (k > node->data.first)
+						node = node->right;
+				}
+
+				if (node->left != NULL && node->right != NULL) {
+					this->_tree.del(node->data);
+					return 1;
+				}
+				return 0;
+			};
+
+			void	erase(iterator first, iterator last) {
+				while (first != last) {
+					this->_tree.del(first->first);
+					first++;
+				}
 			};
 
 			void	swap(map & x) {
@@ -173,16 +209,25 @@ namespace ft {
 
 			// Observers
 			key_compare		key_comp(void) const {
-				return this->_comp;
+				return key_compare();
 			};
 
 			value_compare	value_comp(void) const {
-				return this->_comp;
+				return value_compare(key_compare());
 			};	
 
 			// Operations
 			iterator	find(const key_type & k) {
-				Node*	node = this->_tree.search(k);
+				Node*	node = this->_tree.getRoot();
+
+				while (node->left != NULL && node->right != NULL) {
+					if (node->data.first == k)
+						break ;
+					else if (k < node->data.first)
+						node = node->left;
+					else if (k > node->data.first)
+						node = node->right;
+				}
 
 				if (node->left != NULL && node->right != NULL)
 					return iterator(node, this->_tree.getRoot());
@@ -190,22 +235,107 @@ namespace ft {
 			};
 			
 			const_iterator	find(const key_type & k) const {
-				Node*	node = this->_tree.search(k);
+				Node*	node = this->_tree.getRoot();
+
+				while (node->left != NULL && node->right != NULL) {
+					if (node->data.first == k)
+						break ;
+					else if (k < node->data.first)
+						node = node->left;
+					else if (k > node->data.first)
+						node = node->right;
+				}
 
 				if (node->left != NULL && node->right != NULL)
-					return const_iterator(node, this->_tree.getRoot());
+					return iterator(node, this->_tree.getRoot());
 				return this->end();
 			};
 
 			size_type	count(key_type const & k) const {
-				Node*	node = this->_tree.search(k);
+				Node*	node = this->_tree.getRoot();
+
+				while (node->left != NULL && node->right != NULL) {
+					if (node->data.first == k)
+						break ;
+					else if (k < node->data.first)
+						node = node->left;
+					else if (k > node->data.first)
+						node = node->right;
+				}
+
 				if (node->left != NULL && node->right != NULL)
 					return 1;
 				return 0;
 			};
+
+			iterator	lower_bound(const key_type & k) {
+				Node*	root = this->_tree.getRoot();
+
+				while (root != NULL) {
+					if (!this->_comp(root->data.first, k))
+						return iterator(root, this->_tree.getRoot());
+					else
+						root = root->right;
+				}
+
+				return this->end();
+			};
+
+			const_iterator	lower_bound(const key_type & k) const {
+				Node*	root = this->_tree.getRoot();
+
+				while (root != NULL) {
+					if (!this->_comp(root->data.first, k))
+						return const_iterator(root, this->_tree.getRoot());
+					else
+						root = root->right;
+				}
+
+				return this->end();
+			};
+
+			iterator	upper_bound(const key_type & k) {
+				Node*	root = this->_tree.getRoot();
+
+				while (root != NULL) {
+					if (this->_comp(k, root->data.first)) {
+						if (root->left->left == NULL && root->left->right == NULL)
+							return iterator(root, this->_tree.getRoot());
+						root = root->left;
+					}
+					else if (root->right->left == NULL && root->right->right == NULL)
+						return iterator(root->parent, this->_tree.getRoot());
+					else
+						root = root->right;
+				}
+
+				return this->end();
+			}
+
+			const_iterator	upper_bound(const key_type & k) const {
+				Node*	root = this->_tree.getRoot();
+
+				while (root != NULL) {
+					if (this->_comp(k, root->data.first)) {
+						if (root->left->left == NULL && root->left->right == NULL)
+							return const_iterator(root, this->_tree.getRoot());
+						root = root->left;
+					}
+					else if (root->right->left == NULL && root->right->right == NULL)
+						return const_iterator(root->parent, this->_tree.getRoot());
+					else
+						root = root->right;
+				}
+
+				return this->end();
+			}
+
+			ft::pair<iterator, iterator>	equal_range(const key_type & k) {
+				return ft::pair<iterator, iterator>(lower_bound(k), upper_bound(k));
+			};
 			
 			// Allocator
-			allocator_type				get_allocator(void) const {
+			allocator_type	get_allocator(void) const {
 				return this->_allocator;
 			};
 

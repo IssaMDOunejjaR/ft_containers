@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/10/31 12:32:40 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/03 12:24:05 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "red_black_tree.hpp"
 
 namespace ft {
-
 	template <class Iterator>
 	struct iterator_traits {
 		typedef typename Iterator::difference_type 		difference_type;
@@ -28,6 +27,16 @@ namespace ft {
 
 	template <class T>
 	struct iterator_traits<T*>
+	{
+		typedef std::ptrdiff_t 					difference_type;
+		typedef T 								value_type;
+		typedef T* 								pointer;
+		typedef T& 								reference;
+		typedef std::random_access_iterator_tag iterator_category;
+	};
+
+	template <class T>
+	struct iterator_traits<const T*>
 	{
 		typedef std::ptrdiff_t 						difference_type;
 		typedef T 								value_type;
