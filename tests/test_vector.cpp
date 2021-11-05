@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 12:25:39 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/03 18:05:45 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/05 10:39:30 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ int		main(void) {
 
 		for (it = v4.begin(); it != v4.end(); it++)
 			std::cout << *it << std::endl;
+
+		std::cout << std::endl;
+
+		v4.insert(v4.begin() + 2, v1.begin(), v1.end());
+		std::cout << "size\t: " << v4.size() << std::endl;
+		std::cout << "capacity: " << v4.capacity() << std::endl;
 
 		std::cout << std::endl;
 
@@ -180,6 +186,12 @@ int		main(void) {
 
 		std::cout << std::endl;
 
+		v4.insert(v4.begin() + 2, v1.begin(), v1.end());
+		std::cout << "size\t: " << v4.size() << std::endl;
+		std::cout << "capacity: " << v4.capacity() << std::endl;
+
+		std::cout << std::endl;
+
 		for (int i = 0; i < v4.size(); i++)
 			std::cout << v4[i] << std::endl;
 
@@ -261,20 +273,24 @@ int		main(void) {
 
 		std::cout << std::endl;
 
-		std::cout << "size\t: " << v4.size() << std::endl;
-		std::cout << "capacity: " << v4.capacity() << std::endl;
+		std::cout << "size\t: " << v1.size() << std::endl;
+		std::cout << "capacity: " << v1.capacity() << std::endl;
 
 		std::cout << std::endl;
 
-		std::cout << "swap" << std::endl;
+		for (int i = 0; i < v1.size(); i++)
+			std::cout << v1[i] << std::endl;
+
+		std::cout << std::endl;
+
 		v4.swap(v1);
-		std::cout << "size\t: " << v4.size() << std::endl;
-		std::cout << "capacity: " << v4.capacity() << std::endl;
+		std::cout << "size\t: " << v1.size() << std::endl;
+		std::cout << "capacity: " << v1.capacity() << std::endl;
 
 		std::cout << std::endl;
 
-		for (int i = 0; i < v4.size(); i++)
-			std::cout << v4[i] << std::endl;
+		for (int i = 0; i < v1.size(); i++)
+			std::cout << v1[i] << std::endl;
 
 		std::cout << std::endl;
 

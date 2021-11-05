@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/03 12:24:05 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/05 13:51:07 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ namespace ft {
 			typedef T&																				reference;
 
 			Iterator(void) {};
+
 			Iterator(pointer ptr): _ptr(ptr) {};
+
 			Iterator(const Iterator & instance): _ptr(instance._ptr) {};
+
 			~Iterator(void) {};
 
 			// Convert from iterator to const_iterator
@@ -168,7 +171,7 @@ namespace ft {
 			pointer		_ptr;
 	};
 
-	template <typename T, class Compare>
+	template <class T, class Compare>
 	class	bst_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
 		public:
 			
@@ -180,19 +183,19 @@ namespace ft {
 			typedef ft::Node<T>																		Node;
 
 			bst_iterator(void): _current(NULL), _root(NULL), _first(NULL), _last(NULL) {};
+
 			bst_iterator(Node * current, Node * root)
 			: _current(current), _root(root) {
 				this->_first = this->_getFirst(root);
 				this->_last = this->_getLast(root);
 			};
+
 			bst_iterator(const bst_iterator & instance) {
 				*this = instance;
 			};
+
 			~bst_iterator(void) {};
 
-			Node* base(void) const {
-				return this->_current;
-			};
 
 			bst_iterator&	operator=(const bst_iterator & instance) {
 				if (this != &instance) {
@@ -202,6 +205,14 @@ namespace ft {
 					this->_root = instance._root;
 				}
 				return *this;
+			};
+
+			operator bst_iterator<const T, Compare>(void) const {
+				return bst_iterator<const T, Compare>(this->_current, this->_root);
+			};
+
+			Node* base(void) const {
+				return this->_current;
 			};
 
 			bool		operator==(bst_iterator const & instance) const {

@@ -58,3 +58,4 @@
 	- pop_back		: O
 	- insert		: O
 	- erase			: O
+	- clear			: O

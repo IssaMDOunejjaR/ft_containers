@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   red_black_tree copy.hpp                            :+:      :+:    :+:   */
+/*   red_black_tree.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/03 10:29:55 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/05 11:24:46 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,21 @@ namespace ft {
 				return minimum(node->left);
 			}
 
+			Node*	minimum(Node * node) const {
+				if (node->left->left == NULL && node->left->right == NULL)
+					return node;
+
+				return minimum(node->left);
+			}
+
 			Node*	maximum(Node * node) {
+				if (node->right->left == NULL && node->right->right == NULL)
+					return node;
+
+				return maximum(node->right);
+			}
+
+			Node*	maximum(Node * node) const {
 				if (node->right->left == NULL && node->right->right == NULL)
 					return node;
 
@@ -344,7 +358,9 @@ namespace ft {
 				if (node->left == NULL && node->right == NULL)
 					return node;
 
-				if (key < node->data.first)
+				if (key == node->data.first)
+					return node;
+				else if (key < node->data.first)
 					return searchHelper(node->left, key);
 				else if (key > node->data.first)
 					return searchHelper(node->right, key);
@@ -442,7 +458,17 @@ namespace ft {
 				return minimum(_root);
 			};
 
+			Node*	firstElement(void) const {
+				return minimum(_root);
+			};
+
 			Node*	lastElement(void) {
+				Node* node = maximum(this->_root);
+
+				return node;
+			};
+
+			Node*	lastElement(void) const {
 				Node* node = maximum(this->_root);
 
 				return node;
@@ -450,9 +476,14 @@ namespace ft {
 
 			void	clear(void) {
 				clearHelper(this->_root);
+				this->_length = 0;
 			};
 
 			Node*	getRoot(void) {
+				return this->_root;
+			};
+
+			Node*	getRoot(void) const {
 				return this->_root;
 			};
 	};
