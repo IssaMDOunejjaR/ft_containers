@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   red_black_tree.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/05 11:24:46 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/06 15:24:16 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -392,6 +392,15 @@ namespace ft {
 			};
 
 			~RedBlackTree(void) {}
+
+			// RedBlackTree&	operator=(const RedBlackTree & instance) {
+			// 	if (this != &instance) {
+			// 		this->clear();
+
+
+			// 	}
+			// 	return *this;
+			// };
 
 			Node*	insert(T data) {
 				_length++;

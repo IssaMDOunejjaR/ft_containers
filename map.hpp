@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/05 13:47:20 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/06 18:20:52 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ namespace ft {
 			typedef typename allocator_type::pointer							pointer;
 			typedef typename allocator_type::const_pointer						const_pointer;
 			typedef ft::bst_iterator<value_type, Compare>						iterator;
-			typedef ft::bst_iterator<const value_type, Compare>					const_iterator;
+			// typedef ft::bst_iterator<const value_type, Compare>					const_iterator;
+			typedef ft::bst_const_iterator<value_type, Compare>					const_iterator;
 			typedef ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type		difference_type;
@@ -71,7 +72,8 @@ namespace ft {
 			map&	operator=(const map & instance) {
 				if (this != &instance) {
 					this->clear();
-					this->insert(instance.begin(), instance.end());
+					// this->insert(instance.begin(), instance.end());
+					this->_tree = instance._tree;
 					this->_comp = instance._comp;
 					this->_allocator = instance._allocator;
 				}
@@ -85,11 +87,11 @@ namespace ft {
 			};
 
 			// Iterators
-			iterator	begin(void) {
-				return iterator(this->_tree.firstElement(), this->_tree.getRoot());
-			};
+			// iterator	begin(void) {
+			// 	return iterator(this->_tree.firstElement(), this->_tree.getRoot());
+			// };
 
-			const_iterator	begin(void) const {
+			const_iterator	cbegin(void) const {
 				return const_iterator(this->_tree.firstElement(), this->_tree.getRoot());
 			};
 
@@ -99,7 +101,7 @@ namespace ft {
 				return iterator(node->right, this->_tree.getRoot());
 			};
 
-			const_iterator	end(void) const {
+			const_iterator	cend(void) const {
 				Node* node = this->_tree.lastElement();
 
 				return const_iterator(node->right, this->_tree.getRoot());
@@ -152,9 +154,13 @@ namespace ft {
 				return ft::pair<iterator, bool>(iterator(this->_tree.insert(val), this->_tree.getRoot()), true);
 			};
 
-			// iterator	insert(iterator position, const value_type & val) {
-				
-			// };
+			iterator	insert(iterator position, const value_type & val) {
+				ft::pair<iterator, bool>	res;
+
+				(void)position;
+				res = this->insert(val);
+				return res.first;
+			};
 
 			template <class InputIterator>
 			void	insert(InputIterator first, InputIterator last) {
@@ -169,7 +175,7 @@ namespace ft {
 
 				while (it != position)
 					it++;
-				this->_tree.del(it->_first);
+				this->_tree.del(it->first);
 			};
 
 			size_type	erase(const key_type & k) {
@@ -185,7 +191,7 @@ namespace ft {
 				}
 
 				if (node->left != NULL && node->right != NULL) {
-					this->_tree.del(node->data);
+					this->_tree.del(node->data.first);
 					return 1;
 				}
 				return 0;
@@ -342,6 +348,27 @@ namespace ft {
 			allocator_type	get_allocator(void) const {
 				return this->_allocator;
 			};
+
+			friend	bool	operator==(const map & lhs, const map & rhs) {
+				iterator itl = lhs.begin();
+				iterator itr = rhs.begin();
+
+				while(itl != lhs.end()) {
+					if (*itl != *itr)
+						return false;
+					itl++;
+					itr++;
+				}
+				if (itr != rhs.end())
+					return false;
+				return true;
+			};
+
+			friend	bool	operator!=(const map & lhs, const map & rhs);
+			friend	bool	operator<(const map & lhs, const map & rhs);
+			friend	bool	operator<=(const map & lhs, const map & rhs);
+			friend	bool	operator>(const map & lhs, const map & rhs);
+			friend	bool	operator>=(const map & lhs, const map & rhs);
 
 		private:
 			Alloc							_allocator;

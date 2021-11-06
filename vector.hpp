@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:57:46 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/05 10:41:13 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/06 10:28:57 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,27 +394,33 @@ namespace ft {
 			};
 
 			void		swap(vector & x) {				
+				// vector tmp;
+
+				// tmp.reserve(this->_capacity);
+
+				// for (int i = 0; i < this->_size; i++)
+				// 	tmp.push_back(this->_list[i]);
+
+				// this->clear();
+
+				// this->reserve(x.capacity());
+
+				// for (int i = 0; i < x.size(); i++)
+				// 	this->push_back(x[i]);
+
+				// x.clear();
+				// x.reserve(tmp.capacity());
+
+				// for (int i = 0; i < tmp.size(); i++)
+				// 	x.push_back(tmp[i]);
+
+				// tmp.clear();
+
 				vector tmp;
 
-				tmp.reserve(this->_capacity);
-
-				for (int i = 0; i < this->_size; i++)
-					tmp.push_back(this->_list[i]);
-
-				this->clear();
-
-				this->reserve(x.capacity());
-
-				for (int i = 0; i < x.size(); i++)
-					this->push_back(x[i]);
-
-				x.clear();
-				x.reserve(tmp.capacity());
-
-				for (int i = 0; i < tmp.size(); i++)
-					x.push_back(tmp[i]);
-
-				tmp.clear();
+				tmp = *this;
+				*this = x;
+				x = tmp;
 
 			};
 
@@ -439,7 +445,7 @@ namespace ft {
 		if (lhs.size() != rhs.size())
 			return false;
 
-		return ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 	};
 
 	template <class T, class Alloc>
@@ -465,21 +471,6 @@ namespace ft {
 	template <class T, class Alloc>
 	bool	operator>=(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs) {
 		return !(lhs < rhs);
-	};
-
-	template <class T, class Alloc>
-	void	swap(vector<T, Alloc> & x, vector<T, Alloc> & y) {
-		vector<T, Alloc> tmp;
-
-		for (int i = 0; i < x.size(); i++)
-			tmp.push_back(x[i]);
-		x.clear();
-		for (int i = 0; i < y.size(); i++)
-			x.push_back(y[i]);
-		y.clear();
-		for (int i = 0; i < tmp.size(); i++)
-			y.push_back(tmp[i]);
-		tmp.clear();
 	};
 };
 

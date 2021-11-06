@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 13:42:02 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/03 12:14:54 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/06 11:56:02 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 # define UTILITY_HPP
 
 namespace ft {
+	template <class T>
+	struct	less {
+		bool	operator()(const T & x, const T & y) {
+			return x < y;
+		}
+	};
+
+	template <typename T>
+	void	swap(T & a, T & b) {
+		T tmp;
+
+		tmp = a;
+		a = b;
+		b = tmp;
+	}
+
 	template <class T1, class T2>
 	struct	pair {
 		typedef T1	key;
