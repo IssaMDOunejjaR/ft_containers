@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/07 14:37:31 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/07 17:52:56 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -366,213 +366,23 @@ namespace ft {
 			Node*	_last;
 
 			Node*		_getFirst(Node * root) {
-				if (root->left->left == NULL && root->left->right == NULL)
+				if (root->left == NULL && root->right == NULL)
 					return root;
-				return _getFirst(root->left);
+
+				while (root->left->left != NULL && root->left->right != NULL)
+					root = root->left;
+
+				return root;
 			}
 
 			Node*		_getLast(Node * root) {
-				if (root->right->left == NULL && root->right->right == NULL)
+				if (root->left == NULL && root->right == NULL)
 					return root;
-				return _getLast(root->right);
-			}
-	};
 
-	// template <class T, class Compare>
-	// class	bst_const_iterator: public bst_iterator<T, Compare> {
-	// 	public:
+				while (root->right->left != NULL && root->right->right != NULL)
+					root = root->right;
 
-	// 		typedef	typename ft::RedBlackTree<T>::Node		Node;
-
-	// 		bst_const_iterator(void): bst_iterator<T, Compare>() {};
-
-	// 		bst_const_iterator(Node * current, Node * root): bst_iterator<T, Compare>(current, root) {};
-
-	// 		bst_const_iterator(const bst_const_iterator & instance): bst_iterator<T, Compare>(instance) {};
-
-	// 		bst_const_iterator(const bst_iterator<T, Compare> & instance): bst_iterator<T, Compare>(instance) {};
-
-	// 		~bst_const_iterator(void){};			
-	// };
-
-	template <class T, class Compare>
-	class	bst_const_iterator: public ft::iterator<ft::bidirectional_iterator_tag, T> {
-		public:
-			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::difference_type		difference_type;
-			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
-			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::value_type			value_type;
-			typedef const T*																				pointer;
-			typedef const T&																				reference;
-			typedef ft::Node<T>																		Node;
-
-			bst_const_iterator(void) {};
-
-			bst_const_iterator(Node * current, Node * root): _current(current), _root(root) {
-				this->_first = this->_getFirst(root);
-				this->_last = this->_getLast(root);
-			};
-
-			bst_const_iterator(const bst_const_iterator & instance) {
-				*this = instance;
-			};
-
-			~bst_const_iterator(void) {};
-
-			bst_const_iterator&	operator=(const bst_const_iterator & instance) {
-				if (this != &instance) {
-					this->_current = instance._current;
-					this->_first = instance._first;
-					this->_last = instance._last;
-					this->_root = instance._root;
-				}
-				return *this;
-			};
-
-
-			Node* base(void) const {
-				return this->_current;
-			};
-
-			bool	operator==(bst_const_iterator const & instance) const {
-				return this->_current == instance._current;
-			}
-
-			bool	operator!=(bst_const_iterator const & instance) const {
-				return !(*this == instance);
-			}
-
-			bst_const_iterator&	operator++(void) {
-				Node* tmp;
-
-				if (this->_current->left == NULL && this->_current->right == NULL)
-					this->_current = this->_current->parent;
-				else if (this->_current != this->_last) {
-					if (this->_current->right->left != NULL && this->_current->right->right != NULL) {
-						this->_current = this->_current->right;
-
-						while (this->_current->left->left != NULL && this->_current->left->right != NULL)
-							this->_current = this->_current->left;
-					}
-					else {
-						tmp = this->_current->parent;
-						while ((tmp->left != NULL && tmp->right != NULL) && this->_current == tmp->right) {
-							this->_current = tmp;
-							tmp = tmp->parent;
-						}
-						this->_current = tmp;
-					}
-				}
-				else
-					this->_current = this->_current->right;
-
-				return *this;
-			};
-
-			bst_const_iterator	operator++(int) {
-				bst_const_iterator instance = *this;
-				Node* tmp;
-
-				if (this->_current->left == NULL && this->_current->right == NULL)
-					this->_current = this->_current->parent;
-				else if (this->_current != this->_last) {
-					if (this->_current->right->left != NULL && this->_current->right->right != NULL) {
-						this->_current = this->_current->right;
-
-						while (this->_current->left->left != NULL && this->_current->left->right != NULL)
-							this->_current = this->_current->left;
-					}
-					else {
-						tmp = this->_current->parent;
-						while ((tmp->left != NULL && tmp->right != NULL) && this->_current == tmp->right) {
-							this->_current = tmp;
-							tmp = tmp->parent;
-						}
-						this->_current = tmp;
-					}
-				}
-				else
-					this->_current = this->_current->right;
-
-				return instance;
-			};
-
-			bst_const_iterator&	operator--(void) {
-				Node* tmp;
-
-				if (this->_current->left == NULL && this->_current->right == NULL)
-					this->_current = this->_current->parent;
-				else if (this->_current != this->_first) {
-					if (this->_current->right->left != NULL && this->_current->right->right != NULL) {
-						this->_current = this->_current->left;
-
-						while (this->_current->left->left != NULL && this->_current->left->right != NULL)
-							this->_current = this->_current->right;
-					}
-					else {
-						tmp = this->_current->parent;
-						while ((tmp->left != NULL && tmp->right != NULL) && this->_current == tmp->left) {
-							this->_current = tmp;
-							tmp = tmp->parent;
-						}
-						this->_current = tmp;
-					}
-				}
-				else
-					this->_current = this->_current->left;
-				return *this;
-			};
-
-			bst_const_iterator	operator--(int) {
-				bst_const_iterator instance = *this;
-				Node* tmp;
-
-				if (this->_current->left == NULL && this->_current->right == NULL)
-					this->_current = this->_current->parent;
-				else if (this->_current != this->_first) {
-					if (this->_current->right->left != NULL && this->_current->right->right != NULL) {
-						this->_current = this->_current->left;
-
-						while (this->_current->left->left != NULL && this->_current->left->right != NULL)
-							this->_current = this->_current->right;
-					}
-					else {
-						tmp = this->_current->parent;
-						while ((tmp->left != NULL && tmp->right != NULL) && this->_current == tmp->left) {
-							this->_current = tmp;
-							tmp = tmp->parent;
-						}
-						this->_current = tmp;
-					}
-				}
-				else
-					this->_current = this->_current->left;
-				return instance;
-			};
-
-			reference	operator*(void) const {
-				return this->_current->data;
-			};
-
-			pointer		operator->(void) const {
-				return &this->_current->data;
-			};
-
-		protected:
-			Node*	_current;
-			Node*	_root;
-			Node*	_first;
-			Node*	_last;
-
-			Node*		_getFirst(Node * root) {
-				if (root->left->left == NULL && root->left->right == NULL)
-					return root;
-				return _getFirst(root->left);
-			}
-
-			Node*		_getLast(Node * root) {
-				if (root->right->left == NULL && root->right->right == NULL)
-					return root;
-				return _getLast(root->right);
+				return root;
 			}
 	};
 	

@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/07 14:35:09 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/07 17:52:40 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -392,15 +392,6 @@ namespace ft {
 
 			~RedBlackTree(void) {}
 
-			// RedBlackTree&	operator=(const RedBlackTree & instance) {
-			// 	if (this != &instance) {
-			// 		this->clear();
-
-
-			// 	}
-			// 	return *this;
-			// };
-
 			Node*	insert(T data) {
 				_length++;
 
@@ -463,23 +454,31 @@ namespace ft {
 			};
 
 			Node*	firstElement(void) {
+				if (this->_root->left == NULL && this->_root->right == NULL)
+					return _root;
+
 				return minimum(_root);
 			};
 
 			Node*	firstElement(void) const {
+				if (this->_root->left == NULL && this->_root->right == NULL)
+					return _root;
+
 				return minimum(_root);
 			};
 
 			Node*	lastElement(void) {
-				Node* node = maximum(this->_root);
+				if (this->_root->left == NULL && this->_root->right == NULL)
+					return _root;
 
-				return node;
+				return maximum(this->_root);
 			};
 
 			Node*	lastElement(void) const {
-				Node* node = maximum(this->_root);
+				if (this->_root->left == NULL && this->_root->right == NULL)
+					return _root;
 
-				return node;
+				return maximum(this->_root);
 			};
 
 			void	clear(void) {
@@ -494,6 +493,10 @@ namespace ft {
 			Node*	getRoot(void) const {
 				return this->_root;
 			};
+
+			std::allocator<Node>	getAllocator(void) const {
+				return this->_allocator;
+			}
 	};
 }
 

@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/07 15:49:53 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/07 17:55:54 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,24 @@ namespace ft {
 
 			typedef Key															key_type;
 			typedef T															mapped_type;
-			typedef ft::pair<const key_type, mapped_type>						value_type;
+			typedef ft::pair<const key_type, mapped_type>								value_type;
 			typedef ft::Node<value_type>										Node;
 			typedef Compare														key_compare;
-			typedef Compare														value_compare;
+
+			class value_compare : public std::binary_function<value_type, value_type, bool>
+			{
+				friend class map;
+
+				key_compare comp;
+
+				public:
+					value_compare(const key_compare &x) : comp(x) {}
+					bool operator()(const value_type &x, const value_type &y) const
+					{
+						return comp(x.first, y.first);
+					}
+			};
+
 			typedef Alloc														allocator_type;
 			typedef typename allocator_type::reference							reference;
 			typedef typename allocator_type::const_reference					const_reference;
@@ -71,8 +85,8 @@ namespace ft {
 			map&	operator=(const map & instance) {
 				if (this != &instance) {
 					this->clear();
-					// this->insert(instance.begin(), instance.end());
-					this->_tree = instance._tree;
+					if (instance.size() > 0)
+						this->insert(instance.begin(), instance.end());
 					this->_comp = instance._comp;
 					this->_allocator = instance._allocator;
 				}
@@ -87,7 +101,8 @@ namespace ft {
 
 			// Iterators
 			iterator	begin(void) {
-				std::cout << "iterator" << std::endl; 
+				std::cout << "iterator" << std::endl;
+
 				return iterator(this->_tree.firstElement(), this->_tree.getRoot());
 			};
 
@@ -99,6 +114,9 @@ namespace ft {
 
 			iterator	end(void) {
 				Node* node = this->_tree.lastElement();
+
+				if (node->left == NULL && node->right == NULL)
+					return iterator(node, this->_tree.getRoot());
 				
 				return iterator(node->right, this->_tree.getRoot());
 			};
@@ -139,7 +157,7 @@ namespace ft {
 			};
 
 			// Modifiers
-			ft::pair<iterator, bool>	insert(value_type const & val) {
+			ft::pair<iterator, bool>	insert(const value_type & val) {
 				Node*	node = this->_tree.getRoot();
 
 				while (node->left != NULL && node->right != NULL) {
@@ -166,6 +184,7 @@ namespace ft {
 
 			template <class InputIterator>
 			void	insert(InputIterator first, InputIterator last) {
+				std::cout << "insert" << std::endl;
 				while (first != last) {
 					this->_tree.insert(*first);
 					first++;
@@ -348,7 +367,7 @@ namespace ft {
 			
 			// Allocator
 			allocator_type	get_allocator(void) const {
-				return this->_allocator;
+				return this->_tree.getAllocator();
 			};
 
 			friend	bool	operator==(const map & lhs, const map & rhs) {
