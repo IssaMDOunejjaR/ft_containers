@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:16:11 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/06 18:21:11 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/07 15:46:19 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,12 +156,12 @@ int		main(void) {
 		ft::pair<ft::map<int, int>::iterator, bool>	check;
 
 		check = m1.insert(ft::pair<int, int>(10, 1));
-		check = m1.insert(ft::pair<int, int>(11, 2));
-		check = m1.insert(ft::pair<int, int>(12, 3));
-		check = m1.insert(ft::pair<int, int>(13, 3));
-		check = m1.insert(ft::pair<int, int>(14, 3));
-		check = m1.insert(ft::pair<int, int>(15, 3));
-		check = m1.insert(ft::pair<int, int>(16, 1415465));
+		// check = m1.insert(ft::pair<int, int>(11, 2));
+		// check = m1.insert(ft::pair<int, int>(12, 3));
+		// check = m1.insert(ft::pair<int, int>(13, 3));
+		// check = m1.insert(ft::pair<int, int>(14, 3));
+		// check = m1.insert(ft::pair<int, int>(15, 3));
+		// check = m1.insert(ft::pair<int, int>(16, 1415465));
 
 		// m2.insert(ft::pair<int, int>(20, 1415));
 		// m2.insert(ft::pair<int, int>(21, 1415));
@@ -169,10 +169,10 @@ int		main(void) {
 
 		// m.erase(m.begin(), m.end()--);
 
-		std::cout << "size\t\t: " << m1.size() << std::endl;
-		std::cout << "max_size\t: " << m1.max_size() << std::endl;
-		std::cout << "empty\t\t: " << (m1.empty() ? "true" : "false") << std::endl;
-		std::cout << "find: " << (m1.find(19) != m1.end() ? m1.find(19)->second : 0) << std::endl << std::endl;
+		// std::cout << "size\t\t: " << m1.size() << std::endl;
+		// std::cout << "max_size\t: " << m1.max_size() << std::endl;
+		// std::cout << "empty\t\t: " << (m1.empty() ? "true" : "false") << std::endl;
+		// std::cout << "find: " << (m1.find(19) != m1.end() ? m1.find(19)->second : 0) << std::endl << std::endl;
 
 		// std::cout << (m1 == m1) << std::endl;
 
@@ -186,15 +186,16 @@ int		main(void) {
 		// 	std::cout << it->first << std::endl;
 		// }
 
-		ft::map<int, int>::const_iterator it = m1.cbegin();
+		// ft::map<int, int>::const_iterator it = m1.begin();
+		// ft::map<int, int>::const_iterator ite = m1.end();
 
 		// it->first = 100;
 
 		// std::cout << it->first << std::endl;
 
-		for (it = m1.cbegin(); it != m1.cend(); it++) {
-			std::cout << it->first << std::endl;
-		}
+		// for (it = m1.begin(); it != m1.end(); it++) {
+		// 	std::cout << it->first << std::endl;
+		// }
 
 		// --it;
 		// --it;

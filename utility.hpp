@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 13:42:02 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/06 11:56:02 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/07 15:38:58 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,11 @@ namespace ft {
 		T1	first;
 		T2	second;
 
-		pair(void) {};
+		pair(void): first(), second() {};
 
-		pair(T1 const & first, T2 const & second) {
-			this->first = first;
-			this->second = second;
-		};
+		pair(T1 const & first, T2 const & second): first(first), second(second) {};
 
-		pair(const pair & instance) {
-			*this = instance;
-		};
+		pair(const pair & instance): first(instance.first), second(instance.second) {};
 
 		~pair(void) {};
 

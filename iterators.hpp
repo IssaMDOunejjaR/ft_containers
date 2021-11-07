@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/06 16:22:29 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/07 14:37:31 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ namespace ft {
 	};
 
 	template <typename T>
-	class Iterator : public ft::iterator<ft	::random_access_iterator_tag, T> {
+	class Iterator : public ft::iterator<ft::random_access_iterator_tag, T> {
 		public:
 			typedef typename std::iterator<std::random_access_iterator_tag, T>::difference_type		difference_type;
 			typedef typename std::iterator<std::random_access_iterator_tag, T>::iterator_category	iterator_category;
@@ -192,7 +192,7 @@ namespace ft {
 			pointer		_ptr;
 	};
 
-	template <class T, class Compare>
+	template <class T, class Compare, class Node>
 	class	bst_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
 		public:
 			
@@ -201,7 +201,6 @@ namespace ft {
 			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::value_type			value_type;
 			typedef T*																				pointer;
 			typedef T&																				reference;
-			typedef ft::Node<T>																		Node;
 
 			bst_iterator(void): _current(NULL), _root(NULL), _first(NULL), _last(NULL) {};
 
@@ -228,8 +227,8 @@ namespace ft {
 				return *this;
 			};
 
-			// operator bst_iterator<const T, Compare>(void) const {
-			// 	return bst_iterator<const T, Compare>(this->_current, this->_root);
+			// operator bst_iterator<const T, Compare, Node>(void) const {
+			// 	return bst_iterator<const T, Compare, Node>(this->_current, this->_root);
 			// };
 
 			Node* base(void) const {
@@ -418,6 +417,17 @@ namespace ft {
 			};
 
 			~bst_const_iterator(void) {};
+
+			bst_const_iterator&	operator=(const bst_const_iterator & instance) {
+				if (this != &instance) {
+					this->_current = instance._current;
+					this->_first = instance._first;
+					this->_last = instance._last;
+					this->_root = instance._root;
+				}
+				return *this;
+			};
+
 
 			Node* base(void) const {
 				return this->_current;

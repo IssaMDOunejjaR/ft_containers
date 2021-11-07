@@ -15,9 +15,10 @@
 #include <stack>
 #include "red_black_tree.hpp"
 #include "utility.hpp"
+#include "iterators.hpp"
 
-typedef ft::RedBlackTree<ft::pair<int, int> >::Node 	Node;
-typedef ft::RedBlackTree<ft::pair<int, int> >			Tree;
+// typedef ft::map< 	Node;
+// typedef ft::RedBlackTree<const ft::pair<int, int> >			Tree;
 
 // Node* InOrderSuccessor(Tree * tree, Node * node) {
 // 	if (node->left == tree->getTNULL())
@@ -85,17 +86,17 @@ typedef ft::RedBlackTree<ft::pair<int, int> >			Tree;
 // }
 
 int		main(void) {
-	Tree	root;
+	// Tree	root;
 
-	root.insert(ft::pair<int, int>(10, 123));
-	root.insert(ft::pair<int, int>(11, 123));
-	root.insert(ft::pair<int, int>(12, 123));
-	root.insert(ft::pair<int, int>(13, 123));
-	root.insert(ft::pair<int, int>(14, 123));
-	root.insert(ft::pair<int, int>(15, 123));
-	root.insert(ft::pair<int, int>(16, 123));
+	// root.insert(ft::pair<int, int>(10, 123));
+	// root.insert(ft::pair<int, int>(11, 123));
+	// root.insert(ft::pair<int, int>(12, 123));
+	// root.insert(ft::pair<int, int>(13, 123));
+	// root.insert(ft::pair<int, int>(14, 123));
+	// root.insert(ft::pair<int, int>(15, 123));
+	// root.insert(ft::pair<int, int>(16, 123));
 
-	root.clear();
+	// root.clear();
 
 	// root.del(10);
 
@@ -123,6 +124,14 @@ int		main(void) {
 	// 	std::cout << current->data.first << std::endl;
 	// 	current = getThePrevNode(&root, current);
 	// }
+
+	std::pair<std::string, std::string>	p1;
+	std::pair<std::string, std::string>	p4;
+	ft::pair<std::string, std::string>	p2;
+	ft::pair<std::string, std::string>	p3;
+
+	p1 = p4;
+	p2 = p3;
 
 	return 0;
 }

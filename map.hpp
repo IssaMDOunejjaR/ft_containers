@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/06 18:20:52 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/07 15:49:53 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ namespace ft {
 	>
 	class map {
 		public:
+
 			typedef Key															key_type;
 			typedef T															mapped_type;
-			typedef ft::pair<key_type, mapped_type>								value_type;
+			typedef ft::pair<const key_type, mapped_type>						value_type;
+			typedef ft::Node<value_type>										Node;
 			typedef Compare														key_compare;
 			typedef Compare														value_compare;
 			typedef Alloc														allocator_type;
@@ -37,15 +39,12 @@ namespace ft {
 			typedef typename allocator_type::const_reference					const_reference;
 			typedef typename allocator_type::pointer							pointer;
 			typedef typename allocator_type::const_pointer						const_pointer;
-			typedef ft::bst_iterator<value_type, Compare>						iterator;
-			// typedef ft::bst_iterator<const value_type, Compare>					const_iterator;
-			typedef ft::bst_const_iterator<value_type, Compare>					const_iterator;
+			typedef ft::bst_iterator<value_type, Compare, Node>					iterator;
+			typedef ft::bst_iterator<const value_type, Compare, Node>			const_iterator;
 			typedef ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type		difference_type;
 			typedef size_t														size_type;
-
-			typedef ft::Node<value_type>										Node;
 
 			// Constructors and Destructor
 			explicit map(const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
@@ -87,11 +86,14 @@ namespace ft {
 			};
 
 			// Iterators
-			// iterator	begin(void) {
-			// 	return iterator(this->_tree.firstElement(), this->_tree.getRoot());
-			// };
+			iterator	begin(void) {
+				std::cout << "iterator" << std::endl; 
+				return iterator(this->_tree.firstElement(), this->_tree.getRoot());
+			};
 
-			const_iterator	cbegin(void) const {
+			const_iterator	begin(void) const {
+				std::cout << "const_iterator" << std::endl;
+
 				return const_iterator(this->_tree.firstElement(), this->_tree.getRoot());
 			};
 
@@ -101,7 +103,7 @@ namespace ft {
 				return iterator(node->right, this->_tree.getRoot());
 			};
 
-			const_iterator	cend(void) const {
+			const_iterator	end(void) const {
 				Node* node = this->_tree.lastElement();
 
 				return const_iterator(node->right, this->_tree.getRoot());
@@ -373,7 +375,7 @@ namespace ft {
 		private:
 			Alloc							_allocator;
 			Compare							_comp;
-			ft::RedBlackTree<value_type>	_tree;
+			ft::RedBlackTree<value_type, Node>	_tree;
 	};
 };
 

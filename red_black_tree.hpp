@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/06 15:24:16 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/07 14:35:09 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ namespace ft {
 			}
 	};
 
-	template <class T>
+	template <class T, class Node>
 	class RedBlackTree {
 		public:
 			typedef typename T::key						Key;
-			typedef Node<T>								Node;
 
 		protected:
 
