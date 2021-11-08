@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/08 18:19:59 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/08 19:02:55 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ namespace ft {
 
 				while (it != position)
 					it++;
-				this->_tree.del(it);
+				this->_tree.del(*it);
 			};
 
 			size_type	erase(const key_type & k) {
@@ -229,7 +229,7 @@ namespace ft {
 
 			void	erase(iterator first, iterator last) {
 				while (first != last) {
-					this->_tree.del(first);
+					this->_tree.del(*first);
 					first++;
 				}
 			};
