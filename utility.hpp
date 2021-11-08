@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 13:42:02 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/08 12:21:29 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/08 15:08:34 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 # define UTILITY_HPP
 
 namespace ft {
-	template <class T>
-	struct	less {
-		bool	operator()(const T & x, const T & y) {
-			return x < y;
-		}
-	};
-
 	template <typename T>
 	void	swap(T & a, T & b) {
 		T tmp;
@@ -45,8 +38,7 @@ namespace ft {
 		template <class U, class V>
 		pair(const pair<U, V> &p) : first(p.first), second(p.second) {}
 
-
-		// ~pair(void) {};
+		~pair(void) {};
 
 		pair&	operator=(pair const & instance) {
 			if (this != &instance) {

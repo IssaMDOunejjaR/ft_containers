@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/07 17:52:40 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/08 15:20:44 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,16 @@ namespace ft {
 			}
 	};
 
-	template <class T, class Node>
+	template <class T, class Node, class Compare = std::less<T>, class Allocator = std::allocator<Node> >
 	class RedBlackTree {
 		public:
-			typedef typename T::key						Key;
+			// typedef Node<T>		Node;
 
 		protected:
 
-			Node*					_root;
-			size_t					_length;
-			std::allocator<Node>	_allocator;
+			Node*		_root;
+			size_t		_length;
+			Allocator	_allocator;
 
 			Node*	newNode(T data) {
 				Node*	node = this->_allocator.allocate(1);
@@ -278,19 +278,19 @@ namespace ft {
 				node->color = BLACK;
 			};
 
-			void	delHelper(Node * root, Key key) {
+			void	delHelper(Node * root, T data) {
 				Node	*node = NULL;
 				Node	*x, *y;
 
 				while (root->left != NULL && root->right != NULL) {
-					if (root->data.first == key) {
+					if (Compare()(data, root->data))
+						root = root->left;
+					else if (!Compare()(data, root->data))
+						root = root->right;
+					else {
 						node = root;
 						break ;
 					}
-					else if (key < root->data.first)
-						root = root->left;
-					else if (key > root->data.first)
-						root = root->right;
 				}
 
 				if (node->left == NULL && node->right == NULL)
@@ -337,32 +337,32 @@ namespace ft {
 				_length--;
 			};
 
-			void	printHelper(Node * node) {
-				if (node->left == NULL && node->right == NULL)
-					return ;
+			// void	printHelper(Node * node) {
+			// 	if (node->left == NULL && node->right == NULL)
+			// 		return ;
 
-				printHelper(node->left);
-				std::cout << "#===============#" << std::endl;
-				std::cout << "# first\t: " << node->data.first << "\t#" << std::endl;
-				// std::cout << "# second: " << node->data.second << "\t#" << std::endl;
-				std::cout << "# parent: " << (node->parent != NULL ? node->parent->data.first : NULL) << "\t#" << std::endl;
-				std::cout << "# left\t: " << (node->left->left != NULL && node->left->right != NULL ? node->left->data.first : NULL) << "\t#" << std::endl;
-				std::cout << "# right\t: " << (node->right->left != NULL && node->right->right != NULL ? node->right->data.first : NULL) << "\t#" << std::endl;
-				std::cout << "# color\t: " << (node->color == BLACK ? "Black" : "Red") << "\t#" << std::endl;
-				std::cout << "#===============#\n" << std::endl;
-				printHelper(node->right);
-			};
+			// 	printHelper(node->left);
+			// 	std::cout << "#===============#" << std::endl;
+			// 	std::cout << "# first\t: " << node->data.first << "\t#" << std::endl;
+			// 	// std::cout << "# second: " << node->data.second << "\t#" << std::endl;
+			// 	std::cout << "# parent: " << (node->parent != NULL ? node->parent->data.first : NULL) << "\t#" << std::endl;
+			// 	std::cout << "# left\t: " << (node->left->left != NULL && node->left->right != NULL ? node->left->data.first : NULL) << "\t#" << std::endl;
+			// 	std::cout << "# right\t: " << (node->right->left != NULL && node->right->right != NULL ? node->right->data.first : NULL) << "\t#" << std::endl;
+			// 	std::cout << "# color\t: " << (node->color == BLACK ? "Black" : "Red") << "\t#" << std::endl;
+			// 	std::cout << "#===============#\n" << std::endl;
+			// 	printHelper(node->right);
+			// };
 
-			Node* searchHelper(Node * node, Key const & key) {
+			Node* searchHelper(Node * node, T const & data) {
 				if (node->left == NULL && node->right == NULL)
 					return node;
 
-				if (key == node->data.first)
+				if (Compare()(data, node->data))
+					return searchHelper(node->left, data);
+				else if (!Compare()(data, node->data))
+					return searchHelper(node->right, data);
+				else
 					return node;
-				else if (key < node->data.first)
-					return searchHelper(node->left, key);
-				else if (key > node->data.first)
-					return searchHelper(node->right, key);
 				return node;
 			};
 
@@ -407,7 +407,7 @@ namespace ft {
 				Node *node = NULL;
 
 				while (tmp->left != NULL && tmp->right != NULL) {
-					if (data.first < tmp->data.first) {
+					if (Compare()(data, tmp->data)) {
 						if (tmp->left->left == NULL && tmp->left->right == NULL) {
 							this->_allocator.destroy(tmp->left);
 							this->_allocator.deallocate(tmp->left, 1);
@@ -418,7 +418,7 @@ namespace ft {
 						}
 						tmp = tmp->left;
 					}
-					else if (data.first >= tmp->data.first) {
+					else if (!Compare()(data, tmp->data)) {
 						if (tmp->right->left == NULL && tmp->right->right == NULL) {
 							this->_allocator.destroy(tmp->right);
 							this->_allocator.deallocate(tmp->right, 1);
@@ -436,16 +436,16 @@ namespace ft {
 				return node;
 			};
 
-			void	del(Key key) {
-				delHelper(_root, key);
+			void	del(T data) {
+				delHelper(_root, data);
 			};
 
 			size_t	size(void) const {
 				return this->_length;
 			};
 
-			Node*	search(Key const & key) {
-				return searchHelper(_root, key);
+			Node*	search(T const & data) {
+				return searchHelper(_root, data);
 			};
 
 			void	print(void) {

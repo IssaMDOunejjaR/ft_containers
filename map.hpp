@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/08 12:41:58 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/08 18:19:59 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ namespace ft {
 			{
 				friend class map;
 
-				key_compare _comp;
+				protected:
+					key_compare _comp;
+					value_compare(const key_compare & x) : _comp(x) {}
 
 				public:
-					value_compare(const key_compare & x) : _comp(x) {}
+					value_compare(void) {};
 
 					bool operator()(const value_type & x, const value_type & y) const {
 						return _comp(x.first, y.first);
@@ -53,8 +55,8 @@ namespace ft {
 			typedef typename allocator_type::const_reference					const_reference;
 			typedef typename allocator_type::pointer							pointer;
 			typedef typename allocator_type::const_pointer						const_pointer;
-			typedef ft::bst_iterator<value_type, Compare, Node>					iterator;
-			typedef ft::bst_iterator<const value_type, Compare, Node>			const_iterator;
+			typedef ft::bst_iterator<value_type, Node>							iterator;
+			typedef ft::bst_iterator<const value_type, Node>					const_iterator;
 			typedef ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type		difference_type;
@@ -94,21 +96,29 @@ namespace ft {
 			};
 
 			mapped_type&	operator[](const key_type & k) {
-				Node*	node = this->_tree.search(k);
+				Node*	node = this->_tree.getRoot();
+
+				while (node->left != NULL && node->right != NULL) {
+					if (node->data.first == k)
+						break ;
+					if (k < node->data.first)
+						node = node->left;
+					else if (k > node->data.first)
+						node = node->right;
+				}
+
+				if (node->left == NULL && node->right == NULL)
+					this->insert(value_type(k, node->data.second));
 
 				return node->data.second;
 			};
 
 			// Iterators
 			iterator	begin(void) {
-				std::cout << "iterator" << std::endl;
-
 				return iterator(this->_tree.firstElement(), this->_tree.getRoot());
 			};
 
 			const_iterator	begin(void) const {
-				std::cout << "const_iterator" << std::endl;
-
 				return const_iterator(this->_tree.firstElement(), this->_tree.getRoot());
 			};
 
@@ -153,7 +163,7 @@ namespace ft {
 			};
 
 			size_type	max_size(void) const {
-				return this->_allocator.max_size();
+				return this->_tree.getAllocator().max_size();
 			};
 
 			// Modifiers
@@ -184,7 +194,6 @@ namespace ft {
 
 			template <class InputIterator>
 			void	insert(InputIterator first, InputIterator last) {
-				std::cout << "insert" << std::endl;
 				while (first != last) {
 					this->_tree.insert(*first);
 					first++;
@@ -196,7 +205,7 @@ namespace ft {
 
 				while (it != position)
 					it++;
-				this->_tree.del(it->first);
+				this->_tree.del(it);
 			};
 
 			size_type	erase(const key_type & k) {
@@ -212,7 +221,7 @@ namespace ft {
 				}
 
 				if (node->left != NULL && node->right != NULL) {
-					this->_tree.del(node->data.first);
+					this->_tree.del(node->data);
 					return 1;
 				}
 				return 0;
@@ -220,7 +229,7 @@ namespace ft {
 
 			void	erase(iterator first, iterator last) {
 				while (first != last) {
-					this->_tree.del(first->first);
+					this->_tree.del(first);
 					first++;
 				}
 			};
@@ -367,7 +376,7 @@ namespace ft {
 			
 			// Allocator
 			allocator_type	get_allocator(void) const {
-				return this->_tree.getAllocator();
+				return this->_allocator;
 			};
 
 			friend	bool	operator==(const map & lhs, const map & rhs) {
@@ -392,9 +401,9 @@ namespace ft {
 			friend	bool	operator>=(const map & lhs, const map & rhs);
 
 		private:
-			Alloc							_allocator;
-			Compare							_comp;
-			ft::RedBlackTree<value_type, Node>	_tree;
+			Alloc												_allocator;
+			Compare												_comp;
+			ft::RedBlackTree<value_type, Node, value_compare>	_tree;
 	};
 };
 

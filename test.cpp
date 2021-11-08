@@ -125,13 +125,7 @@ int		main(void) {
 	// 	current = getThePrevNode(&root, current);
 	// }
 
-	std::pair<std::string, std::string>	p1;
-	std::pair<std::string, std::string>	p4;
-	ft::pair<std::string, std::string>	p2;
-	ft::pair<std::string, std::string>	p3;
-
-	p1 = p4;
-	p2 = p3;
+	std::cout << std::less<int>()(15, 12) << std::endl;
 
 	return 0;
 }

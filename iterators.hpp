@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/07 17:52:56 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/08 18:13:40 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ namespace ft {
 			pointer		_ptr;
 	};
 
-	template <class T, class Compare, class Node>
+	template <class T, class Node>
 	class	bst_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
 		public:
 			
@@ -227,9 +227,9 @@ namespace ft {
 				return *this;
 			};
 
-			// operator bst_iterator<const T, Compare, Node>(void) const {
-			// 	return bst_iterator<const T, Compare, Node>(this->_current, this->_root);
-			// };
+			operator bst_iterator<const T, Node>(void) const {
+				return bst_iterator<const T, Node>(this->_current, this->_root);
+			};
 
 			Node* base(void) const {
 				return this->_current;
