@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 13:42:02 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/07 15:38:58 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/08 12:21:29 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,11 @@ namespace ft {
 
 		pair(T1 const & first, T2 const & second): first(first), second(second) {};
 
-		pair(const pair & instance): first(instance.first), second(instance.second) {};
+		template <class U, class V>
+		pair(const pair<U, V> &p) : first(p.first), second(p.second) {}
 
-		~pair(void) {};
+
+		// ~pair(void) {};
 
 		pair&	operator=(pair const & instance) {
 			if (this != &instance) {
@@ -89,6 +91,11 @@ namespace ft {
 	pair<T1, T2>	make_pair(T1 x, T2 y) {
 		return pair<T1, T2>(x, y);
 	};
+
+	template<class T>
+	bool	equal_value(const T & x, const T & y) {
+		return x == y;
+	}
 
 	template <class IteratorInput1, class IteratorInput2>
 	bool	equal(IteratorInput1 first1, IteratorInput1 last1, IteratorInput2 first2) {

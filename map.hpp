@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/07 17:55:54 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/08 12:41:58 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ namespace ft {
 
 			typedef Key															key_type;
 			typedef T															mapped_type;
-			typedef ft::pair<const key_type, mapped_type>								value_type;
+			typedef ft::pair<const key_type, mapped_type>						value_type;
 			typedef ft::Node<value_type>										Node;
 			typedef Compare														key_compare;
 
@@ -38,13 +38,13 @@ namespace ft {
 			{
 				friend class map;
 
-				key_compare comp;
+				key_compare _comp;
 
 				public:
-					value_compare(const key_compare &x) : comp(x) {}
-					bool operator()(const value_type &x, const value_type &y) const
-					{
-						return comp(x.first, y.first);
+					value_compare(const key_compare & x) : _comp(x) {}
+
+					bool operator()(const value_type & x, const value_type & y) const {
+						return _comp(x.first, y.first);
 					}
 			};
 
