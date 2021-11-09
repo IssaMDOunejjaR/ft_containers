@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 11:42:21 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 14:07:37 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,25 +387,28 @@ namespace ft {
 			};
 
 			friend	bool	operator==(const map & lhs, const map & rhs) {
-				iterator itl = lhs.begin();
-				iterator itr = rhs.begin();
-
-				while(itl != lhs.end()) {
-					if (*itl != *itr)
-						return false;
-					itl++;
-					itr++;
-				}
-				if (itr != rhs.end())
-					return false;
-				return true;
+				return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 			};
 
-			friend	bool	operator!=(const map & lhs, const map & rhs);
-			friend	bool	operator<(const map & lhs, const map & rhs);
-			friend	bool	operator<=(const map & lhs, const map & rhs);
-			friend	bool	operator>(const map & lhs, const map & rhs);
-			friend	bool	operator>=(const map & lhs, const map & rhs);
+			friend	bool	operator!=(const map & lhs, const map & rhs) {
+				return !(lhs == rhs);
+			};
+
+			friend	bool	operator<(const map & lhs, const map & rhs) {
+				return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+			};
+
+			friend	bool	operator<=(const map & lhs, const map & rhs) {
+				return lhs < rhs || lhs == rhs;
+			};
+
+			friend	bool	operator>(const map & lhs, const map & rhs) {
+				return rhs < lhs;
+			};
+
+			friend	bool	operator>=(const map & lhs, const map & rhs) {
+				return lhs > rhs || lhs == rhs;
+			};
 
 		private:
 			Alloc												_allocator;

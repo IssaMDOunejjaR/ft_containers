@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:05:27 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 11:40:30 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 14:07:26 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,11 +170,11 @@ namespace ft {
 				Node*	node = this->_tree.getRoot();
 
 				while (node->left != NULL && node->right != NULL) {
-					if (node->data.first == k)
+					if (node->data == val)
 						break ;
-					if (k < node->data.first)
+					if (val < node->data)
 						node = node->left;
-					else if (k > node->data.first)
+					else if (val > node->data)
 						node = node->right;
 				}
 
@@ -281,12 +281,36 @@ namespace ft {
 			};
 
 			ft::pair<iterator, iterator>	equal_range(const value_type & val) const {
-				return ft::pair<iterator, iterator>(lower_bound(k), upper_bound(k));
+				return ft::pair<iterator, iterator>(lower_bound(val), upper_bound(val));
 			};
 
 			// Allocator
 			allocator_type	get_allocator(void) const {
 				return this->_allocator;
+			};
+
+			friend	bool	operator==(const set & lhs, const set & rhs) {
+				return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+			};
+
+			friend	bool	operator!=(const set & lhs, const set & rhs) {
+				return !(lhs == rhs);
+			};
+
+			friend	bool	operator<(const set & lhs, const set & rhs) {
+				return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+			};
+
+			friend	bool	operator<=(const set & lhs, const set & rhs) {
+				return lhs < rhs || lhs == rhs;
+			};
+
+			friend	bool	operator>(const set & lhs, const set & rhs) {
+				return rhs < lhs;
+			};
+
+			friend	bool	operator>=(const set & lhs, const set & rhs) {
+				return lhs > rhs || lhs == rhs;
 			};
 
 		private:

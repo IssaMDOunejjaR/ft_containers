@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:57:46 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 10:38:07 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 14:11:24 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,35 +394,12 @@ namespace ft {
 				return last;
 			};
 
-			void		swap(vector & x) {				
-				// vector tmp;
-
-				// tmp.reserve(this->_capacity);
-
-				// for (int i = 0; i < this->_size; i++)
-				// 	tmp.push_back(this->_list[i]);
-
-				// this->clear();
-
-				// this->reserve(x.capacity());
-
-				// for (int i = 0; i < x.size(); i++)
-				// 	this->push_back(x[i]);
-
-				// x.clear();
-				// x.reserve(tmp.capacity());
-
-				// for (int i = 0; i < tmp.size(); i++)
-				// 	x.push_back(tmp[i]);
-
-				// tmp.clear();
-
+			void		swap(vector & x) {
 				vector tmp;
 
 				tmp = *this;
 				*this = x;
 				x = tmp;
-
 			};
 
 			void		clear(void) {

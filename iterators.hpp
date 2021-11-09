@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterators.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 09:54:02 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/09 11:58:57 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,8 +394,7 @@ namespace ft {
 		typename ft::iterator_traits<Iterator>::pointer,
 		typename ft::iterator_traits<Iterator>::reference
 	> {
-		protected:
-			Iterator	_current;
+		Iterator	_current;
 
 		public:
 			typedef Iterator												iterator_type;
@@ -404,13 +403,17 @@ namespace ft {
 			typedef typename iterator_traits<Iterator>::difference_type		difference_type;
 
 			reverse_iterator(void) {};
+
 			reverse_iterator(iterator_type it): _current(it) {};
-			reverse_iterator(const reverse_iterator & instance): _current(instance._current) {};
+
+			template <class Iter>
+			reverse_iterator(const reverse_iterator<Iter> & instance): _current(instance.base()) {};
+
 			~reverse_iterator(void) {};
 
-			operator reverse_iterator<const Iterator>(void) const {
-				return reverse_iterator<const Iterator>(this->_current);
-			};
+			// operator reverse_iterator<const Iterator>(void) const {
+			// 	return reverse_iterator<const Iterator>(this->_current);
+			// };
 
 			iterator_type		base(void) const {
 				return this->_current;
@@ -483,7 +486,11 @@ namespace ft {
 			}
 
 			friend difference_type operator-(const reverse_iterator & it1, const reverse_iterator & it2) {
-				return it1.base() - it2.base();
+				return it2.base() - it1.base();
+            };
+
+			friend reverse_iterator operator+(difference_type n, const reverse_iterator & it) {
+				return reverse_iterator(it.base() - n);
             };
 
 			friend bool	operator==(reverse_iterator const & it1, reverse_iterator const & it2) {
@@ -495,19 +502,19 @@ namespace ft {
 			}
 			
 			friend bool	operator<(reverse_iterator const & it1, reverse_iterator const & it2) {
-				return it1.base() < it2.base();
-			}
-			
-			friend bool	operator>(reverse_iterator const & it1, reverse_iterator const & it2) {
 				return it1.base() > it2.base();
 			}
 			
+			friend bool	operator>(reverse_iterator const & it1, reverse_iterator const & it2) {
+				return it1.base() < it2.base();
+			}
+			
 			friend bool	operator>=(reverse_iterator const & it1, reverse_iterator const & it2) {
-				return it1.base() >= it2.base();
+				return it1.base() <= it2.base();
 			}
 			
 			friend bool	operator<=(reverse_iterator const & it1, reverse_iterator const & it2) {
-				return it1.base() <= it2.base();
+				return it1.base() >= it2.base();
 			}
 	};
 };

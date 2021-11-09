@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 13:42:02 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 09:38:17 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/09 14:01:42 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,6 @@ namespace ft {
 		return pair<T1, T2>(x, y);
 	};
 
-	template<class T>
-	bool	equal_value(const T & x, const T & y) {
-		return x == y;
-	}
-
 	template <class IteratorInput1, class IteratorInput2>
 	bool	equal(IteratorInput1 first1, IteratorInput1 last1, IteratorInput2 first2) {
 		while (first1 != last1) {
@@ -114,8 +109,8 @@ namespace ft {
 	template <class IteratorInput1, class IteratorInput2>
 	bool	lexicographical_compare(IteratorInput1 first1, IteratorInput1 last1, IteratorInput2 first2, IteratorInput2 last2) {
 		while (first1 != last1 && first2 != last2) {
-			if (*first2 < *first1)
-				return false;
+			if (*first1 < *first2)	return true;
+			if (*first2 < *first1)	return false;
 			first1++;
 			first2++;
 		}
