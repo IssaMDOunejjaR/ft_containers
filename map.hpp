@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 10:00:04 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/09 11:42:21 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,9 @@ namespace ft {
 
 			const_iterator	end(void) const {
 				Node* node = this->_tree.lastElement();
+
+				if (node->left == NULL && node->right == NULL)
+					return const_iterator(node, this->_tree.getRoot());
 
 				return const_iterator(node->right, this->_tree.getRoot());
 			};
@@ -287,7 +290,7 @@ namespace ft {
 				}
 
 				if (node->left != NULL && node->right != NULL)
-					return iterator(node, this->_tree.getRoot());
+					return const_iterator(node, this->_tree.getRoot());
 				return this->end();
 			};
 

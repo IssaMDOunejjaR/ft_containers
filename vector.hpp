@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:57:46 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 09:34:46 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/09 10:38:07 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,7 +325,7 @@ namespace ft {
 			};
 
 			template <class InputIterator>
-			void	insert(iterator position, InputIterator first, InputIterator last) {
+			void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type a = InputIterator()) {
 				int i = 0;
 				pointer newList;
 
