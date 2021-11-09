@@ -12,7 +12,7 @@
 
 ->	ft::lexicographical_compare: O
 
-->	ft::enable_if: X
+->	ft::enable_if: O
 
 ->	ft::is_integral:
 	- bool						: O

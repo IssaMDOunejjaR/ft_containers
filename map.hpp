@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/08 19:02:55 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 10:00:04 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ namespace ft {
 
 			// Constructors and Destructor
 			explicit map(const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
-			: _comp(comp), _allocator(alloc) {};
+			: _allocator(alloc), _comp(comp) {};
 
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last, const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
-			: _comp(comp), _allocator(alloc) {
+			: _allocator(alloc), _comp(comp) {
 				while(first != last) {
 					this->insert(*first);
 					first++;
@@ -372,6 +372,10 @@ namespace ft {
 
 			ft::pair<iterator, iterator>	equal_range(const key_type & k) {
 				return ft::pair<iterator, iterator>(lower_bound(k), upper_bound(k));
+			};
+
+			ft::pair<const_iterator, const_iterator>	equal_range(const key_type & k) const {
+				return ft::pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k));
 			};
 			
 			// Allocator

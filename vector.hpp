@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:57:46 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/06 10:28:57 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 09:34:46 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ namespace ft {
 				this->_capacity = size;
 				this->_size = size;
 
-				for (int i = 0; i < size; i++)
+				for (unsigned int i = 0; i < size; i++)
 					this->_allocation.construct(this->_list + i, val);
 			};
 
 			template <class InputIterator>
 			vector(InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type a = InputIterator())
 			: _allocation(alloc) {
+				(void)a;
 				while (first != last) {
 					this->push_back(*first);
 					first++;
@@ -83,7 +84,7 @@ namespace ft {
 
 					this->_allocation = instance._allocation;
 
-					for (int i = 0; i < instance._size; i++)
+					for (unsigned int i = 0; i < instance._size; i++)
 						this->push_back(instance._list[i]);
 
 					this->_capacity = this->_size;
@@ -145,7 +146,7 @@ namespace ft {
 				if (n > this->max_size())
 					throw std::out_of_range("vector");
 				pointer	newList = this->_allocation.allocate(n);
-				int	i;
+				size_type	i;
 
 				if (n < this->_size) {
 					for (i = 0; i < n; i++) {
@@ -183,7 +184,7 @@ namespace ft {
 					pointer	newList = this->_allocation.allocate(n);
 
 					if (this->_capacity > 0) {
-						for (int i = 0; i < this->_size; i++) {
+						for (unsigned int i = 0; i < this->_size; i++) {
 							this->_allocation.construct(newList + i, this->_list[i]);
 							this->_allocation.destroy(this->_list + i);
 						}
@@ -226,11 +227,11 @@ namespace ft {
 			// Modifiers
 			template<class InputIterator>
 			void		assign(InputIterator first, InputIterator last) {
-				int i = 0;
-				int len = 0;
+				unsigned int i = 0;
+				unsigned int len = 0;
 				InputIterator it = first;
 
-				for (int i = 0; i < this->_size; i++)
+				for (unsigned int i = 0; i < this->_size; i++)
 					this->_allocation.destroy(this->_list + i);
 				for (; it != last; it++)
 					len++;
@@ -248,9 +249,9 @@ namespace ft {
 			void		assign(size_type n, const value_type & val) {
 				if (n > this->_capacity)
 					this->reserve(n);
-				for (int i = 0; i < this->_size; i++)
+				for (unsigned int i = 0; i < this->_size; i++)
 					this->_allocation.destroy(this->_list + i);
-				for (int i = 0; i < n; i++)
+				for (unsigned int i = 0; i < n; i++)
 					this->_allocation.construct(this->_list + i, val);
 				this->_size = n;
 			};
@@ -307,7 +308,7 @@ namespace ft {
 
 				for (iterator it = this->begin(); it != this->end(); it++) {
 					if (it == position) {
-						for (int j = 0; j < n; j++) {
+						for (unsigned int j = 0; j < n; j++) {
 							this->_allocation.construct(newList + i, val);
 							i++;
 						}
@@ -426,7 +427,7 @@ namespace ft {
 
 			void		clear(void) {
 				if (this->_capacity > 0) {
-					for (int i = 0; i < this->_size; i++)
+					for (unsigned int i = 0; i < this->_size; i++)
 						this->_allocation.destroy(this->_list + i);
 					this->_allocation.deallocate(this->_list, this->_capacity);
 					this->_size = 0;

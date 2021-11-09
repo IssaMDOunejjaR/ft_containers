@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:16:11 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/08 18:14:41 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 10:06:14 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int		main(void) {
 
 		std::cout << std::endl;
 
-		for (ft::map<int, int>::iterator it = m2.begin(); it != m2.end(); it++) {
+		for (ft::map<int, int>::const_iterator it = m2.begin(); it != m2.end(); it++) {
 			std::cout << it->first << "\t===>\t" << it->second << std::endl;
 		}
 

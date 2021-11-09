@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterators.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/08 18:13:40 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 09:54:02 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ namespace ft {
 	template <typename T>
 	class Iterator : public ft::iterator<ft::random_access_iterator_tag, T> {
 		public:
-			typedef typename std::iterator<std::random_access_iterator_tag, T>::difference_type		difference_type;
-			typedef typename std::iterator<std::random_access_iterator_tag, T>::iterator_category	iterator_category;
-			typedef typename std::iterator<std::random_access_iterator_tag, T>::value_type			value_type;
+			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type		difference_type;
+			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::iterator_category	iterator_category;
+			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::value_type			value_type;
 			typedef T*																				pointer;
 			typedef T&																				reference;
 
@@ -193,12 +193,12 @@ namespace ft {
 	};
 
 	template <class T, class Node>
-	class	bst_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
+	class	bst_iterator : public ft::iterator<ft::bidirectional_iterator_tag, T> {
 		public:
 			
-			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::difference_type		difference_type;
-			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
-			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::value_type			value_type;
+			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::difference_type		difference_type;
+			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
+			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::value_type			value_type;
 			typedef T*																				pointer;
 			typedef T&																				reference;
 
@@ -387,7 +387,7 @@ namespace ft {
 	};
 	
 	template <class Iterator>
-	class reverse_iterator: public std::iterator <
+	class reverse_iterator: public ft::iterator <
 		typename ft::iterator_traits<Iterator>::iterator_category,
 		typename ft::iterator_traits<Iterator>::value_type,
 		typename ft::iterator_traits<Iterator>::difference_type,
@@ -417,7 +417,8 @@ namespace ft {
 			};
 
 			reverse_iterator&	operator=(const reverse_iterator & instance) {
-				this->_current = instance._current;
+				if (this != &instance)
+					this->_current = instance._current;
 				return *this;
 			};
 
