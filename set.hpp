@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:05:27 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 14:07:26 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 14:43:36 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,12 @@ namespace ft {
 
 			template <class InputIterator>
 			set (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-			: _allocator(alloc), _comp(comp) {};
+			: _allocator(alloc), _comp(comp) {
+				while(first != last) {
+					this->insert(*first);
+					first++;
+				}
+			};
 
 			set (const set & x) {
 				*this = x;

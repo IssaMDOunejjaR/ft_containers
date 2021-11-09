@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 11:58:57 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 14:37:55 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -450,12 +450,6 @@ namespace ft {
 			reverse_iterator	operator+(difference_type n) const {
 				return reverse_iterator(_current - n);
 			};
-
-			friend reverse_iterator operator+(int nb, const reverse_iterator & it) {
-                reverse_iterator tmp = it;
-
-                return (tmp += nb);
-            };
 
 			reverse_iterator&	operator+=(difference_type n) {
 				_current -= n;

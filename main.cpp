@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:16:11 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 14:06:47 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 14:37:46 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,170 +110,159 @@ int		main(void) {
 	// 	std::cout << e.what() << std::endl;
 	// }
 
+	// try {
+	// 	std::map<int, int> m1;
+	// 	std::map<int, int> m2;
+
+	// 	std::pair<std::map<int, int>::iterator, bool>	check;
+
+	// 	check = m1.insert(std::pair<int, int>(10, 1));
+	// 	check = m1.insert(std::pair<int, int>(11, 2));
+	// 	check = m1.insert(std::pair<int, int>(12, 3));
+	// 	check = m1.insert(std::pair<int, int>(13, 4));
+	// 	check = m1.insert(std::pair<int, int>(14, 5));
+	// 	check = m1.insert(std::pair<int, int>(15, 6));
+	// 	check = m1.insert(std::pair<int, int>(16, 7));
+
+	// 	m2.insert(std::pair<int, int>(20, 46556415));
+	// 	m2.insert(std::pair<int, int>(21, 46556415));
+	// 	m2.insert(std::pair<int, int>(22, 46556415));
+
+	// 	std::cout << (m1 <= m2) << std::endl;
+
+	// 	// m.erase(m.begin(), m.end()--);
+
+	// 	std::cout << "size\t\t: " << m1.size() << std::endl;
+	// 	std::cout << "max_size\t: " << m1.max_size() << std::endl;
+	// 	std::cout << "empty\t\t: " << (m1.empty() ? "true" : "false") << std::endl;
+	// 	std::cout << "find: " << (m1.find(19) != m1.end() ? m1.find(19)->second : 0) << std::endl << std::endl;
+
+	// 	// std::cout << m1[102] << std::endl;
+	// 	// std::cout << m1[502] << std::endl;
+
+	// 	// m1[98] = 1000;
+
+	// 	std::map<int, int>::const_iterator it;
+
+	// 	for (it = m1.begin(); it != m1.end(); ++it) {
+	// 		std::cout << it->first << "\t===>\t" << it->second << std::endl;
+	// 	}
+
+	// 	std::cout << std::endl;
+
+	// 	for (std::map<int, int>::iterator it = m2.begin(); it != m2.end(); it++) {
+	// 		std::cout << it->first << "\t===>\t" << it->second << std::endl;
+	// 	}
+	// }
+	// catch (std::exception & e) {
+	// 	std::cout << e.what() << std::endl;
+	// }
+
+	// std::cout << "\n####################################\n" << std::endl;
+
+	// try {
+	// 	ft::map<int, int>	m1;
+	// 	ft::map<int, int>	m2(m1);
+
+	// 	ft::pair<ft::map<int, int>::iterator, bool>	check;
+
+	// 	check = m1.insert(ft::pair<int, int>(10, 1));
+	// 	check = m1.insert(ft::pair<int, int>(11, 2));
+	// 	check = m1.insert(ft::pair<int, int>(12, 3));
+	// 	check = m1.insert(ft::pair<int, int>(13, 4));
+	// 	check = m1.insert(ft::pair<int, int>(14, 5));
+	// 	check = m1.insert(ft::pair<int, int>(15, 6));
+	// 	check = m1.insert(ft::pair<int, int>(16, 7));
+
+	// 	m2.insert(ft::pair<int, int>(20, 46556415));
+	// 	m2.insert(ft::pair<int, int>(21, 46556415));
+	// 	m2.insert(ft::pair<int, int>(22, 46556415));
+
+	// 	std::cout << (m1 <= m2) << std::endl;
+
+	// 	// m1.erase(13);
+
+	// 	std::cout << "size\t\t: " << m1.size() << std::endl;
+	// 	std::cout << "max_size\t: " << m1.max_size() << std::endl;
+	// 	std::cout << "empty\t\t: " << (m1.empty() ? "true" : "false") << std::endl;
+	// 	std::cout << "find: " << (m1.find(19) != m1.end() ? m1.find(19)->second : 0) << std::endl << std::endl;
+
+	// 	// std::cout << m1[102] << std::endl;
+	// 	// std::cout << m1[502] << std::endl;
+
+	// 	// m1[98] = 1000;
+
+	// 	// ft::map<int, int>::reverse_iterator it = m1.rbegin();
+
+	// 	// std::cout << it->first << "\t===>\t" << it->second << std::endl;
+		
+	// 	// it->first = 122222;	
+
+	// 	for (ft::map<int, int>::reverse_iterator it = m1.rbegin(); it != m1.rend(); it++) {
+	// 		std::cout << it->first << "\t===>\t" << it->second << std::endl;
+	// 	}
+
+	// 	std::cout << std::endl;
+
+	// 	for (ft::map<int, int>::reverse_iterator it = m2.rbegin(); it != m2.rend(); it++) {
+	// 		std::cout << it->first << "\t===>\t" << it->second << std::endl;
+	// 	}
+	// } catch (std::exception & e) {
+	// 	std::cout << e.what() << std::endl;
+	// }
+
 	try {
-		std::map<int, int> m1;
-		std::map<int, int> m2;
+		std::set<int>	s1;
+		std::set<int>	s2;
 
-		std::pair<std::map<int, int>::iterator, bool>	check;
+		s1.insert(10);
+		s1.insert(11);
+		s1.insert(12);
+		s1.insert(13);
+		s1.insert(14);
+		s1.insert(12);
 
-		check = m1.insert(std::pair<int, int>(10, 1));
-		check = m1.insert(std::pair<int, int>(11, 2));
-		check = m1.insert(std::pair<int, int>(12, 3));
-		check = m1.insert(std::pair<int, int>(13, 4));
-		check = m1.insert(std::pair<int, int>(14, 5));
-		check = m1.insert(std::pair<int, int>(15, 6));
-		check = m1.insert(std::pair<int, int>(16, 7));
+		s2.insert(1);
+		s2.insert(2);
+		s2.insert(3);
 
-		m2.insert(std::pair<int, int>(20, 46556415));
-		m2.insert(std::pair<int, int>(21, 46556415));
-		m2.insert(std::pair<int, int>(22, 46556415));
+		// std::set<int>::const_reverse_iterator it = s1.rbegin();
 
-		std::cout << (m1 <= m2) << std::endl;
-
-		// m.erase(m.begin(), m.end()--);
-
-		std::cout << "size\t\t: " << m1.size() << std::endl;
-		std::cout << "max_size\t: " << m1.max_size() << std::endl;
-		std::cout << "empty\t\t: " << (m1.empty() ? "true" : "false") << std::endl;
-		std::cout << "find: " << (m1.find(19) != m1.end() ? m1.find(19)->second : 0) << std::endl << std::endl;
-
-		// std::cout << m1[102] << std::endl;
-		// std::cout << m1[502] << std::endl;
-
-		// m1[98] = 1000;
-
-		// std::map<int, int>::const_iterator it;
-
-		// for (it = m1.begin(); it != m1.end(); ++it) {
-		// 	std::cout << it->first << "\t===>\t" << it->second << std::endl;
-		// }
-
-		// std::cout << std::endl;
-
-		// for (std::map<int, int>::iterator it = m2.begin(); it != m2.end(); it++) {
-		// 	std::cout << it->first << "\t===>\t" << it->second << std::endl;
-		// }
+		for (std::set<int>::const_reverse_iterator it = s1.rbegin(); it != s1.rend(); it++)
+			std::cout << *it << std::endl;
 	}
 	catch (std::exception & e) {
 		std::cout << e.what() << std::endl;
 	}
 
-	std::cout << "\n####################################\n" << std::endl;
+	std::cout << "\n######################################\n" << std::endl;
 
 	try {
-		ft::map<int, int>	m1;
-		ft::map<int, int>	m2(m1);
+		ft::set<int>	s1;
 
-		ft::pair<ft::map<int, int>::iterator, bool>	check;
+		s1.insert(10);
+		s1.insert(11);
+		s1.insert(12);
+		s1.insert(13);
+		s1.insert(14);
+		s1.insert(12);
 
-		check = m1.insert(ft::pair<int, int>(10, 1));
-		check = m1.insert(ft::pair<int, int>(11, 2));
-		check = m1.insert(ft::pair<int, int>(12, 3));
-		check = m1.insert(ft::pair<int, int>(13, 4));
-		check = m1.insert(ft::pair<int, int>(14, 5));
-		check = m1.insert(ft::pair<int, int>(15, 6));
-		check = m1.insert(ft::pair<int, int>(16, 7));
+		ft::set<int>::const_reverse_iterator itb = s1.rbegin();
+		ft::set<int>::const_reverse_iterator ite = s1.rend();
 
-		m2.insert(ft::pair<int, int>(20, 46556415));
-		m2.insert(ft::pair<int, int>(21, 46556415));
-		m2.insert(ft::pair<int, int>(22, 46556415));
+		// std::cout << (itb != ite) << std::endl;
 
-		std::cout << (m1 <= m2) << std::endl;
+		while (itb != ite) {
+			std::cout << *itb << std::endl;
+			itb++;
+		}
 
-		// m1.erase(13);
-
-		std::cout << "size\t\t: " << m1.size() << std::endl;
-		std::cout << "max_size\t: " << m1.max_size() << std::endl;
-		std::cout << "empty\t\t: " << (m1.empty() ? "true" : "false") << std::endl;
-		std::cout << "find: " << (m1.find(19) != m1.end() ? m1.find(19)->second : 0) << std::endl << std::endl;
-
-		// std::cout << m1[102] << std::endl;
-		// std::cout << m1[502] << std::endl;
-
-		// m1[98] = 1000;
-
-		// ft::map<int, int>::reverse_iterator it = m1.rbegin();
-
-		// std::cout << it->first << "\t===>\t" << it->second << std::endl;
-		
-		// it->first = 122222;	
-
-		// for (ft::map<int, int>::reverse_iterator it = m1.rbegin(); it != m1.rend(); it++) {
-		// 	std::cout << it->first << "\t===>\t" << it->second << std::endl;
-		// }
-
-		// std::cout << std::endl;
-
-		// for (ft::map<int, int>::reverse_iterator it = m2.rbegin(); it != m2.rend(); it++) {
-		// 	std::cout << it->first << "\t===>\t" << it->second << std::endl;
-		// }
-
-		// ft::map<int, int>::const_iterator itb = m1.begin();
-		// ft::map<int, int>::const_iterator ite = m1.end();
-
-		// it->first = 100;
-
-		// std::cout << it->first << std::endl;
-
-		// for (it = m1.begin(); it != m1.end(); it++) {
-		// 	std::cout << it->first << std::endl;
-		// }
-
-		// --it;
-		// --it;
-		// std::cout << (*it++).first << std::endl;
-	} catch (std::exception & e) {
+		for (ft::set<int>::const_reverse_iterator it = s1.rbegin(); it != s1.rend(); it++)
+			std::cout << *it << std::endl;
+	}
+	catch (std::exception & e) {
 		std::cout << e.what() << std::endl;
 	}
-
-	// try {
-	// 	std::set<int>	s1;
-	// 	std::set<int>	s2;
-
-	// 	s1.insert(10);
-	// 	s1.insert(11);
-	// 	s1.insert(12);
-	// 	s1.insert(13);
-	// 	s1.insert(14);
-	// 	s1.insert(12);
-
-	// 	s2.insert(1);
-	// 	s2.insert(2);
-	// 	s2.insert(3);
-
-	// 	std::set<int>::const_reverse_iterator it = s1.rbegin();
-
-	// 	std::cout << (s1 == s2) << std::endl;
-
-	// 	for (std::set<int>::iterator it = s1.begin(); it != s1.end(); it++)
-	// 		std::cout << *it << std::endl;
-	// }
-	// catch (std::exception & e) {
-	// 	std::cout << e.what() << std::endl;
-	// }
-
-	// std::cout << "\n######################################\n" << std::endl;
-
-	// try {
-	// 	ft::set<int>	s1;
-
-	// 	s1.insert(10);
-	// 	s1.insert(11);
-	// 	s1.insert(12);
-	// 	s1.insert(13);
-	// 	s1.insert(14);
-	// 	s1.insert(12);
-
-	// 	ft::set<int>::const_reverse_iterator it = s1.rbegin();
-
-	// 	// std::cout << (it == it - it) << std::endl;
-
-	// 	for (ft::set<int>::iterator it = s1.begin(); it != s1.end(); it++)
-	// 		std::cout << *it << std::endl;
-	// }
-	// catch (std::exception & e) {
-	// 	std::cout << e.what() << std::endl;
-	// }
 
 	return (0);
 }

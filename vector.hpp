@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:57:46 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 14:11:24 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 14:39:01 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,6 +326,9 @@ namespace ft {
 
 			template <class InputIterator>
 			void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type a = InputIterator()) {
+
+				(void)a;
+
 				int i = 0;
 				pointer newList;
 
