@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 14:37:55 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 17:58:49 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -411,9 +411,9 @@ namespace ft {
 
 			~reverse_iterator(void) {};
 
-			// operator reverse_iterator<const Iterator>(void) const {
-			// 	return reverse_iterator<const Iterator>(this->_current);
-			// };
+			operator reverse_iterator<const Iterator>(void) const {
+				return reverse_iterator<const Iterator>(this->_current);
+			};
 
 			iterator_type		base(void) const {
 				return this->_current;
@@ -511,6 +511,11 @@ namespace ft {
 				return it1.base() >= it2.base();
 			}
 	};
+
+	template <class Iter1, class Iter2>
+	bool	operator!=(Iter1 const & it1, Iter2 const & it2) {
+		return it1.base() != it2.base();
+	}
 };
 
 #endif

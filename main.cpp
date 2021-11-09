@@ -6,7 +6,7 @@
 /*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:16:11 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 14:37:46 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/09 17:48:14 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,10 +252,10 @@ int		main(void) {
 
 		// std::cout << (itb != ite) << std::endl;
 
-		while (itb != ite) {
-			std::cout << *itb << std::endl;
-			itb++;
-		}
+		// while (itb != ite) {
+		// 	std::cout << *itb << std::endl;
+		// 	itb++;
+		// }
 
 		for (ft::set<int>::const_reverse_iterator it = s1.rbegin(); it != s1.rend(); it++)
 			std::cout << *it << std::endl;
