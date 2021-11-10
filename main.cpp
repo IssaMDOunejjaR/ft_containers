@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:16:11 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/10 10:54:43 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/10 13:56:00 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,31 +264,45 @@ int		main(void) {
 	// 	std::cout << e.what() << std::endl;
 	// }
 
-	std::vector<int>	v1;
-	ft::vector<int>		v2;
+	// std::vector<int>	v1;
+	// ft::vector<int>		ft_v1;
 
-	v1.push_back(1);
-	v1.push_back(2);
-	v1.push_back(3);
-	v1.push_back(4);
-	v1.push_back(5);
+	// v1.insert(v1.begin(), 10);
+	// v1.insert(v1.begin(), 11);
 
-	v2.push_back(1);
-	v2.push_back(2);
-	v2.push_back(3);
-	v2.push_back(4);
-	v2.push_back(5);
+	// ft_v1.insert(ft_v1.begin(), 10);
+	// ft_v1.insert(ft_v1.begin(), 11);
 
-	v1.resize(7);
-	v2.resize(7);
 
-	std::cout << "size: " << v1.size() << std::endl;
-	std::cout << "capacity: " << v1.capacity() << std::endl;
+	// std::cout << "size: " << v1.size() << std::endl;
+	// std::cout << "capacity: " << v1.capacity() << std::endl;
+	// std::cout << "empty: " << v1.empty() << std::endl;
 
-	std::cout << "=================" << std::endl;
+	// for (std::vector<int>::iterator it = v1.begin(); it != v1.end(); it++)
+	// 	std::cout << *it << std::endl; 
 
-	std::cout << "size: " << v2.size() << std::endl;
-	std::cout << "capacity: " << v2.capacity() << std::endl;
+	// std::cout << "=================" << std::endl;
+
+	// std::cout << "size: " << ft_v1.size() << std::endl;
+	// std::cout << "capacity: " << ft_v1.capacity() << std::endl;
+	// std::cout << "empty: " << ft_v1.empty() << std::endl;
+
+	// for (ft::vector<int>::iterator it = ft_v1.begin(); it != ft_v1.end(); it++)
+	// 	std::cout << *it << std::endl; 
+
+	std::map<int, std::string> m;
+	ft::map<int, std::string> my_m;
+
+	for (int i = 0; i < 5; ++i)
+	{
+		m.insert(std::make_pair(13, "HELLO"));
+		my_m.insert(ft::make_pair(13, "HELLO"));
+	}
+
+	ft::map<int, std::string>::iterator my_it = my_m.begin();
+	std::map<int, std::string>::iterator it = m.begin();
+
+	std::cout << (it->second.length() == my_it->second.length()) << std::endl;
 
 	return (0);
 }

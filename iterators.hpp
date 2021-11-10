@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterators.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/10 09:21:42 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/10 13:46:49 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,12 +193,12 @@ namespace ft {
 	};
 
 	template <class T, class Node>
-	class	bst_iterator : public ft::iterator<ft::bidirectional_iterator_tag, T> {
+	class	bst_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
 		public:
 			
-			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::difference_type		difference_type;
-			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
-			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::value_type			value_type;
+			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::difference_type		difference_type;
+			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
+			typedef typename std::iterator<std::bidirectional_iterator_tag, T>::value_type			value_type;
 			typedef T*																				pointer;
 			typedef T&																				reference;
 

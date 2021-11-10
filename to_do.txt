@@ -60,3 +60,6 @@
 	- erase			: X
 	- swap			: X
 	- clear			: O
+
+->	ft::map:
+	-

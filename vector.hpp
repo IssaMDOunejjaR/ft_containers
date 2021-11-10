@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:57:46 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/10 10:51:49 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/10 12:49:44 by issamdounej      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,18 @@ namespace ft {
 			: _allocation(alloc) {
 				(void)a;
 
-				int cap = last - first;
+				this->_capacity = last - first;
+				this->_size = this->_capacity;
 
-				this->_capacity = 0;
-				this->_size = 0;
-				this->_list = NULL;
+				this->_list = this->_allocation.allocate(this->_capacity);
 
-				while (first != last) {
-					this->push_back(*first);
+				unsigned int i = 0;
+
+				while (i < this->_size) {
+					this->_allocation.construct(this->_list + i, *first);
+					i++;
 					first++;
 				}
-
-				this->_capacity = cap;
 			};
 
 			vector(const vector & instance) {
@@ -92,11 +92,13 @@ namespace ft {
 					this->clear();
 
 					this->_allocation = instance._allocation;
+					this->_size = instance.size();
+					this->_capacity = this->_size;
+					this->_list = this->_allocation.allocate(this->_size);
 
 					for (unsigned int i = 0; i < instance._size; i++)
-						this->push_back(instance._list[i]);
+						this->_allocation.construct(this->_list + i, instance._list[i]);
 
-					this->_capacity = this->_size;
 				}
 				return *this;
 			};
@@ -164,21 +166,29 @@ namespace ft {
 					}
 				}
 				else if (n > this->_size) {
-					if (n > this->_capacity)
-						this->reserve(this->_capacity * 2);
+					if (n > this->_capacity) {
+						if (this->_capacity * 2 < n)
+							this->reserve(n);
+						else
+							this->reserve(this->_capacity * 2);
+					}
 					for (i = 0; i < this->_size; i++) {
 						this->_allocation.construct(newList + i, this->_list[i]);
 						this->_allocation.destroy(this->_list + i);
 					}
 					while (i < n) {
-						newList[i] = val;
+						// std::cout << newList[i] << std::endl;
+						// newList[i] = val;
+						this->_allocation.construct(newList + i, val);
 						i++;
 					}
 				}
+				// std::cout << this->_capacity << std::endl;
 				this->_allocation.deallocate(this->_list, this->_capacity);
 				this->_size = n;
 				this->_list = newList;
-				this->_capacity = n;
+				// if (this->_capacity == 0)
+				// 	this->_capacity = n;
 			};
 
 			size_type	capacity(void) const {
@@ -286,23 +296,28 @@ namespace ft {
 
 			iterator	insert(iterator position, const value_type & val) {
 				int i = 0;
-				pointer	newList = this->_allocation.allocate(this->_capacity);
+				pointer	newList = this->_allocation.allocate(this->_capacity + 1);
 
-				for (iterator it = this->begin(); it != this->end(); it++) {
-					if (it == position) {
-						this->_allocation.construct(newList + i, val);
+				if (this->_size > 0) {
+					for (iterator it = this->begin(); it != this->end(); it++) {
+						if (it == position) {
+							this->_allocation.construct(newList + i, val);
+							i++;
+							this->_allocation.construct(newList + i, *it);
+						}
+						else {
+							this->_allocation.construct(newList + i, *it);
+						}
+						this->_allocation.destroy(this->_list + i);
 						i++;
-						this->_allocation.construct(newList + i, *it);
 					}
-					else {
-						this->_allocation.construct(newList + i, *it);
-					}
-					this->_allocation.destroy(this->_list + i);
-					i++;
+					this->_allocation.deallocate(this->_list, this->_capacity);
 				}
-				this->_allocation.deallocate(this->_list, this->_capacity);
+				else
+					this->_allocation.construct(newList + i, val);
 				this->_list = newList;
 				this->_size++;
+				this->_capacity++;
 				return position;
 			};
 
