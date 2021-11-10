@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:57:46 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 14:39:01 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/10 10:51:49 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,19 @@ namespace ft {
 			vector(InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type a = InputIterator())
 			: _allocation(alloc) {
 				(void)a;
+
+				int cap = last - first;
+
+				this->_capacity = 0;
+				this->_size = 0;
+				this->_list = NULL;
+
 				while (first != last) {
 					this->push_back(*first);
 					first++;
 				}
+
+				this->_capacity = cap;
 			};
 
 			vector(const vector & instance) {
@@ -169,6 +178,7 @@ namespace ft {
 				this->_allocation.deallocate(this->_list, this->_capacity);
 				this->_size = n;
 				this->_list = newList;
+				this->_capacity = n;
 			};
 
 			size_type	capacity(void) const {
@@ -226,7 +236,9 @@ namespace ft {
 
 			// Modifiers
 			template<class InputIterator>
-			void		assign(InputIterator first, InputIterator last) {
+			void		assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type a = InputIterator()) {
+				(void)a;
+
 				unsigned int i = 0;
 				unsigned int len = 0;
 				InputIterator it = first;
@@ -326,7 +338,6 @@ namespace ft {
 
 			template <class InputIterator>
 			void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type a = InputIterator()) {
-
 				(void)a;
 
 				int i = 0;

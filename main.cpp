@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:16:11 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 17:48:14 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/10 10:54:43 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,58 +211,84 @@ int		main(void) {
 	// 	std::cout << e.what() << std::endl;
 	// }
 
-	try {
-		std::set<int>	s1;
-		std::set<int>	s2;
+	// try {
+	// 	std::set<int>	s1;
+	// 	std::set<int>	s2;
 
-		s1.insert(10);
-		s1.insert(11);
-		s1.insert(12);
-		s1.insert(13);
-		s1.insert(14);
-		s1.insert(12);
+	// 	s1.insert(10);
+	// 	s1.insert(11);
+	// 	s1.insert(12);
+	// 	s1.insert(13);
+	// 	s1.insert(14);
+	// 	s1.insert(12);
 
-		s2.insert(1);
-		s2.insert(2);
-		s2.insert(3);
+	// 	s2.insert(1);
+	// 	s2.insert(2);
+	// 	s2.insert(3);
 
-		// std::set<int>::const_reverse_iterator it = s1.rbegin();
+	// 	// std::set<int>::const_reverse_iterator it = s1.rbegin();
 
-		for (std::set<int>::const_reverse_iterator it = s1.rbegin(); it != s1.rend(); it++)
-			std::cout << *it << std::endl;
-	}
-	catch (std::exception & e) {
-		std::cout << e.what() << std::endl;
-	}
+	// 	for (std::set<int>::const_reverse_iterator it = s1.rbegin(); it != s1.rend(); it++)
+	// 		std::cout << *it << std::endl;
+	// }
+	// catch (std::exception & e) {
+	// 	std::cout << e.what() << std::endl;
+	// }
 
-	std::cout << "\n######################################\n" << std::endl;
+	// std::cout << "\n######################################\n" << std::endl;
 
-	try {
-		ft::set<int>	s1;
+	// try {
+	// 	ft::set<int>	s1;
 
-		s1.insert(10);
-		s1.insert(11);
-		s1.insert(12);
-		s1.insert(13);
-		s1.insert(14);
-		s1.insert(12);
+	// 	s1.insert(10);
+	// 	s1.insert(11);
+	// 	s1.insert(12);
+	// 	s1.insert(13);
+	// 	s1.insert(14);
+	// 	s1.insert(12);
 
-		ft::set<int>::const_reverse_iterator itb = s1.rbegin();
-		ft::set<int>::const_reverse_iterator ite = s1.rend();
+	// 	ft::set<int>::const_reverse_iterator itb = s1.rbegin();
+	// 	ft::set<int>::const_reverse_iterator ite = s1.rend();
 
-		// std::cout << (itb != ite) << std::endl;
+	// 	// std::cout << (itb != ite) << std::endl;
 
-		// while (itb != ite) {
-		// 	std::cout << *itb << std::endl;
-		// 	itb++;
-		// }
+	// 	// while (itb != ite) {
+	// 	// 	std::cout << *itb << std::endl;
+	// 	// 	itb++;
+	// 	// }
 
-		for (ft::set<int>::const_reverse_iterator it = s1.rbegin(); it != s1.rend(); it++)
-			std::cout << *it << std::endl;
-	}
-	catch (std::exception & e) {
-		std::cout << e.what() << std::endl;
-	}
+	// 	for (ft::set<int>::const_reverse_iterator it = s1.rbegin(); it != s1.rend(); it++)
+	// 		std::cout << *it << std::endl;
+	// }
+	// catch (std::exception & e) {
+	// 	std::cout << e.what() << std::endl;
+	// }
+
+	std::vector<int>	v1;
+	ft::vector<int>		v2;
+
+	v1.push_back(1);
+	v1.push_back(2);
+	v1.push_back(3);
+	v1.push_back(4);
+	v1.push_back(5);
+
+	v2.push_back(1);
+	v2.push_back(2);
+	v2.push_back(3);
+	v2.push_back(4);
+	v2.push_back(5);
+
+	v1.resize(7);
+	v2.resize(7);
+
+	std::cout << "size: " << v1.size() << std::endl;
+	std::cout << "capacity: " << v1.capacity() << std::endl;
+
+	std::cout << "=================" << std::endl;
+
+	std::cout << "size: " << v2.size() << std::endl;
+	std::cout << "capacity: " << v2.capacity() << std::endl;
 
 	return (0);
 }

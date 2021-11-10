@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterators.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 17:58:49 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/10 09:21:42 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ namespace ft {
 	};
 
 	template <typename T>
-	class Iterator : public ft::iterator<ft::random_access_iterator_tag, T> {
+	class Iterator : public std::iterator<std::random_access_iterator_tag, T> {
 		public:
-			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type		difference_type;
-			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::iterator_category	iterator_category;
-			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::value_type			value_type;
+			typedef typename std::iterator<std::random_access_iterator_tag, T>::difference_type		difference_type;
+			typedef typename std::iterator<std::random_access_iterator_tag, T>::iterator_category	iterator_category;
+			typedef typename std::iterator<std::random_access_iterator_tag, T>::value_type			value_type;
 			typedef T*																				pointer;
 			typedef T&																				reference;
 

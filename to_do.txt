@@ -43,7 +43,7 @@
 
 	- size			: O
 	- max_size		: O
-	- resize		: O
+	- resize		: X
 	- capacity		: O
 	- empty			: O
 	- reserve		: O
@@ -56,6 +56,7 @@
 	- assign		: O
 	- push_back		: O
 	- pop_back		: O
-	- insert		: O
-	- erase			: O
+	- insert		: X
+	- erase			: X
+	- swap			: X
 	- clear			: O

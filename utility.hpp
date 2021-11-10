@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 13:42:02 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 14:01:42 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/10 10:44:28 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 # define UTILITY_HPP
 
 namespace ft {
-	template <typename T, class Alloc>
-	void	swap(T & a, T & b) {
-		T tmp;
+	// template <typename T>
+	// void	swap(T & a, T & b) {
+	// 	T tmp;
 
-		tmp = a;
-		a = b;
-		b = tmp;
-	}
+	// 	tmp = a;
+	// 	a = b;
+	// 	b = tmp;
+	// }
 
 	template <class T1, class T2>
 	struct	pair {
