@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 14:07:37 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/11 11:26:12 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ namespace ft {
 			};
 
 			~map(void) {
-				this->clear();
+				this->_tree.clear();
 			};
 
 			// Operators Overloads
@@ -246,8 +246,8 @@ namespace ft {
 			};
 
 			void	clear(void) {
-				if (this->size() > 0)
-					this->_tree.clear();
+				this->_tree.clear();
+				this->_tree = ft::RedBlackTree<value_type, Node, value_compare>();
 			};
 
 			// Observers

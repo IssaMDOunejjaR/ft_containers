@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:57:46 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/10 12:49:44 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/11 10:08:12 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,10 @@ namespace ft {
 			};
 
 			vector(const vector & instance) {
+				this->_list = NULL;
+				this->_size = 0;
+				this->_capacity = 0;
+
 				*this = instance;
 			};
 
@@ -93,12 +97,11 @@ namespace ft {
 
 					this->_allocation = instance._allocation;
 					this->_size = instance.size();
-					this->_capacity = this->_size;
+					this->_capacity = instance.size();
 					this->_list = this->_allocation.allocate(this->_size);
 
 					for (unsigned int i = 0; i < instance._size; i++)
 						this->_allocation.construct(this->_list + i, instance._list[i]);
-
 				}
 				return *this;
 			};
@@ -155,7 +158,7 @@ namespace ft {
 
 			void		resize(size_type n, value_type val = value_type()) {
 				if (n > this->max_size())
-					throw std::out_of_range("vector");
+					throw std::length_error("vector");
 				pointer	newList = this->_allocation.allocate(n);
 				size_type	i;
 
@@ -177,18 +180,13 @@ namespace ft {
 						this->_allocation.destroy(this->_list + i);
 					}
 					while (i < n) {
-						// std::cout << newList[i] << std::endl;
-						// newList[i] = val;
 						this->_allocation.construct(newList + i, val);
 						i++;
 					}
 				}
-				// std::cout << this->_capacity << std::endl;
 				this->_allocation.deallocate(this->_list, this->_capacity);
 				this->_size = n;
 				this->_list = newList;
-				// if (this->_capacity == 0)
-				// 	this->_capacity = n;
 			};
 
 			size_type	capacity(void) const {
@@ -356,35 +354,39 @@ namespace ft {
 				(void)a;
 
 				int i = 0;
+				int j = 0;
 				pointer newList;
 
-				for (InputIterator it = first; it != last; it++)
-					i++;
-				
-				if (i + this->_size > this->_capacity) {
-					newList = this->_allocation.allocate(this->_capacity * 2);
-					this->_capacity *= 2;
-				}
-				else
-					newList = this->_allocation.allocate(this->_capacity);
+				newList = this->_allocation.allocate(this->_capacity + (last - first));
 
 				i = 0;
-				for (iterator it = this->begin(); it != this->end(); it++) {
-					if (it == position) {
-						for (; first != last; first++) {
-							this->_allocation.construct(newList + i, *first);
-							i++;
-						}
-						this->_allocation.construct(newList + i, *it);
+				if (this->_capacity == 0) {
+					while (first != last) {
+						this->_allocation.construct(newList + i, *first);
+						first++;
+						i++;
 					}
-					else
-						this->_allocation.construct(newList + i, *it);
-					i++;
-					this->_allocation.destroy(this->_list + i);
 				}
-				this->_allocation.deallocate(this->_list, this->_capacity);
+				else {
+					for (iterator it = this->begin(); it != this->end(); it++) {
+						if (it == position) {
+							for (; first != last; first++) {
+								this->_allocation.construct(newList + i, *first);
+								i++;
+							}
+							this->_allocation.construct(newList + i, *it);
+						}
+						else
+							this->_allocation.construct(newList + i, *it);
+						i++;
+						this->_allocation.destroy(this->_list + j);
+						j++;
+					}
+					this->_allocation.deallocate(this->_list, this->_capacity);
+				}
 				this->_list = newList;
 				this->_size = i;
+				this->_capacity = this->_size;
 			};
 			
 			iterator	erase(iterator position) {
@@ -428,7 +430,9 @@ namespace ft {
 
 				tmp = *this;
 				*this = x;
+				this->_capacity = x.capacity();
 				x = tmp;
+				x.resize(tmp.capacity());
 			};
 
 			void		clear(void) {

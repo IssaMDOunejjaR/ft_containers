@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:05:27 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 17:52:01 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/11 11:38:59 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ namespace ft {
 			};
 
 			~set (void) {
-				this->clear();
+				this->_tree.clear();
 			};
 
 			// Operators overloads
@@ -68,7 +68,7 @@ namespace ft {
 					if (x.size() > 0)
 						this->insert(x.begin(), x.end());
 					this->_allocator = x._allocator;
-					this->_Comp = x._Comp;
+					this->_comp = x._comp;
 				}
 				return *this;
 			};
@@ -206,8 +206,8 @@ namespace ft {
 			};
 
 			void	clear(void) {
-				if (this->size() > 0)
-					this->_tree.clear();
+				this->_tree.clear();
+				this->_tree = ft::RedBlackTree<value_type, Node>();
 			};
 
 			// Observers

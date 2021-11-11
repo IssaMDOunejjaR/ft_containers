@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   red_black_tree.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: issamdounejjar <issamdounejjar@student.    +#+  +:+       +#+        */
+/*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/09 17:47:50 by issamdounej      ###   ########.fr       */
+/*   Updated: 2021/11/11 11:51:27 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,7 @@ namespace ft {
 
 	template <class T, class Node, class Compare = std::less<T>, class Allocator = std::allocator<Node> >
 	class RedBlackTree {
-		public:
-			// typedef Node<T>		Node;
-
 		protected:
-
 			Node*		_root;
 			size_t		_length;
 			Allocator	_allocator;
@@ -337,22 +333,6 @@ namespace ft {
 				_length--;
 			};
 
-			// void	printHelper(Node * node) {
-			// 	if (node->left == NULL && node->right == NULL)
-			// 		return ;
-
-			// 	printHelper(node->left);
-			// 	std::cout << "#===============#" << std::endl;
-			// 	std::cout << "# first\t: " << node->data.first << "\t#" << std::endl;
-			// 	// std::cout << "# second: " << node->data.second << "\t#" << std::endl;
-			// 	std::cout << "# parent: " << (node->parent != NULL ? node->parent->data.first : NULL) << "\t#" << std::endl;
-			// 	std::cout << "# left\t: " << (node->left->left != NULL && node->left->right != NULL ? node->left->data.first : NULL) << "\t#" << std::endl;
-			// 	std::cout << "# right\t: " << (node->right->left != NULL && node->right->right != NULL ? node->right->data.first : NULL) << "\t#" << std::endl;
-			// 	std::cout << "# color\t: " << (node->color == BLACK ? "Black" : "Red") << "\t#" << std::endl;
-			// 	std::cout << "#===============#\n" << std::endl;
-			// 	printHelper(node->right);
-			// };
-
 			Node* searchHelper(Node * node, T const & data) {
 				if (node->left == NULL && node->right == NULL)
 					return node;
@@ -383,11 +363,6 @@ namespace ft {
 				_root = this->_allocator.allocate(1);
 
 				this->_allocator.construct(_root, Node());
-
-				_root->parent = NULL;
-				_root->left = NULL;
-				_root->right = NULL;
-				_root->color = BLACK;
 			};
 
 			~RedBlackTree(void) {}

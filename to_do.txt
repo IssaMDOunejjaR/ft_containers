@@ -43,7 +43,7 @@
 
 	- size			: O
 	- max_size		: O
-	- resize		: X
+	- resize		: O
 	- capacity		: O
 	- empty			: O
 	- reserve		: O
@@ -56,9 +56,9 @@
 	- assign		: O
 	- push_back		: O
 	- pop_back		: O
-	- insert		: X
-	- erase			: X
-	- swap			: X
+	- insert		: O
+	- erase			: O
+	- swap			: O
 	- clear			: O
 
 ->	ft::map:
