@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/11 17:35:36 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/12 16:21:14 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,8 @@ namespace ft {
 					y->color = node->color;
 				}
 
-				delete node;
+				this->_allocator.destroy(node);
+				this->_allocator.deallocate(node, 1);
 
 				if (originalColor == BLACK) {
 					delFix(x);
