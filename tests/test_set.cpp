@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 10:42:24 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/12 13:23:21 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/12 14:17:28 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ int		main(void) {
 
 		std::cout << std::endl;
 
-		NAME_SPACE::set<int>::iterator it;
+		NAME_SPACE::set<int>::iterator it = m4.begin();
+		NAME_SPACE::set<int>::const_iterator cit = m4.begin();
+
+		std::cout << (it == cit) << std::endl;
 
 		for (it = m4.begin(); it != m4.end(); it++)
 			std::cout << *it << std::endl;

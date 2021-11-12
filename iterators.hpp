@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/12 10:52:52 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/12 14:15:51 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,33 +165,39 @@ namespace ft {
 				return it1.base() - it2.base();
             }
 
-			friend bool	operator==(Iterator const & it1, Iterator const & it2) {
-				return it1.base() == it2.base();
-			}
-
-			friend bool	operator!=(Iterator const & it1, Iterator const & it2) {
-				return it1.base() != it2.base();
-			}
-			
-			friend bool	operator<(Iterator const & it1, Iterator const & it2) {
-				return it1.base() < it2.base();
-			}
-			
-			friend bool	operator>(Iterator const & it1, Iterator const & it2) {
-				return it1.base() > it2.base();
-			}
-			
-			friend bool	operator>=(Iterator const & it1, Iterator const & it2) {
-				return it1.base() >= it2.base();
-			}
-			
-			friend bool	operator<=(Iterator const & it1, Iterator const & it2) {
-				return it1.base() <= it2.base();
-			}
-
 		private:
 			pointer		_ptr;
 	};
+
+	template <class Iterator1, class Iterator2>
+	bool	operator==(Iterator1 const & it1, Iterator2 const & it2) {
+		return it1.base() == it2.base();
+	}
+
+	template <class Iterator1, class Iterator2>
+	bool	operator!=(Iterator1 const & it1, Iterator2 const & it2) {
+		return it1.base() != it2.base();
+	}
+	
+	template <class Iterator1, class Iterator2>
+	bool	operator<(Iterator1 const & it1, Iterator2 const & it2) {
+		return it1.base() < it2.base();
+	}
+	
+	template <class Iterator1, class Iterator2>
+	bool	operator>(Iterator1 const & it1, Iterator2 const & it2) {
+		return it1.base() > it2.base();
+	}
+	
+	template <class Iterator1, class Iterator2>
+	bool	operator>=(Iterator1 const & it1, Iterator2 const & it2) {
+		return it1.base() >= it2.base();
+	}
+	
+	template <class Iterator1, class Iterator2>
+	bool	operator<=(Iterator1 const & it1, Iterator2 const & it2) {
+		return it1.base() <= it2.base();
+	}
 
 	template <class T, class Node>
 	class	bst_iterator : public ft::iterator<ft::bidirectional_iterator_tag, T> {
@@ -508,11 +514,6 @@ namespace ft {
 				return it1.base() >= it2.base();
 			}
 	};
-
-	template <class Iter1, class Iter2>
-	bool	operator!=(Iter1 const & it1, Iter2 const & it2) {
-		return it1.base() != it2.base();
-	}
 };
 
 #endif

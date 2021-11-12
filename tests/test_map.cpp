@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 10:42:24 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/12 13:23:34 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/12 14:01:22 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,21 @@ int		main(void) {
 
 		m4 = m3;
 
-		std::cout << "size\t\t: " << m4.size() << std::endl;
-		std::cout << "empty\t\t: " << (m4.empty() ? "true" : "false") << std::endl;
-		std::cout << "find\t\t: " << (m4.find(101) != m4.end() ? m4.find(101)->first : 0) << std::endl;
-		std::cout << "count\t\t: " << (m4.count(101) ? "true" : "false") << std::endl;
-		std::cout << "lower_bound\t: " << (m4.lower_bound(117) != m4.end() ? m4.lower_bound(102)->first : 0) << std::endl;
-		std::cout << "upper_bound\t: " << (m4.upper_bound(117) != m4.end() ? m4.upper_bound(117)->first : 0) << std::endl;
+		std::cout << "size\t\t\t: " << m4.size() << std::endl;
+		std::cout << "empty\t\t\t: " << (m4.empty() ? "true" : "false") << std::endl;
+		std::cout << "find\t\t\t: " << (m4.find(101) != m4.end() ? m4.find(101)->first : 0) << std::endl;
+		std::cout << "count\t\t\t: " << (m4.count(101) ? "true" : "false") << std::endl;
+		std::cout << "lower_bound\t\t: " << (m4.lower_bound(117) != m4.end() ? m4.lower_bound(102)->first : 0) << std::endl;
+		std::cout << "upper_bound\t\t: " << (m4.upper_bound(117) != m4.end() ? m4.upper_bound(117)->first : 0) << std::endl;
 		std::cout << "equal_range lower\t: " << m4.equal_range(117).first->first << std::endl;
 		std::cout << "equal_range upper\t: " << m4.equal_range(117).second->first << std::endl;
 
 		std::cout << std::endl;
 
-		NAME_SPACE::map<int, int>::iterator it;
+		NAME_SPACE::map<int, int>::iterator it = m4.begin();
+		NAME_SPACE::map<int, int>::const_iterator cit = m4.begin();
+
+		std::cout << (it == cit) << std::endl;
 
 		for (it = m4.begin(); it != m4.end(); it++)
 			std::cout << it->first << "\t == \t" << it->second << std::endl;

@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 12:25:39 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/12 13:23:28 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/12 14:15:30 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 int		main(void) {
 	{
 		std::cout << "=========================== TEST vector ===========================" << std::endl;
-
-		
 
 		NAME_SPACE::vector<std::string>	v1;
 		NAME_SPACE::vector<std::string>	v2(5, "000");
@@ -32,21 +30,26 @@ int		main(void) {
 		v1.push_back("004");
 		v1.push_back("005");
 
-		NAME_SPACE::vector<std::string>	v6(v1.begin(), v1.end());
-
-		NAME_SPACE::vector<std::string>::iterator it;
-
-		for (it = v6.begin(); it != v6.end(); it++)
-			std::cout << *it << std::endl;
-
 		v4 = v1;
 
 		std::cout << "size\t: " << v4.size() << std::endl;
 		std::cout << "capacity: " << v4.capacity() << std::endl;
 		std::cout << "empty\t: " << (v4.empty() ? "true" : "false") << std::endl;
-		std::cout << "at\t\t: " << v4.at(3) << std::endl;
+		std::cout << "at\t: " << v4.at(3) << std::endl;
 		std::cout << "front\t: " << v4.front() << std::endl;
 		std::cout << "back\t: " << v4.back() << std::endl;
+
+		NAME_SPACE::vector<std::string>	v6(v1.begin(), v1.end());
+
+		NAME_SPACE::vector<std::string>::iterator 		it = v6.begin();
+		NAME_SPACE::vector<std::string>::const_iterator cit = v6.begin();
+
+		std::cout << (it != cit) << std::endl;
+
+		for (it = v6.begin(); it != v6.end(); it++)
+			std::cout << *it << std::endl;
+
+		v4 = v1;
 
 		std::cout << std::endl;
 
