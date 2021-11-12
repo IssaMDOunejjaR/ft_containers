@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 10:03:47 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/11 11:26:12 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/11 18:19:39 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,113 +261,84 @@ namespace ft {
 
 			// Operations
 			iterator	find(const key_type & k) {
-				Node*	node = this->_tree.getRoot();
+				iterator it = this->begin();
 
-				while (node->left != NULL && node->right != NULL) {
-					if (node->data.first == k)
-						break ;
-					else if (k < node->data.first)
-						node = node->left;
-					else if (k > node->data.first)
-						node = node->right;
+				while (it != this->end()) {
+					if (it->first == k)
+						return it;
+					it++;
 				}
 
-				if (node->left != NULL && node->right != NULL)
-					return iterator(node, this->_tree.getRoot());
 				return this->end();
 			};
 			
 			const_iterator	find(const key_type & k) const {
-				Node*	node = this->_tree.getRoot();
+				const_iterator it = this->begin();
 
-				while (node->left != NULL && node->right != NULL) {
-					if (node->data.first == k)
-						break ;
-					else if (k < node->data.first)
-						node = node->left;
-					else if (k > node->data.first)
-						node = node->right;
+				while (it != this->end()) {
+					if (it->first == k)
+						return it;
+					it++;
 				}
 
-				if (node->left != NULL && node->right != NULL)
-					return const_iterator(node, this->_tree.getRoot());
 				return this->end();
 			};
 
 			size_type	count(key_type const & k) const {
-				Node*	node = this->_tree.getRoot();
+				const_iterator it = this->begin();
 
-				while (node->left != NULL && node->right != NULL) {
-					if (node->data.first == k)
-						break ;
-					else if (k < node->data.first)
-						node = node->left;
-					else if (k > node->data.first)
-						node = node->right;
+				while (it != this->end()) {
+					if (it->first == k)
+						return 1;
+					it++;
 				}
 
-				if (node->left != NULL && node->right != NULL)
-					return 1;
 				return 0;
 			};
 
 			iterator	lower_bound(const key_type & k) {
-				Node*	root = this->_tree.getRoot();
+				iterator it = this->begin();
 
-				while (root != NULL) {
-					if (!this->_comp(root->data.first, k))
-						return iterator(root, this->_tree.getRoot());
-					else
-						root = root->right;
+				while (it != this->end()) {
+					if (!this->_comp(it->first, k))
+						return it;
+					it++;
 				}
 
 				return this->end();
 			};
 
 			const_iterator	lower_bound(const key_type & k) const {
-				Node*	root = this->_tree.getRoot();
+				const_iterator it = this->begin();
 
-				while (root != NULL) {
-					if (!this->_comp(root->data.first, k))
-						return const_iterator(root, this->_tree.getRoot());
-					else
-						root = root->right;
+				while (it != this->end()) {
+					if (!this->_comp(it->first, k))
+						return it;
+					it++;
 				}
 
 				return this->end();
 			};
 
 			iterator	upper_bound(const key_type & k) {
-				Node*	root = this->_tree.getRoot();
+				iterator it = this->begin();
 
-				while (root != NULL) {
-					if (this->_comp(k, root->data.first)) {
-						if (root->left->left == NULL && root->left->right == NULL)
-							return iterator(root, this->_tree.getRoot());
-						root = root->left;
-					}
-					else if (root->right->left == NULL && root->right->right == NULL)
-						return iterator(root->parent, this->_tree.getRoot());
-					else
-						root = root->right;
+				while (it != this->end()) {
+					if (this->_comp(k, it->first))
+						return it;
+					it++;
 				}
 
 				return this->end();
 			}
 
 			const_iterator	upper_bound(const key_type & k) const {
-				Node*	root = this->_tree.getRoot();
+				const_iterator it = this->begin();
 
-				while (root != NULL) {
-					if (this->_comp(k, root->data.first)) {
-						if (root->left->left == NULL && root->left->right == NULL)
-							return const_iterator(root, this->_tree.getRoot());
-						root = root->left;
-					}
-					else if (root->right->left == NULL && root->right->right == NULL)
-						return const_iterator(root->parent, this->_tree.getRoot());
-					else
-						root = root->right;
+				while (it != this->end()) {
+					if (this->_comp(k, it->first))
+						return it;
+					it++;
 				}
 
 				return this->end();

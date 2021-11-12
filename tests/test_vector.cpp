@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 12:25:39 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/11 10:43:41 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/12 13:23:28 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int		main(void) {
 		v4 = v1;
 
 		std::cout << "size\t: " << v4.size() << std::endl;
-		std::cout << "max_size: " << v4.max_size() << std::endl;
 		std::cout << "capacity: " << v4.capacity() << std::endl;
 		std::cout << "empty\t: " << (v4.empty() ? "true" : "false") << std::endl;
 		std::cout << "at\t\t: " << v4.at(3) << std::endl;

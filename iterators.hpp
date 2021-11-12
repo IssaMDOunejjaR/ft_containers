@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:41:48 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/11 11:53:10 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/12 10:52:52 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,6 @@ namespace ft {
 			};
 
 			~bst_iterator(void) {};
-
 
 			bst_iterator&	operator=(const bst_iterator & instance) {
 				if (this != &instance) {

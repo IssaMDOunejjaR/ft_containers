@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:05:27 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/11 11:38:59 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/12 11:06:16 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ namespace ft {
 
 				if (node->left != NULL && node->right != NULL)
 					return iterator(node, this->_tree.getRoot());
-				return this->end();
+				return iterator(node, this->_tree.getRoot());
 			};
 
 			size_type	count(const value_type & val) const {
@@ -255,34 +255,29 @@ namespace ft {
 			};
 
 			iterator	lower_bound(const value_type & val) const {
-				Node*	root = this->_tree.getRoot();
+				iterator itb = iterator(this->_tree.firstElement(), this->_tree.getRoot());
+				iterator ite = iterator(this->_tree.lastElement(), this->_tree.getRoot());
 
-				while (root != NULL) {
-					if (!this->_comp(root->data, val))
-						return iterator(root, this->_tree.getRoot());
-					else
-						root = root->right;
+				while (itb != ite) {
+					if (!this->_comp(*itb, val))
+						return itb;
+					itb++;
 				}
 
-				return this->end();
+				return ite;
 			};
 
 			iterator	upper_bound(const value_type & val) const {
-				Node*	root = this->_tree.getRoot();
+				iterator itb = iterator(this->_tree.firstElement(), this->_tree.getRoot());
+				iterator ite = iterator(this->_tree.lastElement(), this->_tree.getRoot());
 
-				while (root != NULL) {
-					if (this->_comp(val, root->data)) {
-						if (root->left->left == NULL && root->left->right == NULL)
-							return iterator(root, this->_tree.getRoot());
-						root = root->left;
-					}
-					else if (root->right->left == NULL && root->right->right == NULL)
-						return iterator(root->parent, this->_tree.getRoot());
-					else
-						root = root->right;
+				while (itb != ite) {
+					if (this->_comp(val, *itb))
+						return itb;
+					itb++;
 				}
 
-				return this->end();
+				return ite;
 			};
 
 			ft::pair<iterator, iterator>	equal_range(const value_type & val) const {

@@ -6,7 +6,7 @@
 /*   By: iounejja <iounejja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:27:22 by iounejja          #+#    #+#             */
-/*   Updated: 2021/11/11 11:51:27 by iounejja         ###   ########.fr       */
+/*   Updated: 2021/11/11 17:35:36 by iounejja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,7 @@ namespace ft {
 				while (root->left != NULL && root->right != NULL) {
 					if (Compare()(data, root->data))
 						root = root->left;
-					else if (!Compare()(data, root->data))
+					else if (Compare()(root->data, data))
 						root = root->right;
 					else {
 						node = root;
@@ -339,7 +339,7 @@ namespace ft {
 
 				if (Compare()(data, node->data))
 					return searchHelper(node->left, data);
-				else if (!Compare()(data, node->data))
+				else if (!Compare()(node->data, data))
 					return searchHelper(node->right, data);
 				else
 					return node;
@@ -355,6 +355,22 @@ namespace ft {
 				this->_allocator.deallocate(root, 1);
 				clearHelper(root->right);
 			}
+
+			void	printHelper(Node * node) {
+				if (node->left == NULL && node->right == NULL)
+					return ;
+
+				printHelper(node->left);
+				std::cout << "#===============#" << std::endl;
+				std::cout << "# first\t: " << node->data.first << "\t#" << std::endl;
+				// std::cout << "# second: " << node->data.second << "\t#" << std::endl;
+				std::cout << "# parent: " << (node->parent != NULL ? node->parent->data.first : NULL) << "\t#" << std::endl;
+				std::cout << "# left\t: " << (node->left->left != NULL && node->left->right != NULL ? node->left->data.first : NULL) << "\t#" << std::endl;
+				std::cout << "# right\t: " << (node->right->left != NULL && node->right->right != NULL ? node->right->data.first : NULL) << "\t#" << std::endl;
+				std::cout << "# color\t: " << (node->color == BLACK ? "Black" : "Red") << "\t#" << std::endl;
+				std::cout << "#===============#\n" << std::endl;
+				printHelper(node->right);
+			};
 
 		public:
 			RedBlackTree(void) {
@@ -393,7 +409,7 @@ namespace ft {
 						}
 						tmp = tmp->left;
 					}
-					else if (!Compare()(data, tmp->data)) {
+					else if (Compare()(tmp->data, data)) {
 						if (tmp->right->left == NULL && tmp->right->right == NULL) {
 							this->_allocator.destroy(tmp->right);
 							this->_allocator.deallocate(tmp->right, 1);
